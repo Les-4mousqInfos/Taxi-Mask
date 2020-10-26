@@ -33,7 +33,7 @@ public class Avis {
 	private Date updatedAt;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "client_id", referencedColumnName = "id")
+	@JoinColumn(name = "client_id")
 	private Client client;
 	
 

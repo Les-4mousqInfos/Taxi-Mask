@@ -34,8 +34,7 @@ public class Facture {
 	@CreationTimestamp
 	private Date updatedAt;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "commande_id", referencedColumnName = "id")
+	@OneToOne(mappedBy = "facture")
 	private Commande commande;
 
 	public long getId() {

@@ -49,11 +49,15 @@ public class Commande {
 	
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "voiture_id", referencedColumnName = "id")
+	@JoinColumn(name = "voiture_id")
 	private Voiture voitue;
 	
-	@OneToOne(mappedBy = "facture")
-    private Facture facture;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "facture_id", referencedColumnName = "id")
+	private Facture facture;
+	
+	
+    
 	
 	@ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "client_id")

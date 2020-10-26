@@ -48,7 +48,9 @@ public class Client extends Utilisateur  {
 	    })
 	private List < Commande > commandes;
 	
-	
+	@OneToMany(mappedBy = "client", cascade = {
+	        CascadeType.ALL
+	    })
 	private List < Avis > avis;
 
 	public List<Commande> getCommandes() {

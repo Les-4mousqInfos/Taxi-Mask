@@ -38,8 +38,7 @@ public class Voiture {
 	@Column(name = "photoVoiture")
 	private String photoVoiture;
 	
-	@OneToOne(mappedBy = "voiture")
-    private Commande commande;
+	
 	
 	@CreationTimestamp
 	private Date createdAt;
@@ -119,13 +118,7 @@ public class Voiture {
 		this.updatedAt = updatedAt;
 	}
 
-	public Commande getCommande() {
-		return commande;
-	}
-
-	public void setCommande(Commande commande) {
-		this.commande = commande;
-	}
+	
 	
 	
 }
