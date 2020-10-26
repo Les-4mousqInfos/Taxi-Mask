@@ -16,12 +16,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    #- uses: maven:3.6-jdk-11
-    #- name: see what's going on
-    #  run: sudo apt-get install tree && tree
-    - name: see java version
-      run: java -version
-    - name: see java version in backend
-      run: cd taxi-mask-backend && java -version
     - name: Build with Maven
       run: mvn -f taxi-mask-backend/pom.xml test
