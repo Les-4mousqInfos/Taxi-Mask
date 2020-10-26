@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    #- uses: actions/checkout@v2
+    - uses: actions/checkout@v2
     #- uses: maven:3.6-jdk-11
     #- name: see what's going on
     #  run: sudo apt-get install tree && tree
