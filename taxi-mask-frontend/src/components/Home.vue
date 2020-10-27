@@ -29,7 +29,7 @@
     <v-container style="margin-top:5%">
        <div class="text-center">
                     <v-btn
-                      href="/shop"
+                      href="/product"
                       class="ma-2"
                       outlined
                       color="info"
@@ -143,8 +143,8 @@
                 <v-icon class="display-2">mdi-truck</v-icon>
               </v-col>
               <v-col class="col-12 col-sm-9 pr-4">
-                <h3 class="font-weight-light">FREE SHIPPING & RETURN</h3>
-                              <p class="font-weight-thin">Free Shipping over $300</p>
+                <h3 class="font-weight-light">Paroi de protection</h3>
+                              <p class="font-weight-thin">A partir de $360</p>
               </v-col>
             </v-row>
           </v-col>
@@ -154,7 +154,7 @@
                 <v-icon class="display-2">mdi-cash-usd</v-icon>
               </v-col>
               <v-col  class="col-12 col-sm-9 pr-4">
-                <h3 class="font-weight-light">MONEY BACK GUARANTEE</h3>
+                <h3 class="font-weight-light">Carte Blue, Master Carte</h3>
                 <p class="font-weight-thin">30 Days Money Back Guarantee</p>
               </v-col>
             </v-row>
@@ -165,7 +165,7 @@
                 <v-icon class="display-2">mdi-headset</v-icon>
               </v-col>
               <v-col  class="col-12 col-sm-9 pr-4">
-                <h3 class="font-weight-light">020-800-456-747</h3>
+                <h3 class="font-weight-light">06 16 12 17 86</h3>
                 <p class="font-weight-thin">24/7 Available Support</p>
               </v-col>
             </v-row>

@@ -19,47 +19,43 @@
         <div class="col-md-7 col-sm-7 col-xs-12">
           <v-breadcrumbs class="pb-0" :items="breadcrums"></v-breadcrumbs>
           <div class="pl-6">
-            <p class="display-1 mb-0">Modern Black T-Shirt</p>
+            <p class="display-1 mb-0">Paroi de protection</p>
             <v-card-actions class="pa-0">
-              <p class="headline font-weight-light pt-3">$65.00 <del style="" class="subtitle-1 font-weight-thin">$80.00</del></p>
+              <p class="headline font-weight-light pt-3">$360.00</p>
               <v-spacer></v-spacer>
-              <v-rating v-model="rating" class="" background-color="warning lighten-3"
-                        color="warning" dense></v-rating>
-              <span class="body-2	font-weight-thin"> 25 REVIEWS</span>
+           <!--    <v-rating v-model="rating" class="" background-color="warning lighten-3"
+                        color="warning" dense></v-rating> -->
+              <span class="body-2	font-weight-thin"> 2</span>
             </v-card-actions>
             <p class="subtitle-1 font-weight-thin">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl tincidunt eget nullam non. Tincidunt arcu non sodales neque sodales ut etiam. Lectus arcu bibendum at varius vel pharetra. Morbi tristique senectus et netus et malesuada.
             </p>
-            <p class="title">SIZE</p>
+            <p class="title">Trappe</p>
             <v-radio-group v-model="row" row>
-              <v-radio label="XS" value="XS"></v-radio>
-              <v-radio label="S" value="s"></v-radio>
-              <v-radio label="M" value="m"></v-radio>
-              <v-radio label="L" value="l"></v-radio>
-              <v-radio label="XL" value="xl"></v-radio>
+              <v-radio label="Avec trappe" value="XS"></v-radio>
+              <v-radio label="Sans trappe" value="s"></v-radio> 
             </v-radio-group>
-            <p class="title">ITEMS</p>
+          <!--   <p class="title">ITEMS</p> -->
 
-            <v-text-field
+            <!-- <v-text-field
                 outlined
                 style="width:100px"
                 :value="1"
                 dense
-            ></v-text-field>
+            ></v-text-field> -->
             <v-btn class="primary white--text" outlined tile dense><v-icon>mdi-cart</v-icon> ADD TO CART</v-btn>
-            <v-btn class="ml-4" outlined tile>ADD TO WISHLIST</v-btn>
+           <!--  <v-btn class="ml-4" outlined tile>ADD TO WISHLIST</v-btn> -->
 
           </div>
 
-        </di>
-      </div>
-      </div>
+        </div>
+      </div> 
       <div class="row">
         <div class="col-sm-12 col-xs-12 col-md-12">
           <v-tabs>
             <v-tab >Description</v-tab>
-            <v-tab >Materials</v-tab>
-            <v-tab>REVIEWS</v-tab>
+            <v-tab >Materiels</v-tab>
+            <v-tab>Avis</v-tab>
             <v-tab-item>
               <p class="pt-10 subtitle-1 font-weight-thin">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
@@ -81,7 +77,7 @@
               </p>
             </v-tab-item>
             <v-tab-item>
-              <v-list
+              <!-- <v-list
                 three-line="true"
                 avatar="true"
               >
@@ -101,7 +97,7 @@
                     </v-list-item-content>
                   </v-list-item>
                 </v-list-item-group>
-              </v-list>
+              </v-list> -->
             </v-tab-item>
           </v-tabs>
           <v-card-text
@@ -109,7 +105,7 @@
             tile
             outlined
           >
-            <p class="subtitle-1 font-weight-light pt-3 text-center">YOU MIGHT ALSO LIKE</p>
+          <!--   <p class="subtitle-1 font-weight-light pt-3 text-center">YOU MIGHT ALSO LIKE</p>
             <v-divider></v-divider>
             <div class="row text-center">
               <div class="col-md-2 col-sm-4 col-xs-12 text-center">
@@ -310,12 +306,12 @@
                   </v-card>
                 </v-hover>
               </div>
-            </div>
+            </div> -->
           </v-card-text>
         </div>
       </div>
     </v-container>
-    <v-card  class="accent" >
+  <!--   <v-card  class="accent" >
       <v-container>
         <v-row no-gutters>
           <v-col class="col-12 col-md-4 col-sm-12">
@@ -353,7 +349,7 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-card>
+    </v-card> -->
   </div>
 </template>
 <script>
@@ -364,18 +360,13 @@
                 {
                     text: 'Home',
                     disabled: false,
-                    href: 'breadcrumbs_home',
+                    href: '/',
                 },
                 {
-                    text: 'Clothing',
-                    disabled: false,
-                    href: 'breadcrumbs_clothing',
-                },
-                {
-                    text: 'T-Shirts',
+                    text: 'Commander',
                     disabled: true,
-                    href: 'breadcrumbs_shirts',
-                },
+                    href: 'product',
+                } 
             ],
             item: 5,
             items: [
