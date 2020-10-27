@@ -118,8 +118,11 @@ public class Client extends Utilisateur  {
 		this.mobile = mobile;
 	}
 
+	public Client() {
+	}
+
 	public Client(long id, String nomEntreprise, String pays, String adresse, int codePostale, String ville, int mobile,
-			List<Commande> commandes) {
+				  List<Commande> commandes) {
 		super();
 		this.id = id;
 		this.nomEntreprise = nomEntreprise;

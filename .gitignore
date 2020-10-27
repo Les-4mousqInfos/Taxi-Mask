@@ -31,8 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
-
-taxi-mask-android/build/
+ 
 
 .DS_Store
 taxi-mask-frontend/node_modules
