@@ -7,13 +7,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
-@Table(name = "utilisateurs")
-public class Utilisateur {
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+public abstract  class Utilisateur {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -79,23 +81,5 @@ public class Utilisateur {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-	
-	
 
 }

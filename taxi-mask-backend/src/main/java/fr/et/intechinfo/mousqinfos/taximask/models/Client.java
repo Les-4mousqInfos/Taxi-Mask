@@ -118,19 +118,7 @@ public class Client extends Utilisateur  {
 		this.mobile = mobile;
 	}
 
-	public Client(long id, String nomEntreprise, String pays, String adresse, int codePostale, String ville, int mobile,
-			List<Commande> commandes) {
-		super();
-		this.id = id;
-		this.nomEntreprise = nomEntreprise;
-		this.pays = pays;
-		this.adresse = adresse;
-		this.codePostale = codePostale;
-		this.ville = ville;
-		this.mobile = mobile;
-		this.commandes = commandes;
-	}
-
+	
 	public List < Avis > getAvis() {
 		return avis;
 	}
@@ -139,6 +127,9 @@ public class Client extends Utilisateur  {
 		this.avis = avis;
 	}
 
+	
+
+	
 	
 
 	

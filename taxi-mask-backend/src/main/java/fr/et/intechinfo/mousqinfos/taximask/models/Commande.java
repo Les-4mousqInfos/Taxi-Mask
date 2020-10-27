@@ -50,7 +50,7 @@ public class Commande {
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "voiture_id")
-	private Voiture voitue;
+	private Voiture voiture;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "facture_id", referencedColumnName = "id")
@@ -120,28 +120,14 @@ public class Commande {
 	}
 
 	public Voiture getVoitue() {
-		return voitue;
+		return voiture;
 	}
 
-	public void setVoitue(Voiture voitue) {
-		this.voitue = voitue;
+	public void setVoitue(Voiture voiture) {
+		this.voiture = voiture;
 	}
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
+	
 
 	public Facture getFacture() {
 		return facture;

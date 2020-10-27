@@ -34,11 +34,6 @@ public class Admin extends Utilisateur {
 		this.role = role;
 	}
 
-	public Admin(String role) {
-		super();
-		this.role = role;
-	}
-	
 	
 
 }
