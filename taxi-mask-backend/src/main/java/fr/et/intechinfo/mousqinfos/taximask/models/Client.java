@@ -42,7 +42,6 @@ public class Client extends Utilisateur  {
 	private int mobile;
 	
 	
-	
 	@OneToMany(mappedBy = "client", cascade = {
 	        CascadeType.ALL
 	    })
@@ -127,6 +126,7 @@ public class Client extends Utilisateur  {
 		this.avis = avis;
 	}
 
+	
 	
 
 	

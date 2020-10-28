@@ -35,6 +35,24 @@ public class Avis {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "client_id")
 	private Client client;
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+	
+	
 	
 
 }
