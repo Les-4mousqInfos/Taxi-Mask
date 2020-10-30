@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
-import Shop from '@/components/Shop'
-import Product from '@/components/Product'
+import Home from '@/components/Home' 
+import Order from '@/components/Order'
 import Cart from '@/components/Cart'
 import Layout from '@/components/Layout'
 
@@ -20,14 +19,9 @@ export default new Router({
           name:'Home'
         },
         {
-          path:'/shop',
-          component:Shop,
-          name:'Shop'
-        },
-        {
-          path:'/product',
-          component:Product,
-          name:'Product'
+          path:'/order',
+          component:Order,
+          name:'Order'
         },
         {
           path:'/cart',

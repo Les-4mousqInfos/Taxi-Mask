@@ -1,79 +1,98 @@
 <template>
   <v-app id="inspire">
-   
+    <v-app-bar
+      :clipped-left="$vuetify.breakpoint.lgAndUp"
+      app
+      color="primary"
+      dark
+    >
+<!--      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />-->
+
+      <v-toolbar-title
+        style="width: 350px"
+      >
+        <a href="/" class="white--text" style="text-decoration: none"><v-icon>mdi-truck</v-icon>&nbsp;Taxi Mask</a>
+      </v-toolbar-title>
+      <!-- <v-text-field
+        flat
+        solo-inverted
+        hide-details
+        prepend-inner-icon="mdi-magnify"
+        label="Search"
+        class="hidden-sm-and-down pl-10 ml-4"
+      /> --> 
+      <v-spacer />
+      <v-btn icon>
+        <v-icon>mdi-account-circle</v-icon>
+      </v-btn>
+     <!--  <v-btn v-on="on" icon>
+        <v-badge
+          content="2"
+          value="2"
+          color="green"
+          overlap
+        >
+          <v-icon>mdi-bell</v-icon>
+        </v-badge>
+      </v-btn> -->
+      <v-btn v-on="on" href="/cart" icon>
+        <v-badge
+          content="2"
+          value="2"
+          color="green"
+          overlap
+        >
+          <v-icon>mdi-cart</v-icon>
+        </v-badge>
+      </v-btn>
+    </v-app-bar>
     <v-content>
       <v-bottom-navigation
         :value="activeBtn"
         color="primary"
         horizontal
-        style="height: 100;"
       >
-        <v-spacer /> 
-        
-        <v-toolbar-title
-          style="width: 350px;margin:1%"
-        >
-          <a href="/" class="white--text" style="text-decoration: none"><img :src="require('../assets/img/Taxi-Mask-On.png')"/></a>
-        </v-toolbar-title>
-        <div style="margin-top:3.2%">
-          <a href="/" value="1" class="v-btn">
-            <span>Accueil</span>
-          </a>
-
-          
-        
-          <a href="/" class="v-btn" style="margin-left:15px;margin-right:15px">
-            <span>Nos réalisations</span>
-          </a> 
-
-          <a href="/" class="v-btn">
-            <span>Nous contacter</span>
-          </a>
-
-        </div>
-        
-       
-        <v-spacer /> 
-        <!-- <v-btn icon>
-          <v-icon>mdi-account-circle</v-icon>
-        </v-btn> -->
-         <div style="margin-top:3.2% ;margin-right:10px">
+        <v-btn href="/" class="v-btn">
+          <span>Home</span>
+        </v-btn> 
+        <v-btn href="/order" class="v-btn">
+          <span>Commander</span>
+        </v-btn>
          
-          <v-btn
-            href="/shop"
-            class="ma-2"
+        <v-btn href="/">
+          <span>Nous contacter</span>
+        </v-btn>
+        <v-menu  open-on-hover offset-y> 
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" style="margin-left:40%">
+              <span><img :src="require('../assets/img/fr.png')"/></span>
+            </v-btn>
+          </template>
+          <v-card
+            class="mx-auto"
+            max-width="344"
             outlined
-            color="info"
           >
-            Commander
-          </v-btn>
-        </div>
-         <div style="margin-top:3.2%">
-       <!--  <v-btn v-on="on" icon>
-          <v-badge
-            content="2"
-            value="2"
-            color="blue"
-            overlap
-          >
-            <v-icon>mdi-bell</v-icon>
-          </v-badge>
-        </v-btn> -->
-        
-        <span>
-          <v-badge
-            content="2"
-            value="2"
-            color="blue"
-            overlap
-          >
-            <v-icon>mdi-cart</v-icon>
-          </v-badge>
-        </span> 
-         </div>
-          <v-spacer /> 
+
+            <v-list-item 
+              @click=""
+              href="#"
+            >
+              <v-list-item-titlef><img :src="require('../assets/img/fr.png')"/></v-list-item-titlef>
+            </v-list-item>
+            <v-list-item 
+              @click=""
+              href="#"
+            >
+              <v-list-item-title><img :src="require('../assets/img/us.png')"/></v-list-item-title>
+            </v-list-item>
+
+          </v-card>
+        </v-menu>
+
       </v-bottom-navigation>
     </v-content>
+
       <router-view/>
     <v-footer
       :padless="true"
