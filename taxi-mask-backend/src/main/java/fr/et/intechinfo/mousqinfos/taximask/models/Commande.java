@@ -10,7 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "commandes")
@@ -29,17 +32,6 @@ public class Commande {
 	@Column(name = "prixProtection")
 	private double prixProtection;
 	
-	@Column(name = "marque")
-	private String marque;
-	
-	@Column(name = "modele")
-	private String modele;
-	
-	@Column(name = "immatriculation")
-	private String immatriculation;
-	
-	@Column(name = "DatePreimma")
-	private Date DatePreimma;
 	
 	@Column(name = "toit")
 	private String toit;
@@ -47,11 +39,25 @@ public class Commande {
 	@Column(name = "etiquette")
 	private String etiquette;
 	
-	@Column(name = "photoCarteGrise")
-	private String photoCarteGrise;
 	
-	@Column(name = "photoVoiture")
-	private String photoVoiture;
+	
+	@CreationTimestamp
+	private Date createdAt;
+
+	@CreationTimestamp
+	private Date updatedAt;
+	
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "voiture_id")
+	private Voiture voiture;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "facture_id", referencedColumnName = "id")
+	private Facture facture;
+	
+	
+    
 	
 	@ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "client_id")
@@ -89,38 +95,6 @@ public class Commande {
 		this.prixProtection = prixProtection;
 	}
 
-	public String getMarque() {
-		return marque;
-	}
-
-	public void setMarque(String marque) {
-		this.marque = marque;
-	}
-
-	public String getModele() {
-		return modele;
-	}
-
-	public void setModele(String modele) {
-		this.modele = modele;
-	}
-
-	public String getImmatriculation() {
-		return immatriculation;
-	}
-
-	public void setImmatriculation(String immatriculation) {
-		this.immatriculation = immatriculation;
-	}
-
-	public Date getDatePreimma() {
-		return DatePreimma;
-	}
-
-	public void setDatePreimma(Date datePreimma) {
-		DatePreimma = datePreimma;
-	}
-
 	public String getToit() {
 		return toit;
 	}
@@ -137,14 +111,6 @@ public class Commande {
 		this.etiquette = etiquette;
 	}
 
-	public String getPhotoCarteGrise() {
-		return photoCarteGrise;
-	}
-
-	public void setPhotoCarteGrise(String photoCarteGrise) {
-		this.photoCarteGrise = photoCarteGrise;
-	}
-
 	public Client getClient() {
 		return client;
 	}
@@ -153,13 +119,25 @@ public class Commande {
 		this.client = client;
 	}
 
-	public String getPhotoVoiture() {
-		return photoVoiture;
+	public Voiture getVoitue() {
+		return voiture;
 	}
 
-	public void setPhotoVoiture(String photoVoiture) {
-		this.photoVoiture = photoVoiture;
+	public void setVoitue(Voiture voiture) {
+		this.voiture = voiture;
 	}
+
+	
+
+	public Facture getFacture() {
+		return facture;
+	}
+
+	public void setFacture(Facture facture) {
+		this.facture = facture;
+	}
+
+	
 	
 	
 
