@@ -9,7 +9,7 @@
           align="center"
           justify="center"
         >
-          <div class="display-2 white--text pl-5 pr-5 hidden-sm-only"><strong>Upto 60% + Extra 10%</strong></div><br/>
+          <div class="display-2 white--text pl-5 pr-5 hidden-sm-only"><strong></strong></div><br/>
         </v-row>
       </v-carousel-item>
       <v-carousel-item
@@ -20,7 +20,7 @@
           align="center"
           justify="center"
         >
-          <div class="display-2 white--text pl-5 pr-5 hidden-sm-only"><strong>Upto 60% + Extra 10%</strong></div><br/>
+          <div class="display-2 white--text pl-5 pr-5 hidden-sm-only"><strong></strong></div><br/>
         </v-row>
       </v-carousel-item>
      
@@ -29,7 +29,7 @@
     <v-container style="margin-top:5%">
        <div class="text-center">
                     <v-btn
-                      href="/product"
+                      href="/order"
                       class="ma-2"
                       outlined
                       color="info"
