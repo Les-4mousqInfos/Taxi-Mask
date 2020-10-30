@@ -54,14 +54,11 @@ public class CommandeController {
             commande.setTrappe(commandeRequest.getTrappe());
             commande.setTypeProtection(commandeRequest.getTypeProtection());
             commande.setPrixProtection(commandeRequest.getPrixProtection());
-            commande.setMarque(commandeRequest.getMarque());
-            commande.setModele(commandeRequest.getModele());
-            commande.setImmatriculation(commandeRequest.getImmatriculation());
-            commande.setDatePreimma(commandeRequest.getDatePreimma());
+           
+            
             commande.setToit(commandeRequest.getToit());
             commande.setEtiquette(commande.getEtiquette());
-            commande.setPhotoCarteGrise(commandeRequest.getPhotoCarteGrise());
-            commande.setPhotoVoiture(commandeRequest.getPhotoVoiture());
+           
             return commandeRepository.save(commande);
         }).orElseThrow(() -> new ResourceNotFoundException("commande id not found"));
     }
