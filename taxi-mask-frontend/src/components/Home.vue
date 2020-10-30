@@ -180,12 +180,7 @@
     export default {
         data () {
             return {
-                items: [
-                    { title: 'Click Me' },
-                    { title: 'Click Me' },
-                    { title: 'Click Me' },
-                    { title: 'Click Me 2' },
-                ],
+                
                 activeBtn: 1, 
                 colors: [
                     'indigo',
@@ -193,13 +188,6 @@
                     'pink darken-2',
                     'red lighten-1',
                     'deep-purple accent-4',
-                ],
-                slides: [
-                    'First',
-                    'Second',
-                    'Third',
-                    'Fourth',
-                    'Fifth',
                 ],
             }
         },
