@@ -24,4 +24,3 @@ jobs:
         name: test-report
         path: taxi-mask-backend/target/surefire-reports/
         if-no-files-found: error
-        
