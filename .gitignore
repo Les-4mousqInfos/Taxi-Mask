@@ -37,7 +37,6 @@ taxi-mask-android/build/
 .DS_Store
 taxi-mask-frontend/node_modules
 taxi-mask-frontend/dist
-taxi-mask-frontend/package-lock.json
 
 
 # local env files
@@ -50,4 +49,3 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-/.metadata/
