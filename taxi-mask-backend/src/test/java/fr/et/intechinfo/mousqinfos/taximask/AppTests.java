@@ -13,8 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 class AppTests {
 
-	@Autowired
-	private ClientController controller;
+	//@Autowired
+	//private ClientController controller;
 
 	@Test
 	void contextLoads() {
