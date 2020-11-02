@@ -21,3 +21,9 @@ jobs:
 
     - name: Build with Maven
       run: mvn -f taxi-mask-backend/pom.xml test
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: test-report
+        path: taxi-mask-backend/target/surefire-reports/TEST-fr/et/intechinfo/mousqinfos/taximask
+        if-no-files-found: error
