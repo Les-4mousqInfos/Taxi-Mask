@@ -2,74 +2,49 @@ package fr.et.intechinfo.mousqinfos.taximask.models;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "commandes")
+@NoArgsConstructor
 public class Commande {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
 	@Column(name = "trappe")
 	private String trappe;
-	
 	@Column(name = "typeProtection")
 	private String typeProtection;
-	
 	@Column(name = "prixProtection")
 	private double prixProtection;
-	
-	
 	@Column(name = "toit")
 	private String toit;
-	
 	@Column(name = "etiquette")
 	private String etiquette;
-	
-	
-	
 	@CreationTimestamp
 	private Date createdAt;
-
 	@CreationTimestamp
 	private Date updatedAt;
-	
-	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "voiture_id")
 	private Voiture voiture;
-	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "facture_id", referencedColumnName = "id")
+	@JoinColumn(name = "facture_id", referencedColumnName = "id", nullable = true)
 	private Facture facture;
-	
-	
-    
-	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
 	private Client client;
+
+
 
 	public long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public String getTrappe() {
 		return trappe;

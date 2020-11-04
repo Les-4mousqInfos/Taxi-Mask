@@ -9,11 +9,19 @@ new Vue({
 import Vue from 'vue'
 import vuetify from '@/plugins/vuetify' // path to vuetify export
 import App from './App'
-import router from './router'
+import router from './router' 
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
+
+
+
 // import 'material-design-icons-iconfont/dist/material-design-icons.css'
+ 
+Vue.config.productionTip = false  
 
-
-Vue.config.productionTip = false 
+axios.defaults.withCredentials = true
+Vue.use(VueAxios, axios)
 
 /* eslint-disable no-new */
 new Vue({

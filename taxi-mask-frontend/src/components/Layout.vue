@@ -35,7 +35,7 @@
           <v-icon>mdi-bell</v-icon>
         </v-badge>
       </v-btn> -->
-      <v-btn v-on="on" href="/cart" icon>
+      <v-btn  href="/cart" icon>
         <v-badge
           content="2"
           value="2"
@@ -46,7 +46,7 @@
         </v-badge>
       </v-btn>
     </v-app-bar>
-    <v-content>
+    <v-main>
       <v-bottom-navigation
         :value="activeBtn"
         color="primary"
@@ -74,14 +74,12 @@
             outlined
           >
 
-            <v-list-item 
-              @click=""
+            <v-list-item  
               href="#"
             >
               <v-list-item-titlef><img :src="require('../assets/img/fr.png')"/></v-list-item-titlef>
             </v-list-item>
-            <v-list-item 
-              @click=""
+            <v-list-item  
               href="#"
             >
               <v-list-item-title><img :src="require('../assets/img/us.png')"/></v-list-item-title>
@@ -91,7 +89,7 @@
         </v-menu>
 
       </v-bottom-navigation>
-    </v-content>
+    </v-main>
 
       <router-view/>
     <v-footer
