@@ -22,6 +22,8 @@ jobs:
     - name: Build with Maven
       run: mvn -f taxi-mask-backend/pom.xml test
 
+    - run: apt-get install tree && tree taxi-mask-backend/target/
+
     - uses: actions/upload-artifact@v2
       with:
         name: test-report
