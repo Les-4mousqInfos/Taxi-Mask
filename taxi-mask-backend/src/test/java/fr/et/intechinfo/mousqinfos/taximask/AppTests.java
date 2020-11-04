@@ -19,11 +19,11 @@ class AppTests {
 	@Test
 	void contextLoads() {
 		assertEquals(1, 1);
-		Assert.isTrue(true, "true indeed");
 	}
 
 	@Test
 	void controllerLoads() throws Exception {
+		Assert.isTrue(true, "true indeed");
 		//assertThat(controller).isNotNull();
 	}
 
