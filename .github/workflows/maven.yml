@@ -17,8 +17,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - run: mkdir -p taxi-mask-backend/target/surefire-reports/TEST-fr/et/intechinfo/mousqinfos/taximask
-
     - name: Build with Maven
       run: mvn -f taxi-mask-backend/pom.xml test
 
@@ -28,5 +26,5 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: test-report
-        path: taxi-mask-backend/target/surefire-reports/TEST-fr/et/intechinfo/mousqinfos/taximask
+        path: taxi-mask-backend/target/surefire-reports/
         if-no-files-found: error
