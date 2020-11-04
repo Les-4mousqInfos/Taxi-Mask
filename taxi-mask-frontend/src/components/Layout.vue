@@ -55,13 +55,41 @@
         <v-btn href="/" class="v-btn">
           <span>Home</span>
         </v-btn> 
-        <v-btn href="/product" class="v-btn">
+        <v-btn href="/order" class="v-btn">
           <span>Commander</span>
         </v-btn>
          
         <v-btn href="/">
           <span>Nous contacter</span>
         </v-btn>
+        <v-menu  open-on-hover offset-y> 
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" style="margin-left:40%">
+              <span><img :src="require('../assets/img/fr.png')"/></span>
+            </v-btn>
+          </template>
+          <v-card
+            class="mx-auto"
+            max-width="344"
+            outlined
+          >
+
+            <v-list-item 
+              @click=""
+              href="#"
+            >
+              <v-list-item-titlef><img :src="require('../assets/img/fr.png')"/></v-list-item-titlef>
+            </v-list-item>
+            <v-list-item 
+              @click=""
+              href="#"
+            >
+              <v-list-item-title><img :src="require('../assets/img/us.png')"/></v-list-item-title>
+            </v-list-item>
+
+          </v-card>
+        </v-menu>
+
       </v-bottom-navigation>
     </v-content>
 
