@@ -33,6 +33,7 @@ build/
 .vscode/
 
 taxi-mask-android/build/
+taxi-mask-android/.gradle/
 
 .DS_Store
 taxi-mask-frontend/node_modules
