@@ -57,11 +57,9 @@ public class Commande {
 	private Facture facture;
 	
 	
-    
-	
 	@ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "client_id")
-	private Client client;
+    @JoinColumn(name = "clientId")
+	private Utilisateur utilisateur;
 
 	public long getId() {
 		return id;
@@ -111,12 +109,12 @@ public class Commande {
 		this.etiquette = etiquette;
 	}
 
-	public Client getClient() {
-		return client;
+	public Utilisateur getUtilisateur() {
+		return utilisateur;
 	}
 
-	public void setClient(Client client) {
-		this.client = client;
+	public void setUtilisateur(Utilisateur utilisateur) {
+		this.utilisateur = utilisateur;
 	}
 
 	public Voiture getVoitue() {
