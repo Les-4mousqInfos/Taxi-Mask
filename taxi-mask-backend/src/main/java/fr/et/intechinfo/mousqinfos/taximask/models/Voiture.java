@@ -94,9 +94,19 @@ public class Voiture {
 		this.photoVoiture = photoVoiture;
 	}
 
-	
 
-	
-	
-	
+	@Override
+	public String toString() {
+		return "Voiture{" +
+				"id=" + id +
+				", marque='" + marque + '\'' +
+				", modele='" + modele + '\'' +
+				", immatriculation='" + immatriculation + '\'' +
+				", DatePreimma=" + DatePreimma +
+				", photoCarteGrise='" + photoCarteGrise + '\'' +
+				", photoVoiture='" + photoVoiture + '\'' +
+				", createdAt=" + createdAt +
+				", updatedAt=" + updatedAt +
+				'}';
+	}
 }

@@ -41,7 +41,7 @@
             </v-radio-group> 
             
             <p class="title">Marque</p>
-            <v-select required v-model="formu.marque"
+            <v-select required v-model="formu.voiture.marque"
                 :items="marques" 
                 item-text="label"
                 item-value="id"
@@ -52,20 +52,21 @@
 
             <p class="title">Modèle</p> 
             <v-text-field style="margin-top: -30px;"
-              :rules="[v=>!!v || 'Veuillez choisir un modèle']" v-model="formu.modele"
+              :rules="[v=>!!v || 'Veuillez choisir un modèle']" 
+              v-model="formu.voiture.modele"
               hide-details="auto"
             ></v-text-field>
             <br>
             <p class="title">Immatriculation</p> 
             <v-text-field style="margin-top: -30px;"
-              :rules="[v => !!v || 'Veuillez saisir le n° matricule du véhicule']" v-model="formu.immatriculation"
+              :rules="[v => !!v || 'Veuillez saisir le n° matricule du véhicule']"
+               v-model="formu.voiture.immatriculation"
               hide-details="auto"
             ></v-text-field>
             <br>
             <p class="title">Date de première immatriculation</p> 
             <v-menu 
               ref="menu"
-              v-model="formu.datePreimma"
               :close-on-content-click="false"
               transition="scale-transition"
               offset-y
@@ -112,7 +113,7 @@
               </div>
               <div class="col-6">
                 <p class="title">Photo de la voiture</p>
-                <v-file-input style="margin-top: -30px;"
+                <v-file-input  style="margin-top: -30px;"
                   show-size
                   truncate-length="15"
                 ></v-file-input> 
@@ -136,7 +137,7 @@
             </div>
 
             <br>
-            <v-btn type="submit"      @click="submit" class="primary white--text" outlined tile dense>
+              <v-btn type="submit" :disabled="loading"  @click="submit" class="primary white--text" outlined tile dense>
               <v-icon>mdi-cart</v-icon>Réserver maintenant</v-btn>
             <!--  <v-btn class="ml-4" outlined tile>ADD TO WISHLIST</v-btn> -->
           </div>
@@ -224,7 +225,8 @@ import {saveOrder} from '../services/order';
             menu: false,
             date: null,
             picker: new Date().toISOString().substr(0, 10),
-            formu:{}
+            formu:{voiture:{},photoCarteGrise:"",photoVoiture:""},
+            loading:false
         }),
       watch: {
         menu (val) {
@@ -233,10 +235,12 @@ import {saveOrder} from '../services/order';
       },
       methods: { 
         async submit () { 
-          this.$refs.form.validate()
-          await saveOrder(this.formu)
+          this.loading = true
+          this.formu.voiture.datePreimma = this.date
+          this.$refs.form.validate() 
+          let result = await saveOrder(this.formu)
           console.log(this.formu)
-
+          this.loading =false
         },
         clear () { 
           this.formu={}

@@ -1,12 +1,13 @@
 import axios from 'axios' 
-import {SERVER_URL, ORDER_URL} from './config-server'; 
+import {SERVER_URL, ORDER_URL, AUTH_TOKEN, CID_TOKEN} from './config-server'; 
 
 
 axios.defaults.withCredentials = true 
 
 
 export async function saveOrder(order) {
-const result = await axios.post(`${SERVER_URL}/${ORDER_URL}`, order)
+    const auth = localStorage.getItem(AUTH_TOKEN);
+    const result = await axios.post(`${SERVER_URL}/${ORDER_URL}`, order)
     console.log(result)
     if (result.status === 200) {
         const token = await getCookie('token-ph')

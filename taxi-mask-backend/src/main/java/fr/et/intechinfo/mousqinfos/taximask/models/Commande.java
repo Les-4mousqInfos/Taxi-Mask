@@ -36,8 +36,10 @@ public class Commande {
 	@JoinColumn(name = "facture_id", referencedColumnName = "id", nullable = true)
 	private Facture facture;
 	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "client_id", nullable = true)
 	private Client client;
+	@Transient
+	private String tokenUn;
 
 
 
@@ -94,15 +96,14 @@ public class Commande {
 		this.client = client;
 	}
 
-	public Voiture getVoitue() {
+
+	public Voiture getVoiture() {
 		return voiture;
 	}
 
-	public void setVoitue(Voiture voiture) {
+	public void setVoiture(Voiture voiture) {
 		this.voiture = voiture;
 	}
-
-	
 
 	public Facture getFacture() {
 		return facture;
@@ -112,9 +113,28 @@ public class Commande {
 		this.facture = facture;
 	}
 
-	
-	
-	
+	public String getTokenUn() {
+		return tokenUn;
+	}
 
+	public void setTokenUn(String tokenUn) {
+		this.tokenUn = tokenUn;
+	}
 
+	@Override
+	public String toString() {
+		return "Commande{" +
+				"id=" + id +
+				", trappe='" + trappe + '\'' +
+				", typeProtection='" + typeProtection + '\'' +
+				", prixProtection=" + prixProtection +
+				", toit='" + toit + '\'' +
+				", etiquette='" + etiquette + '\'' +
+				", createdAt=" + createdAt +
+				", updatedAt=" + updatedAt +
+				", voiture=" + voiture +
+				", facture=" + facture +
+				", client=" + client +
+				'}';
+	}
 }
