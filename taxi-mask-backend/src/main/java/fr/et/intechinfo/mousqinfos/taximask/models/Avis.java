@@ -33,8 +33,8 @@ public class Avis {
 	private Date updatedAt;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "client_id")
-	private Client client;
+	@JoinColumn(name = "utilisateur_id")
+	private Utilisateur utilisateur;
 
 	public String getText() {
 		return text;
@@ -44,12 +44,12 @@ public class Avis {
 		this.text = text;
 	}
 
-	public Client getClient() {
-		return client;
+	public Utilisateur getUtilisateur() {
+		return utilisateur;
 	}
 
-	public void setClient(Client client) {
-		this.client = client;
+	public void setUtilisateur(Utilisateur utilisateur) {
+		this.utilisateur = utilisateur;
 	}
 	
 	
