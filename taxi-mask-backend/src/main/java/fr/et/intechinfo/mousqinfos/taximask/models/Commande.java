@@ -35,6 +35,7 @@ public class Commande {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "facture_id", referencedColumnName = "id", nullable = true)
 	private Facture facture;
+<<<<<<< HEAD
 	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = true)
 	private Client client;
@@ -42,6 +43,13 @@ public class Commande {
 	private String tokenUn;
 
 
+=======
+	
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "clientId")
+	private Utilisateur utilisateur;
+>>>>>>> dev
 
 	public long getId() {
 		return id;
@@ -88,12 +96,12 @@ public class Commande {
 		this.etiquette = etiquette;
 	}
 
-	public Client getClient() {
-		return client;
+	public Utilisateur getUtilisateur() {
+		return utilisateur;
 	}
 
-	public void setClient(Client client) {
-		this.client = client;
+	public void setUtilisateur(Utilisateur utilisateur) {
+		this.utilisateur = utilisateur;
 	}
 
 
