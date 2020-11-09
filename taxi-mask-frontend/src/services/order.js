@@ -5,14 +5,25 @@ import {SERVER_URL, ORDER_URL, AUTH_TOKEN, CID_TOKEN} from './config-server';
 axios.defaults.withCredentials = true 
 
 
+
+
 export async function saveOrder(order) {
-    const auth = localStorage.getItem(AUTH_TOKEN);
-    const result = await axios.post(`${SERVER_URL}/${ORDER_URL}`, order)
+    let auth = localStorage.getItem(AUTH_TOKEN);
+    auth = auth!=null?auth:''
+    console.log(auth)
+    let config = {
+    headers: {
+        Authorization: "Bearer "+auth, 
+        }
+    }
+    const result = await axios.post(`${SERVER_URL}/${ORDER_URL}`, order, config)
     console.log(result)
-    if (result.status === 200) {
-        const token = await getCookie('token-ph')
-        console.log(token)
-        await localStorage.setItem('MAL_USER_TOKEN', token)
+    if (result.status === 200) { 
+        console.log(result.data)
+        localStorage.setItem(CID_TOKEN, result.data.tokenUn)
         return result.data
+
+    }else{
+        console.log(result.data)
     }
 }

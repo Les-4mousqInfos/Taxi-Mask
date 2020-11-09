@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import fr.et.intechinfo.mousqinfos.taximask.models.Commande;
 
 public interface CommandeRepository extends JpaRepository<Commande, Long> {
-	List<Commande> findByClientId(Long clientId);
+	List<Commande> findByUtilisateur(Long userId);
 
 }

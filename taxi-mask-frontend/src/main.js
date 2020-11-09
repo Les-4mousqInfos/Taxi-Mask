@@ -12,6 +12,7 @@ import App from './App'
 import router from './router' 
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import { LoaderPlugin } from 'vue-google-login';
 
 
 
@@ -22,7 +23,7 @@ Vue.config.productionTip = false
 
 axios.defaults.withCredentials = true
 Vue.use(VueAxios, axios)
-
+Vue.use(LoaderPlugin, { client_id: 'CLIENT_ID' });
 /* eslint-disable no-new */
 new Vue({
     el: '#app',

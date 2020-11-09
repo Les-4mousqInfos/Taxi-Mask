@@ -1,10 +1,11 @@
 package fr.et.intechinfo.mousqinfos.taximask.services;
 
-import fr.et.intechinfo.mousqinfos.taximask.models.Client;
 import fr.et.intechinfo.mousqinfos.taximask.models.Commande;
+import fr.et.intechinfo.mousqinfos.taximask.models.Utilisateur;
 import fr.et.intechinfo.mousqinfos.taximask.models.Voiture;
 import fr.et.intechinfo.mousqinfos.taximask.repository.CommandeRepository;
-import fr.et.intechinfo.mousqinfos.taximask.utils.JwtUtil;
+import fr.et.intechinfo.mousqinfos.taximask.security.jwt.JwtUtils;
+import fr.et.intechinfo.mousqinfos.taximask.utils.Jwt;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,39 +21,47 @@ public class CommandeService {
     @Autowired
     private VoitureService voitureService;
     @Autowired
-    private JwtUtil jwtUtil;
+    private JwtUtils jwtUtils;
     @Autowired
-    private ClientServiceImpl clientService;
+    private UtilisateurService utilisateurService;
 
-    public Commande save(Commande commande){
-        try {
-        //logger.info(commande.toString());
-            Voiture v = voitureService.getVoitureByImmatricule(commande.getVoiture().getImmatriculation());
-            if(!(v instanceof Voiture)){
-                //create a new Voiture
-                voitureService.save(commande.getVoiture());
-            }
-            //enregistrement commande
-         //   logger.info(commande.getVoiture().toString());
-         //verification token client
-         if(StringUtils.isNoneEmpty(commande.getTokenUn())){
-            //recuperation du client via le token
-            Long uid = Long.parseLong(jwtUtil.getPayLoadFromToken(commande.getTokenUn()));
-             Client c = clientService.getClientById(uid);
-             if(c instanceof Client){
-                 commande.setClient(c);
-                 commandeRepository.save(commande);
-             }else{
-                 commandeRepository.save(commande);
-                 String tokenCId = jwtUtil.generateToken(commande.getId()+"");
-                 commande.setTokenUn(tokenCId);
-             }
-         }
-         return commande;
-        }catch (Exception ex){
-             logger.error(ex.getMessage(), ex.getCause());
-            return null;
+    /**
+     * Traitement d'un enregistrement de commande
+     * @param commande
+     * @param token
+     * @return
+     */
+    public Commande traitementCommande(Commande commande, String token) {
+       token = token.length()>6 ? token.substring(7, token.length()): "";
+        if(token!=null && StringUtils.isNoneEmpty(token)){
+            Long uid = Long.parseLong(jwtUtils.getUserNameFromJwtToken(token));
+            Utilisateur u = utilisateurService.getUserById(uid);
+            commande.setUtilisateur(u);
+          return   save(commande);
         }
+        save(commande);
+        String tokenUn = jwtUtils.generateToken(commande.getId()+"");
+        commande.setTokenUn(tokenUn);
+        return commande;
+    }
+
+
+    /**
+     * Enregistrement d'une commande
+     * @param commande
+     * @return
+     * @throws Exception
+     */
+    public Commande save(Commande commande) {
+    //logger.info(commande.toString());
+        Voiture v = voitureService.getVoitureByImmatricule(commande.getVoiture().getImmatriculation());
+        if(!(v instanceof Voiture)){
+            //create a new Voiture
+            voitureService.save(commande.getVoiture());
+        }
+        //enregistrement commande
+         commandeRepository.save(commande);
+         return commande;
     }
 
 }

@@ -35,21 +35,13 @@ public class Commande {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "facture_id", referencedColumnName = "id", nullable = true)
 	private Facture facture;
-<<<<<<< HEAD
-	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id", nullable = true)
-	private Client client;
+	@ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+	private Utilisateur utilisateur;
 	@Transient
 	private String tokenUn;
-
-
-=======
-	
-	
-	@ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "clientId")
-	private Utilisateur utilisateur;
->>>>>>> dev
+	@Transient
+	private String type = "Bearer";
 
 	public long getId() {
 		return id;
@@ -129,6 +121,14 @@ public class Commande {
 		this.tokenUn = tokenUn;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	@Override
 	public String toString() {
 		return "Commande{" +
@@ -142,7 +142,7 @@ public class Commande {
 				", updatedAt=" + updatedAt +
 				", voiture=" + voiture +
 				", facture=" + facture +
-				", client=" + client +
+				", client=" + utilisateur +
 				'}';
 	}
 }

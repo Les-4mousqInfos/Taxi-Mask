@@ -4,6 +4,7 @@ import Home from '@/components/Home'
 import Order from '@/components/Order'
 import Cart from '@/components/Cart'
 import Layout from '@/components/Layout'
+import Signin from '@/components/Signin';
 
 Vue.use(Router)
 
@@ -27,6 +28,11 @@ export default new Router({
           path:'/cart',
           component:Cart,
           name:'Cart'
+        } ,
+        {
+          path:'/signin',
+          component:Signin,
+          name:'Signin'
         }
       ]
 

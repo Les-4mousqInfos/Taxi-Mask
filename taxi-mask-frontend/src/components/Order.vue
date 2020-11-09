@@ -239,7 +239,11 @@ import {saveOrder} from '../services/order';
           this.formu.voiture.datePreimma = this.date
           this.$refs.form.validate() 
           let result = await saveOrder(this.formu)
-          console.log(this.formu)
+          if(isAuthencate){
+
+          }else{
+            this.$router.push('/client-login')
+          }
           this.loading =false
         },
         clear () { 

@@ -13,12 +13,14 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Component
-public class JwtUtil implements Serializable {
+public class Jwt implements Serializable {
 
 
         private static final long serialVersionUID = -2550185165626007488L;
-        public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
-        @Value("${jwt.secret}")
+      //  public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+      @Value("${taximask.app.jwtExpirationMs}")
+      private int jwtExpirationMs;
+        @Value("${taximask.app.jwtSecret}")
         private String secret;
 
         //retrieve payload from jwt token
@@ -44,9 +46,9 @@ public class JwtUtil implements Serializable {
             return expiration.before(new Date());
         }
         //generate token
-        public String generateToken(String payload) {
+        public String generateToken(String value) {
             Map<String, Object> claims = new HashMap<>();
-            return doGenerateToken(claims, payload);
+            return doGenerateToken(claims, value);
         }
         //while creating the token -
         //1. Define  claims of the token, like Issuer, Expiration, Subject, and the ID
@@ -55,7 +57,7 @@ public class JwtUtil implements Serializable {
         //   compaction of the JWT to a URL-safe string
         private String doGenerateToken(Map<String, Object> claims, String subject) {
             return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                    .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
+                    .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs ))
                     .signWith(SignatureAlgorithm.HS512, secret).compact();
         }
 
