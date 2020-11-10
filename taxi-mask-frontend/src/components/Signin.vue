@@ -5,7 +5,7 @@
       <p class="display-1 font-weight-light	text-center pa-4">Authentification</p>
       <v-row>
          <v-col class="col-4"></v-col>
-         <v-vol class="col-4" style="box-shadow: 0 0 0 1px #dbdbdb;padding: 15px;" > 
+         <v-col class="col-4" style="box-shadow: 0 0 0 1px #dbdbdb;padding: 15px;" > 
             <v-form
               ref="form"  @submit.prevent="submit"
               v-model="valid"
@@ -43,10 +43,8 @@
             >
               Se connecter
             </v-btn>
-
-            
           </v-form>
-         </v-vol>
+         </v-col>
          <v-col class="col-4">
            <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="onSuccess" :onFailure="onFailure"></GoogleLogin>
          </v-col>

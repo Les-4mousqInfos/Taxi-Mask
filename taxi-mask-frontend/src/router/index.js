@@ -5,6 +5,7 @@ import Order from '@/components/Order'
 import Cart from '@/components/Cart'
 import Layout from '@/components/Layout'
 import Signin from '@/components/Signin';
+import ClientSpace from '@/components/ClientSpace';
 
 Vue.use(Router)
 
@@ -33,7 +34,12 @@ export default new Router({
           path:'/signin',
           component:Signin,
           name:'Signin'
-        }
+        },
+        {
+          path:'/client',
+          component:ClientSpace,
+          name:'ClientSpace'
+        },
       ]
 
     }
