@@ -22,7 +22,7 @@
         class="hidden-sm-and-down pl-10 ml-4"
       /> --> 
       <v-spacer />
-      <v-btn icon>
+      <v-btn icon href="/register">
         <v-icon>mdi-account-circle</v-icon>
       </v-btn>
      <!--  <v-btn v-on="on" icon>
