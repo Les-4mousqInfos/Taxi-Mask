@@ -6,6 +6,11 @@ import Cart from '@/components/Cart'
 import Layout from '@/components/Layout'
 import Signin from '@/components/Signin';
 import ClientSpace from '@/components/ClientSpace';
+import Profile from '@/views/Profile'
+import Login from '@/views/Login'
+import Register from '@/views/Register'
+import BoardAdmin from '@/views/BoardAdmin'
+import BoardUser from '@/views/BoardUser'
 
 Vue.use(Router)
 
@@ -40,6 +45,32 @@ export default new Router({
           component:ClientSpace,
           name:'ClientSpace'
         },
+        {
+          path: '/login',
+          component: Login
+        },
+        {
+          path: '/register',
+          component: Register
+        },
+        {
+          path: '/profile',
+          name: 'profile',
+          // lazy-loaded
+          component: Profile
+        },
+        {
+          path: '/admin',
+          name: 'admin',
+          // lazy-loaded
+          component: BoardAdmin
+        },
+        {
+          path: '/user',
+          name: 'user',
+          // lazy-loaded
+          component: BoardUser
+        }
       ]
 
     }
