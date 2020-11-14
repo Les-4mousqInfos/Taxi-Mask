@@ -264,13 +264,13 @@ import {CARD_LIST,CARD_CONTENT} from '../services/config-server';
               }, 1500);
               
             }else{
-              this.$toasted.error('Erreur d\'enregistrment, veuillez reessayer!').goAway(1200)
+              this.$toasted.error(res.data.message).goAway(1200)
             }
             
           }).catch(err=>{
             console.log(err+'eeeeeeeee')
           // this.message = err.data.message 
-            this.$toasted.error(err).goAway(1200)
+            this.$toasted.error(err.message).goAway(1200)
             setTimeout(() => {
               this.loading =false
             }, 1000); 

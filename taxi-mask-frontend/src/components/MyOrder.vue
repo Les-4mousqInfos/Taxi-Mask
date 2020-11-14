@@ -5,16 +5,17 @@
       <v-row>
         <v-col :cols="12" md="12" sm="12"  >
             <v-data-table
-              item-key="id"
               :headers="headers"
               class="elevation-1"
               :loading="loading" 
               :items="orderList"
               loading-text="Loading..."
+              striped
             >
-
-            <template   v-slot:item.voiture="{item}">
-              <td>{{ item.name }}
+            
+            <template  v-slot:item="{ item }">
+              <tr>
+              <td>
                 <v-list-item >
                   <v-list-item-avatar>
                     <v-img :src="require('../assets/img/cars/car.jpg')"></v-img>
@@ -27,13 +28,20 @@
                   </v-list-item-content>
                 </v-list-item>
               </td>
-              <td class="text-xs-right">{{ props.item.calories }}</td>
-              <td class="text-xs-right">{{ props.item.fat }}</td>
-              <td class="text-xs-right">{{ props.item.carbs }}</td>
-              <td class="text-xs-right">{{ props.item.protein }}</td>
-              <td class="text-xs-right">{{ props.item.iron }}</td>
-              <td class="text-xs-right"></td>
+              <td class="text-xs-right">{{item.createdAt|formatDate}}</td>
+              <td class="text-xs-right">{{item.etiquette}}</td>
+              <td class="text-xs-right">{{item.typeProtection}}</td>
+              <td class="text-xs-right">{{item.prixProtection}}</td>
+              <td class="text-xs-right">
+                                  <v-btn class="ma-2" small outlined fab color="teal"><v-icon>mdi-format-list-bulleted-square</v-icon></v-btn>
+              </td> 
+              </tr>
             </template>
+             <template v-slot:no-data>
+                <v-alert :value="true" color="error" icon="warning">
+                  Aucune donnée :(
+                </v-alert>
+              </template>
           
             </v-data-table>
          <!--    <v-simple-table>
@@ -84,6 +92,13 @@
  
   </div>
 </template>
+<style scoped>
+ 
+  tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, .05);
+  }
+</style>
+ 
 <script>
     export default {
         data: () => ({
@@ -95,7 +110,7 @@
                 text: 'Voiture',
                 align: 'start',
                 sortable: false,
-                value: 'voiture.immatriculation',
+                value: 'voiture',
                  width: "20%"
               },
               { text: 'Date', align: 'start', value: 'createdAt' },
@@ -125,7 +140,7 @@
           
         }, 
         mounted(){
-          if (!this.loggedIn) {
+          if (this.loggedIn) {
             this.$router.push('/login');
             return
           }
