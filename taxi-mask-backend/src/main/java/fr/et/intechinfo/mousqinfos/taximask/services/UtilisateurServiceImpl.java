@@ -6,11 +6,8 @@ import java.util.Optional;
 import fr.et.intechinfo.mousqinfos.taximask.exceptions.ResourceNotFoundException;
 import fr.et.intechinfo.mousqinfos.taximask.models.Utilisateur;
 import fr.et.intechinfo.mousqinfos.taximask.repository.UtilisateurRepository;
-import fr.et.intechinfo.mousqinfos.taximask.security.services.UserDetailsImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
