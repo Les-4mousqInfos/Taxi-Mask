@@ -1,23 +1,10 @@
 <template>
   <div>
     <v-container>
-      <div class="row">
-        <div class="col-md-5 col-sm-5 col-xs-12">
-          <v-carousel>
-            <v-carousel-item
-              :src="require('../assets/img/home/slider1.jpg')"
-            >
-            </v-carousel-item>
-            <v-carousel-item
-              :src="require('../assets/img/home/slider2.jpg')"
-            >
-            </v-carousel-item>
-          </v-carousel>
-        </div>
-       
-        <div class="col-md-7 col-sm-7 col-xs-12">
-          <v-form @submit.prevent="submit" ref="form" lazy-validation >
-          <v-breadcrumbs class="pb-0" :items="breadcrums"></v-breadcrumbs>
+      <div class="row"> 
+        <div class="col-md-2"></div>
+        <div class="col-md-8 col-sm-8 col-xs-12 card card-container">
+          <v-form @submit.prevent="submit" onsubmit="return false;" ref="form" lazy-validation > 
           <div class="pl-6">
             <p class="display-1 mb-0">Paroi de protection</p>
             <v-card-actions class="pa-0">
@@ -29,7 +16,7 @@
             </v-card-actions>
             
             <p class="title">Trappe</p>
-            <v-radio-group required
+            <v-radio-group  required
             :rules="[v => !!v || 'Choisissez un trappe']"
              v-model="formu.trappe" row>
               <v-radio label="Avec trappe" value="w-trappe"></v-radio>
@@ -37,11 +24,11 @@
             </v-radio-group>
             <p class="title">Type de protection</p>
             <v-radio-group required :rules="[v => !!v || 'Choisissez un type de protection']" v-model="formu.typeProtection" v-for="(item,id) in protections" :key="id">
-              <v-radio :label="item.label" :value="item.id"></v-radio> 
+              <v-radio :label="item.label" :value="item"></v-radio> 
             </v-radio-group> 
             
             <p class="title">Marque</p>
-            <v-select required v-model="formu.voiture.marque"
+            <v-select   v-model="formu.voiture.marque"
                 :items="marques" 
                 item-text="label"
                 item-value="id"
@@ -137,7 +124,7 @@
             </div>
 
             <br>
-              <v-btn type="submit" :disabled="loading"  @click="submit" class="primary white--text" outlined tile dense>
+              <v-btn type="submit" :disabled="loading"  class="primary white--text" outlined tile dense>
               <v-icon>mdi-cart</v-icon>Réserver maintenant</v-btn>
             <!--  <v-btn class="ml-4" outlined tile>ADD TO WISHLIST</v-btn> -->
           </div>
@@ -148,11 +135,14 @@
     </v-container>
    </div>
 </template>
-<script>
-import {saveOrder} from '../services/order';
+<script> 
+import {CARD_LIST,CARD_CONTENT} from '../services/config-server';
     export default {
-        data: () => ({
-            rating:4.5,
+      components:{ 
+      },
+        data: () => ({ 
+            message:'',
+            isLoading:false,
             breadcrums: [
                 {
                   text: 'Home',
@@ -232,24 +222,67 @@ import {saveOrder} from '../services/order';
         menu (val) {
           val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
         },
-      },
+      }, 
       methods: { 
         async submit () { 
           this.loading = true
           this.formu.voiture.datePreimma = this.date
-          this.$refs.form.validate() 
-          let result = await saveOrder(this.formu)
-          if(isAuthencate){
-
-          }else{
-            this.$router.push('/client-login')
-          }
-          this.loading =false
+          if(!this.$refs.form.validate()){
+            this.loading = false
+            return
+          } 
+          this.formu.prixProtection = this.formu.typeProtection.prix
+          this.formu.typeProtection = this.formu.typeProtection.id
+          this.$store.dispatch('order/save', {...this.formu}).then( async res =>{ 
+            
+             console.log(res)
+            if(res.status===200){ 
+              let ids = res.data.id
+              console.log(this.$store.state.order)
+              const cards = this.$store.state.order.cards
+              let cardContent =0
+              if(cards!==null && cards!=='undefined'){
+                ids = ids+','+cards
+                cardContent = ids.split(',')
+                cardContent = cardContent.length 
+                await this.$store.commit('order/updateCard', cardContent)
+                //console.log(this.$store.state.order.cards)
+              }
+              console.log(ids)
+              await localStorage.setItem(CARD_LIST,ids);
+              await localStorage.setItem(CARD_CONTENT,cardContent);
+              this.$toasted.success('Commande enregistrée avec succès!').goAway(1200)
+              setTimeout(() => {
+                 this.loading=false
+              }, 1000);
+              setTimeout(() => {
+                if(this.$store.state.auth.status.loggedIn){
+                  this.$router.push('/mesCommandes')
+                }else{
+                  this.$router.push('/register')
+                }
+              }, 1500);
+              
+            }else{
+              this.$toasted.error('Erreur d\'enregistrment, veuillez reessayer!').goAway(1200)
+            }
+            
+          }).catch(err=>{
+            console.log(err+'eeeeeeeee')
+          // this.message = err.data.message 
+            this.$toasted.error(err).goAway(1200)
+            setTimeout(() => {
+              this.loading =false
+            }, 1000); 
+          
+          })
+           
         },
         clear () { 
           this.formu={}
-        this.$refs.form.reset()
-      },
+          this.$refs.form.reset()
+        },
+
       },
     }
 </script>

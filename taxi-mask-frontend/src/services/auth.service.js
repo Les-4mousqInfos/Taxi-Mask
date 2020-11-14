@@ -1,6 +1,6 @@
 import axios from 'axios';
-
-const API_URL = 'http://localhost:8080/api/auth/';
+import {SERVER_URL} from '../services/config-server';
+const API_URL = `${SERVER_URL}/api/auth`
 
 class AuthService {
   login(user) {
@@ -13,7 +13,6 @@ class AuthService {
         if (response.data.accessToken) {
           localStorage.setItem('user', JSON.stringify(response.data));
         }
-
         return response.data;
       });
   }

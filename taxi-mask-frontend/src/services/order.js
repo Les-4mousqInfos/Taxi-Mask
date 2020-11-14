@@ -1,29 +1,20 @@
 import axios from 'axios' 
-import {SERVER_URL, ORDER_URL, AUTH_TOKEN, CID_TOKEN} from './config-server'; 
+import authHeader from './auth-header';
+import {SERVER_URL, ORDER_URL, CARDS} from './config-server'; 
 
 
 axios.defaults.withCredentials = true 
 
+const config = {
+    headers: authHeader()
+} 
 
+export async function saveOrder(order) { 
+   const result = axios.post(`${SERVER_URL}/${ORDER_URL}`, order, config) 
+    return result
+}
 
-
-export async function saveOrder(order) {
-    let auth = localStorage.getItem(AUTH_TOKEN);
-    auth = auth!=null?auth:''
-    console.log(auth)
-    let config = {
-    headers: {
-        Authorization: "Bearer "+auth, 
-        }
-    }
-    const result = await axios.post(`${SERVER_URL}/${ORDER_URL}`, order, config)
-    console.log(result)
-    if (result.status === 200) { 
-        console.log(result.data)
-        localStorage.setItem(CID_TOKEN, result.data.tokenUn)
-        return result.data
-
-    }else{
-        console.log(result.data)
-    }
+export async function getOrders(){
+    const result = await axios.get(`${SERVER_URL}/${ORDER_URL}`, config)
+    return result
 }

@@ -1,7 +1,8 @@
 <template>
   <div>
     <v-container>
-      <p class="display-3 font-weight-light	text-center pa-4">Mes commandes</p>
+
+      <p class="display-3 font-weight-light	text-center pa-4">SHOPPING CART</p>
       <v-row>
         <v-col :cols="12" md="9" sm="12" >
           <v-simple-table>
@@ -164,11 +165,15 @@
                     href: 'breadcrumbs_home',
                 },
                 {
-                    text: 'Mon espace',
-                    disabled: true,
+                    text: 'Clothing',
+                    disabled: false,
                     href: 'breadcrumbs_clothing',
                 },
-                
+                {
+                    text: 'T-Shirts',
+                    disabled: true,
+                    href: 'breadcrumbs_shirts',
+                },
             ],
         })
     }

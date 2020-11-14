@@ -3,14 +3,12 @@ import Router from 'vue-router'
 import Home from '@/components/Home' 
 import Order from '@/components/Order'
 import Cart from '@/components/Cart'
-import Layout from '@/components/Layout'
-import Signin from '@/components/Signin';
-import ClientSpace from '@/components/ClientSpace';
+import Layout from '@/components/Layout' 
 import Profile from '@/views/Profile'
 import Login from '@/views/Login'
 import Register from '@/views/Register'
 import BoardAdmin from '@/views/BoardAdmin'
-import BoardUser from '@/views/BoardUser'
+import BoardUser from '@/views/BoardUser'  
 
 Vue.use(Router)
 
@@ -31,20 +29,20 @@ export default new Router({
           name:'Order'
         },
         {
-          path:'/cart',
-          component:Cart,
-          name:'Cart'
-        } ,
-        {
           path:'/signin',
           component:Signin,
           name:'Signin'
         },
         {
-          path:'/client',
-          component:ClientSpace,
-          name:'ClientSpace'
-        },
+          path:'/mescommandes',
+          component:Order,
+          name:'MyOrder'
+        } , 
+        {
+          path:'/cart',
+          component:Cart,
+          name:'Cart'
+        } , 
         {
           path: '/login',
           component: Login

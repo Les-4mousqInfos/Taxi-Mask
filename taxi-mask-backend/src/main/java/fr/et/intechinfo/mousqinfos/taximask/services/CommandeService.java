@@ -5,12 +5,13 @@ import fr.et.intechinfo.mousqinfos.taximask.models.Utilisateur;
 import fr.et.intechinfo.mousqinfos.taximask.models.Voiture;
 import fr.et.intechinfo.mousqinfos.taximask.repository.CommandeRepository;
 import fr.et.intechinfo.mousqinfos.taximask.security.jwt.JwtUtils;
-import fr.et.intechinfo.mousqinfos.taximask.utils.Jwt;
-import org.apache.commons.lang3.StringUtils;
+import fr.et.intechinfo.mousqinfos.taximask.security.services.UserDetailsServiceImpl;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
+
+import java.util.List;
 
 @Service
 public class CommandeService {
@@ -24,24 +25,18 @@ public class CommandeService {
     private JwtUtils jwtUtils;
     @Autowired
     private UtilisateurService utilisateurService;
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
 
     /**
      * Traitement d'un enregistrement de commande
      * @param commande
-     * @param token
      * @return
      */
-    public Commande traitementCommande(Commande commande, String token) {
-       token = token.length()>6 ? token.substring(7, token.length()): "";
-        if(token!=null && StringUtils.isNoneEmpty(token)){
-            Long uid = Long.parseLong(jwtUtils.getUserNameFromJwtToken(token));
-            Utilisateur u = utilisateurService.getUserById(uid);
-            commande.setUtilisateur(u);
-          return   save(commande);
-        }
+    public Commande traitementCommande(Commande commande) {
+        Utilisateur user = (Utilisateur) userDetailsService.getCurrentUser();
+        commande.setUtilisateur(user);
         save(commande);
-        String tokenUn = jwtUtils.generateToken(commande.getId()+"");
-        commande.setTokenUn(tokenUn);
         return commande;
     }
 
@@ -62,6 +57,19 @@ public class CommandeService {
         //enregistrement commande
          commandeRepository.save(commande);
          return commande;
+    }
+
+    /**
+     * Liste des commandes par utilisateur
+     * @return
+     */
+    public List<Commande> getCommandesByUser() throws Exception{
+        Utilisateur user = (Utilisateur) userDetailsService.getCurrentUser();
+        if(user!=null){
+          return   commandeRepository.findByUtilisateur(user.getId());
+        }
+        //return  null; 
+        return  commandeRepository.findAll();
     }
 
 }

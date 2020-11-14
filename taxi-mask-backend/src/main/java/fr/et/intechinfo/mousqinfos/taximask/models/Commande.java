@@ -38,10 +38,6 @@ public class Commande {
 	@ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
 	private Utilisateur utilisateur;
-	@Transient
-	private String tokenUn;
-	@Transient
-	private String type = "Bearer";
 
 	public long getId() {
 		return id;
@@ -113,20 +109,20 @@ public class Commande {
 		this.facture = facture;
 	}
 
-	public String getTokenUn() {
-		return tokenUn;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setTokenUn(String tokenUn) {
-		this.tokenUn = tokenUn;
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
-	public String getType() {
-		return type;
+	public Date getUpdatedAt() {
+		return updatedAt;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 
 	@Override

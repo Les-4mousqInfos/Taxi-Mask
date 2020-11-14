@@ -22,23 +22,47 @@
         class="hidden-sm-and-down pl-10 ml-4"
       /> --> 
       <v-spacer />
-      <v-btn icon href="/register">
+      <v-btn v-if="!$store.state.auth.status.loggedIn" icon href="/register">
         <v-icon>mdi-account-circle</v-icon>
       </v-btn>
-     <!--  <v-btn v-on="on" icon>
+
+      <v-menu v-else open-on-hover offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on">
+             <v-icon>mdi-account-circle</v-icon>
+            </v-btn>
+          </template>
+          <v-card
+            class="mx-auto"
+            max-width="344"
+            outlined
+          >
+
+            <v-list-item>
+              <v-list-item-title> {{$store.state.auth.user.username}}</v-list-item-title>
+            </v-list-item>
+            <v-divider inset></v-divider>
+            <v-list-item>
+              <v-list-item-title>
+                <v-btn style="width:100%" href="/profile" @click="activeBtnOn(0)"  class="v-btn" >
+                  <span>Profil</span>
+                </v-btn> 
+              </v-list-item-title>
+            </v-list-item> 
+            <v-list-item style="margin-bottom: 5%;">
+               <v-list-item-title>
+                <v-btn href="/mes-commandes" @click="activeBtnOn(0)"  class="v-btn" >
+                  <span>Mes commandes</span>
+                </v-btn> 
+              </v-list-item-title> 
+            </v-list-item>
+
+          </v-card>
+        </v-menu> 
+      <v-btn  href="/cart" v-if="!$store.state.auth.status.loggedIn" icon>
         <v-badge
-          content="2"
-          value="2"
-          color="green"
-          overlap
-        >
-          <v-icon>mdi-bell</v-icon>
-        </v-badge>
-      </v-btn> -->
-      <v-btn  href="/cart" icon>
-        <v-badge
-          content="2"
-          value="2"
+          :content="cardContent"
+          :value="cardContent"
           color="green"
           overlap
         >
@@ -52,14 +76,14 @@
         color="primary"
         horizontal
       >
-        <v-btn href="/" class="v-btn">
+        <v-btn href="/" @click="activeBtnOn(0)"  class="v-btn" >
           <span>Home</span>
         </v-btn> 
-        <v-btn href="/order" class="v-btn">
+        <v-btn href="/order" @click="activeBtnOn(1)"  class="v-btn">
           <span>Commander</span>
         </v-btn>
          
-        <v-btn href="/">
+        <v-btn href="/" @click="activeBtnOn(2)">
           <span>Nous contacter</span>
         </v-btn>
         <v-menu  open-on-hover offset-y> 
@@ -102,7 +126,7 @@
         class="secondary white--text text-center"
       >
         <v-card-text>
-          <v-btn
+          <v-btn href="/" style="text-decoration:none"
             class="mx-4 white--text"
             icon
           >
@@ -135,27 +159,60 @@
     </v-footer>
   </v-app>
 </template>
-<style  scoped>
-  
+<style>
+  .v-item-group.v-bottom-navigation .v-btn.v-btn--active{
+    background-color:#F7F7F7!important
+  }
+  .v-application--is-ltr .v-divider--inset:not(.v-divider--vertical) {
+    margin-left: 0px;
+  }
+  .v-divider--inset:not(.v-divider--vertical) {
+    max-width: calc(100% - 0px);
+  }
 </style>
 <script>
+import {CARD_CONTENT} from '../services/config-server';
     export default {
         data () {
-            return {
-                items: [
-                    { title: 'T-Shirts' },
-                    { title: 'Jackets' },
-                    { title: 'Shirts' },
-                    { title: 'Jeans' },
-                    { title: 'Shoes' },
-                ],
-                activeBtn: 1,
+            return { 
+                activeBtn: 0,
+                cardContent:0
             }
+        }, 
+        created(){
+          this.cardContent =this.$store.state.order.cardContent 
+          this.activeBtnOn(this.$route.path)
+        },
+        updated(){
+           this.cardContent = localStorage.getItem(CARD_CONTENT)
+           console.log('update'+this.cardContent)
+           console.log('update'+this.$store.state.order.cardContent) 
+           this.activeBtnOn(this.$route.path)
+          
+        },
+        computed:{
+          selectedBtn(){
+            return ''
+          }
         },
         methods:{
           on(){
             
+          },
+        activeBtnOn(path){
+           switch(path){
+            case '/':
+              this.activeBtn=0
+              break
+            case '/order':
+              this.activeBtn=1  
+              break
+            default:
+              this.activeBtn=100
+              break  
           }
+        }
+
         }
     }
 </script>

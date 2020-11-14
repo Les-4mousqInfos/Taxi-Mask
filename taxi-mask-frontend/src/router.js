@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home' 
 import Order from '@/components/Order'
+import MyOrder from '@/components/MyOrder'
 import Cart from '@/components/Cart'
 import Layout from '@/components/Layout'
 import Profile from '@/views/Profile'
@@ -27,6 +28,11 @@ export default new Router({
           path:'/order',
           component:Order,
           name:'Order'
+        },
+        {
+          path:'/mes-commandes',
+          component:MyOrder,
+          name:'MyOrder'
         },
         {
           path:'/cart',
