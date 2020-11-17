@@ -17,10 +17,10 @@
               class="form-control"
               name="username"
             />
-          <!--   <div
+            <div
               v-if="submitted && errors.has('username')"
               class="alert-danger"
-            >{{errors.first('username')}}</div> -->
+            >{{errors.first('username')}}</div>
           </div>
           <div class="form-group">
             <label for="email">Email</label>
@@ -31,10 +31,10 @@
               class="form-control"
               name="email"
             />
-            <!-- <div
+            <div
               v-if="submitted && errors.has('email')"
               class="alert-danger"
-            >{{errors.first('email')}}</div> -->
+            >{{errors.first('email')}}</div> 
           </div>
           <div class="form-group">
             <label for="password">Password</label>
@@ -45,10 +45,10 @@
               class="form-control"
               name="password"
             />
-            <!-- <div
+             <div
               v-if="submitted && errors.has('password')"
               class="alert-danger"
-            >{{errors.first('password')}}</div> -->
+            >{{errors.first('password')}}</div>
           </div>
           <div class="form-group">
             <button class="btn btn-primary btn-block">Sign Up</button>
@@ -92,11 +92,9 @@ export default {
     handleRegister() {
       this.message = '';
       this.submitted = true;
-       if(!this.$refs.form.validate()){
-            return
-        } 
-     // this.$validator.validate().then(isValid => {
-       // if (isValid) {
+       
+      this.$validator.validate().then(isValid => {
+         if (isValid) {
           this.$store.dispatch('auth/register', this.user).then(
             data => {
               this.message = data.message;
@@ -110,8 +108,8 @@ export default {
               this.successful = false;
             }
           );
-      //  }
-     // });
+        }
+     });
     }
   }
 };
