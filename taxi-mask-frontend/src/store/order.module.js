@@ -1,5 +1,5 @@
 
-import {saveOrder, getOrders} from '../services/order';
+import {saveOrder, getOrders, saveFile} from '../services/order';
 import {CARD_LIST,CARD_CONTENT} from '../services/config-server';
 const cards = localStorage.getItem(CARD_LIST);
 const cardContent = localStorage.getItem(CARD_CONTENT)
@@ -12,6 +12,9 @@ export const order = {
     actions: {
         async save({commit},order) { 
             return await saveOrder(order)
+        },
+        async saveFile({commit},file) { 
+            return await saveFile(file)
         },
         async list() {
            return await getOrders()

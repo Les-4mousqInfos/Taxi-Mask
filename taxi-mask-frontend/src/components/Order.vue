@@ -4,14 +4,12 @@
       <div class="row"> 
         <div class="col-md-2"></div>
         <div class="col-md-8 col-sm-8 col-xs-12 card card-container">
-          <v-form @submit.prevent="submit" onsubmit="return false;" ref="form" lazy-validation > 
+          <v-form enctype="multipart/form-data" @submit.prevent="submit" onsubmit="return false;" ref="form" lazy-validation > 
           <div class="pl-6">
             <p class="display-1 mb-0">Paroi de protection</p>
             <v-card-actions class="pa-0">
               <p class="headline font-weight-light pt-3"></p>
               <v-spacer></v-spacer>
-          <!--    <v-rating v-model="rating" class="" background-color="warning lighten-3"
-                        color="warning" dense></v-rating> -->
               <span class="body-2	font-weight-thin"> </span>
             </v-card-actions>
             
@@ -31,7 +29,7 @@
             <v-select   v-model="formu.voiture.marque"
                 :items="marques" 
                 item-text="label"
-                item-value="id"
+                item-value="label"
                 :rules="[v=>!!v || 'Veuillez choisir un modèle']"
                 label="Choisissez la marque"
                 solo
@@ -51,7 +49,7 @@
               hide-details="auto"
             ></v-text-field>
             <br>
-            <p class="title">Date de première immatriculation</p> 
+            <p class="title">Date de la première immatriculation</p> 
             <v-menu 
               ref="menu"
               :close-on-content-click="false"
@@ -85,8 +83,8 @@
             <br>
             <p class="title">Etiquette</p>
             <v-radio-group  required v-model="formu.etiquette" row>
-              <span v-for="(item,id) in toits" :key="id">
-                <v-radio :label="item.label" :value="item.id"></v-radio>
+              <span v-for="(item,id) in etiquettes" :key="id">
+                <v-radio :label="item.label" :value="item"></v-radio>
               </span> 
             </v-radio-group> 
             <br>
@@ -94,13 +92,13 @@
               <div class="col-6">
                 <p class="title">Photo de la carte grise</p>
                 <v-file-input style="margin-top: -30px;"
-                  show-size
+                  show-size v-model="formu.file" 
                   truncate-length="15"
                 ></v-file-input> 
               </div>
               <div class="col-6">
                 <p class="title">Photo de la voiture</p>
-                <v-file-input  style="margin-top: -30px;"
+                <v-file-input v-model="formu.file2" style="margin-top: -30px;"
                   show-size
                   truncate-length="15"
                 ></v-file-input> 
@@ -188,14 +186,17 @@ import {CARD_LIST,CARD_CONTENT} from '../services/config-server';
                 {
                   id: 'SANS',
                   label: 'Sans (€0.00)', 
+                  prix:0
                 },
                 {
                   id: 'M',
-                  label: 'M(€12.00)'
+                  label: 'M(€12.00)',
+                  prix:12
                 },
                 {
                   id: 'XL',
-                  label: 'XL(€12.00)'
+                  label: 'XL(€12.00)',
+                  prix:12
                 },
                  
             ],
@@ -208,9 +209,6 @@ import {CARD_LIST,CARD_CONTENT} from '../services/config-server';
                 id:2,
                 label:'Honda',
               }
-            ],
-            rules: [
-              value => !!value || 'Required.',
             ], 
             menu: false,
             date: null,
@@ -231,9 +229,25 @@ import {CARD_LIST,CARD_CONTENT} from '../services/config-server';
             this.loading = false
             return
           } 
-          this.formu.prixProtection = this.formu.typeProtection.prix
+          this.formu.prixProtection = parseFloat(this.formu.typeProtection.prix) + 
+          parseFloat(this.formu.etiquette.prix)
           this.formu.typeProtection = this.formu.typeProtection.id
-          this.$store.dispatch('order/save', {...this.formu}).then( async res =>{ 
+          const form = new FormData()
+          const voiture={...this.formu.voiture}
+          form.append('etiquette', this.formu.etiquette.id)
+          form.append('trappe', this.formu.trappe)
+          form.append('prixProtection', this.formu.prixProtection) 
+          form.append('typeProtection', this.formu.typeProtection) 
+          form.append('carteGrise', this.formu.file)
+          form.append('photoVoiture', this.formu.file2)
+          form.append('toit', this.formu.toit)
+         // form.append('datePassage', this.formu.datePassage)
+         // form.append('timePassage', this.formu.timePassage)
+          form.append('modele', voiture.modele)
+          form.append('marque',voiture.marque)
+          form.append('immatriculation',voiture.immatriculation)
+
+          this.$store.dispatch('order/save', form).then( async res =>{ 
             
              console.log(res)
             if(res.status===200){ 

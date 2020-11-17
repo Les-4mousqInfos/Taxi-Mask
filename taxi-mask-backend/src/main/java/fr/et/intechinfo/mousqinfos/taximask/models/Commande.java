@@ -4,8 +4,10 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import jdk.jfr.Timestamp;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "commandes")
@@ -38,6 +40,24 @@ public class Commande {
 	@ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
 	private Utilisateur utilisateur;
+	@Timestamp
+	@JoinColumn(nullable = true)
+	private Date datePassage;
+	@Transient
+	private MultipartFile carteGrise;
+	@JoinColumn(nullable = true)
+	private String carteGriseFileName;
+	@Transient
+	private MultipartFile photoVoiture;
+
+	@JoinColumn(nullable = true)
+	private String photoVoitureFileName;
+	@Transient
+	private String immatriculation;
+	@Transient
+	private String modele;
+	@Transient
+	private String marque;
 
 	public long getId() {
 		return id;
@@ -140,5 +160,69 @@ public class Commande {
 				", facture=" + facture +
 				", client=" + utilisateur +
 				'}';
+	}
+
+	public Date getDatePassage() {
+		return datePassage;
+	}
+
+	public void setDatePassage(Date datePassage) {
+		this.datePassage = datePassage;
+	}
+
+	public MultipartFile getCarteGrise() {
+		return carteGrise;
+	}
+
+	public void setCarteGrise(MultipartFile carteGrise) {
+		this.carteGrise = carteGrise;
+	}
+
+	public MultipartFile getPhotoVoiture() {
+		return photoVoiture;
+	}
+
+	public void setPhotoVoiture(MultipartFile photoVoiture) {
+		this.photoVoiture = photoVoiture;
+	}
+
+	public String getCarteGriseFileName() {
+		return carteGriseFileName;
+	}
+
+	public void setCarteGriseFileName(String carteGriseFileName) {
+		this.carteGriseFileName = carteGriseFileName;
+	}
+
+	public String getPhotoVoitureFileName() {
+		return photoVoitureFileName;
+	}
+
+	public void setPhotoVoitureFileName(String photoVoitureFileName) {
+		this.photoVoitureFileName = photoVoitureFileName;
+	}
+
+	public String getImmatriculation() {
+		return immatriculation;
+	}
+
+	public void setImmatriculation(String immatriculation) {
+		this.immatriculation = immatriculation;
+	}
+
+	public String getModele() {
+		return modele;
+	}
+
+	public void setModele(String modele) {
+		this.modele = modele;
+	}
+
+	public String getMarque() {
+		return marque;
+	}
+
+	public void setMarque(String marque) {
+		this.marque = marque;
 	}
 }

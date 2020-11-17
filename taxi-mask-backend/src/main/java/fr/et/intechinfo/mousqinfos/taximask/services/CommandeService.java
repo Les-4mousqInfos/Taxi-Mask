@@ -8,9 +8,17 @@ import fr.et.intechinfo.mousqinfos.taximask.security.jwt.JwtUtils;
 import fr.et.intechinfo.mousqinfos.taximask.security.services.UserDetailsServiceImpl;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Service
@@ -27,19 +35,47 @@ public class CommandeService {
     private UtilisateurService utilisateurService;
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
+    @Value("${upload-dir}")
+    private String FILE_DIRECTORY;
+
 
     /**
      * Traitement d'un enregistrement de commande
      * @param commande
      * @return
      */
-    public Commande traitementCommande(Commande commande) {
+    public Commande traitementCommande(Commande commande) throws IOException {
         Utilisateur user = (Utilisateur) userDetailsService.getCurrentUser();
         commande.setUtilisateur(user);
+        String filename = storageFile(commande.getCarteGrise());
+        commande.setCarteGriseFileName(filename);
+        filename = storageFile(commande.getPhotoVoiture());
+        commande.setPhotoVoitureFileName(filename);
         save(commande);
         return commande;
     }
 
+    /**
+     * Gestion de fichiers
+     * @param file
+     * @return
+     * @throws IOException
+     */
+    public String storageFile(MultipartFile file) throws IOException {
+        if(!new File(FILE_DIRECTORY).exists())
+        {
+            System.out.println("create");
+            // Créer le dossier avec tous ses parents
+            new File(FILE_DIRECTORY).mkdirs();
+
+        }
+        StringBuilder fileNames = new StringBuilder();
+        Path fileNameAndPath = Paths.get(FILE_DIRECTORY, file.getOriginalFilename());
+        fileNames.append(file.getOriginalFilename()+" ");
+
+        Files.write(fileNameAndPath, file.getBytes());
+        return FILE_DIRECTORY+"\\"+file.getOriginalFilename();
+    }
 
     /**
      * Enregistrement d'une commande
@@ -49,12 +85,17 @@ public class CommandeService {
      */
     public Commande save(Commande commande) {
     //logger.info(commande.toString());
-        Voiture v = voitureService.getVoitureByImmatricule(commande.getVoiture().getImmatriculation());
+        Voiture v = voitureService.getVoitureByImmatricule(commande.getImmatriculation());
         if(!(v instanceof Voiture)){
             //create a new Voiture
-            voitureService.save(commande.getVoiture());
+            v = new Voiture();
+            v.setImmatriculation(commande.getImmatriculation());
+            v.setMarque(commande.getMarque());
+            v.setModele(commande.getModele());
+            voitureService.save(v);
         }
         //enregistrement commande
+        commande.setVoiture(v);
          commandeRepository.save(commande);
          return commande;
     }

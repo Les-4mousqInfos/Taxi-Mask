@@ -208,7 +208,7 @@ import {CARD_CONTENT} from '../services/config-server';
               this.activeBtn=1  
               break
             default:
-              this.activeBtn=100
+              this.activeBtn=1
               break  
           }
         }

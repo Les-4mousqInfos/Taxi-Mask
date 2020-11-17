@@ -10,6 +10,7 @@ import Login from '@/views/Login'
 import Register from '@/views/Register'
 import BoardAdmin from '@/views/BoardAdmin'
 import BoardUser from '@/views/BoardUser'
+import File from '@/components/File'
 
 Vue.use(Router)
 
@@ -33,6 +34,11 @@ export default new Router({
           path:'/mes-commandes',
           component:MyOrder,
           name:'MyOrder'
+        },
+        {
+          path:'/file',
+          component:File,
+          name:'File'
         },
         {
           path:'/cart',
