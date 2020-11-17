@@ -6,13 +6,13 @@
         src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
         class="profile-img-card"
       />
-      <form name="form" @submit.prevent="handleRegister">
+      <v-form ref="form" name="form" @submit.prevent="handleRegister">
         <div v-if="!successful">
           <div class="form-group">
             <label for="username">Username</label>
             <input
               v-model="user.username"
-              v-validate="'required|min:3|max:20'"
+              :rules="'required|min:3|max:20'"
               type="text"
               class="form-control"
               name="username"
@@ -26,7 +26,7 @@
             <label for="email">Email</label>
             <input
               v-model="user.email"
-              v-validate="'required|email|max:50'"
+              :rules="'required|email|max:50'"
               type="email"
               class="form-control"
               name="email"
@@ -34,18 +34,18 @@
             <div
               v-if="submitted && errors.has('email')"
               class="alert-danger"
-            >{{errors.first('email')}}</div>
+            >{{errors.first('email')}}</div> 
           </div>
           <div class="form-group">
             <label for="password">Password</label>
             <input
               v-model="user.password"
-              v-validate="'required|min:6|max:40'"
+              :rules="'required|min:6|max:40'"
               type="password"
               class="form-control"
               name="password"
             />
-            <div
+             <div
               v-if="submitted && errors.has('password')"
               class="alert-danger"
             >{{errors.first('password')}}</div>
@@ -54,7 +54,7 @@
             <button class="btn btn-primary btn-block">Sign Up</button>
           </div>
         </div>
-      </form>
+      </v-form>
 
       <div
         v-if="message"
@@ -92,8 +92,9 @@ export default {
     handleRegister() {
       this.message = '';
       this.submitted = true;
+       
       this.$validator.validate().then(isValid => {
-        if (isValid) {
+         if (isValid) {
           this.$store.dispatch('auth/register', this.user).then(
             data => {
               this.message = data.message;
@@ -108,7 +109,7 @@ export default {
             }
           );
         }
-      });
+     });
     }
   }
 };

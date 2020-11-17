@@ -2,38 +2,29 @@ package fr.et.intechinfo.mousqinfos.taximask.models;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "voitures")
+@NoArgsConstructor
 public class Voiture {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
 	@Column(name = "marque")
 	private String marque;
-	
-	@Column(name = "modele")
+	@Column(name = "modele", nullable = true)
 	private String modele;
-	
-	@Column(name = "immatriculation")
+	@JoinColumn(unique = true, name = "immatriculation")
 	private String immatriculation;
-	
 	@Column(name = "DatePreImma")
 	private Date DatePreimma;
-	
 	@Column(name = "photoCarteGrise")
 	private String photoCarteGrise;
-	
 	@Column(name = "photoVoiture")
 	private String photoVoiture;
 	
@@ -49,9 +40,6 @@ public class Voiture {
 		return id;
 	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public String getMarque() {
 		return marque;
@@ -101,9 +89,19 @@ public class Voiture {
 		this.photoVoiture = photoVoiture;
 	}
 
-	
 
-	
-	
-	
+	@Override
+	public String toString() {
+		return "Voiture{" +
+				"id=" + id +
+				", marque='" + marque + '\'' +
+				", modele='" + modele + '\'' +
+				", immatriculation='" + immatriculation + '\'' +
+				", DatePreimma=" + DatePreimma +
+				", photoCarteGrise='" + photoCarteGrise + '\'' +
+				", photoVoiture='" + photoVoiture + '\'' +
+				", createdAt=" + createdAt +
+				", updatedAt=" + updatedAt +
+				'}';
+	}
 }
