@@ -22,6 +22,7 @@ public class Voiture {
 	@JoinColumn(unique = true, name = "immatriculation")
 	private String immatriculation;
 	@Column(name = "DatePreImma")
+	@Temporal(TemporalType.DATE)
 	private Date DatePreimma;
 	@Column(name = "photoCarteGrise")
 	private String photoCarteGrise;
