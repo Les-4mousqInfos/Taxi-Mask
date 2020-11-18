@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "nextbuild": "webpack --config webpack.config.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
@@ -16,6 +17,7 @@
     "jquery": "^3.5.1",
     "material-design-icons-iconfont": "^5.0.1",
     "moment": "^2.29.1",
+    "path-browserify": "^1.0.1",
     "popper.js": "^1.16.1",
     "vee-validate": "^2.2.15",
     "vue": "^2.5.2",
