@@ -13,18 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 class AppTests {
 
-	//@Autowired
-	//private ClientController controller;
-
-	@Test
+	/*@Test
 	void contextLoads() {
-		assertEquals(1, 1);
-	}
-
-	@Test
-	void controllerLoads() throws Exception {
-		Assert.isTrue(true, "true indeed");
-		//assertThat(controller).isNotNull();
-	}
-
+	}*/
 }

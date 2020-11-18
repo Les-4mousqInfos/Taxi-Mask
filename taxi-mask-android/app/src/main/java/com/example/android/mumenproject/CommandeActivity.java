@@ -97,8 +97,8 @@ public class CommandeActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                   /* try {
-                        post("http://localhost:8080/clients",jsonObject.toString());
+                    /*try {
+                        post("http://192.168.43.194/clients",jsonObject.toString());
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -150,16 +150,18 @@ public class CommandeActivity extends AppCompatActivity {
                                         Log.e("test","Not Working ");
                                     }
                                 });*/
-                        Intent i = new Intent(view.getContext(), Commande2Activity.class);
-                    i.putExtra("prenom", prenom.getText());
-                    i.putExtra("nom", nom.getText());
-                    i.putExtra("nomEntreprise", nomEntreprise.getText());
-                    i.putExtra("pays", pays.getText());
-                    i.putExtra("codePostal", codePostal.getText());
-                    i.putExtra("ville", ville.getText());
-                    i.putExtra("mobile", mobile.getText());
-                    i.putExtra("password", password.getText());
-                    startActivity(i);
+                        Intent pro = new Intent(view.getContext(), ProfileActivity.class);
+                    pro.putExtra("email", email.getText().toString());
+                    pro.putExtra("prenom", prenom.getText());
+                    pro.putExtra("nom", nom.getText());
+                    pro.putExtra("nomEntreprise", nomEntreprise.getText());
+                    pro.putExtra("pays", pays.getText());
+                    pro.putExtra("codePostal", codePostal.getText());
+                    pro.putExtra("ville", ville.getText());
+                    pro.putExtra("mobile", mobile.getText());
+                    pro.putExtra("password", password.getText());
+                    startActivity(pro);
+
                 } else {
                     Toast.makeText(view.getContext(), "Confirmez votre mot de password", Toast.LENGTH_LONG).show();
                 }
