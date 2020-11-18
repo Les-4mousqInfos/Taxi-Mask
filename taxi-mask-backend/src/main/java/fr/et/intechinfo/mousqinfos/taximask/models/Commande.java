@@ -2,68 +2,67 @@ package fr.et.intechinfo.mousqinfos.taximask.models;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+
+import jdk.jfr.Timestamp;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "commandes")
+@NoArgsConstructor
 public class Commande {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
 	@Column(name = "trappe")
 	private String trappe;
-	
 	@Column(name = "typeProtection")
 	private String typeProtection;
-	
 	@Column(name = "prixProtection")
 	private double prixProtection;
-	
-	@Column(name = "marque")
-	private String marque;
-	
-	@Column(name = "modele")
-	private String modele;
-	
-	@Column(name = "immatriculation")
-	private String immatriculation;
-	
-	@Column(name = "DatePreimma")
-	private Date DatePreimma;
-	
 	@Column(name = "toit")
 	private String toit;
-	
 	@Column(name = "etiquette")
 	private String etiquette;
-	
-	@Column(name = "photoCarteGrise")
-	private String photoCarteGrise;
-	
-	@Column(name = "photoVoiture")
-	private String photoVoiture;
-	
+	@CreationTimestamp
+	private Date createdAt;
+	@CreationTimestamp
+	private Date updatedAt;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "voiture_id")
+	private Voiture voiture;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "facture_id", referencedColumnName = "id", nullable = true)
+	private Facture facture;
 	@ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "client_id")
-	private Client client;
+    @JoinColumn(name = "user_id")
+	private Utilisateur utilisateur;
+	@Timestamp
+	@JoinColumn(nullable = true)
+	private Date datePassage;
+	@Transient
+	private MultipartFile carteGrise;
+	@JoinColumn(nullable = true)
+	private String carteGriseFileName;
+	@Transient
+	private MultipartFile photoVoiture;
+
+	@JoinColumn(nullable = true)
+	private String photoVoitureFileName;
+	@Transient
+	private String immatriculation;
+	@Transient
+	private String modele;
+	@Transient
+	private String marque;
 
 	public long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public String getTrappe() {
 		return trappe;
@@ -89,38 +88,6 @@ public class Commande {
 		this.prixProtection = prixProtection;
 	}
 
-	public String getMarque() {
-		return marque;
-	}
-
-	public void setMarque(String marque) {
-		this.marque = marque;
-	}
-
-	public String getModele() {
-		return modele;
-	}
-
-	public void setModele(String modele) {
-		this.modele = modele;
-	}
-
-	public String getImmatriculation() {
-		return immatriculation;
-	}
-
-	public void setImmatriculation(String immatriculation) {
-		this.immatriculation = immatriculation;
-	}
-
-	public Date getDatePreimma() {
-		return DatePreimma;
-	}
-
-	public void setDatePreimma(Date datePreimma) {
-		DatePreimma = datePreimma;
-	}
-
 	public String getToit() {
 		return toit;
 	}
@@ -137,31 +104,125 @@ public class Commande {
 		this.etiquette = etiquette;
 	}
 
-	public String getPhotoCarteGrise() {
-		return photoCarteGrise;
+	public Utilisateur getUtilisateur() {
+		return utilisateur;
 	}
 
-	public void setPhotoCarteGrise(String photoCarteGrise) {
-		this.photoCarteGrise = photoCarteGrise;
+	public void setUtilisateur(Utilisateur utilisateur) {
+		this.utilisateur = utilisateur;
 	}
 
-	public Client getClient() {
-		return client;
+
+	public Voiture getVoiture() {
+		return voiture;
 	}
 
-	public void setClient(Client client) {
-		this.client = client;
+	public void setVoiture(Voiture voiture) {
+		this.voiture = voiture;
 	}
 
-	public String getPhotoVoiture() {
+	public Facture getFacture() {
+		return facture;
+	}
+
+	public void setFacture(Facture facture) {
+		this.facture = facture;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	@Override
+	public String toString() {
+		return "Commande{" +
+				"id=" + id +
+				", trappe='" + trappe + '\'' +
+				", typeProtection='" + typeProtection + '\'' +
+				", prixProtection=" + prixProtection +
+				", toit='" + toit + '\'' +
+				", etiquette='" + etiquette + '\'' +
+				", createdAt=" + createdAt +
+				", updatedAt=" + updatedAt +
+				", voiture=" + voiture +
+				", facture=" + facture +
+				", client=" + utilisateur +
+				'}';
+	}
+
+	public Date getDatePassage() {
+		return datePassage;
+	}
+
+	public void setDatePassage(Date datePassage) {
+		this.datePassage = datePassage;
+	}
+
+	public MultipartFile getCarteGrise() {
+		return carteGrise;
+	}
+
+	public void setCarteGrise(MultipartFile carteGrise) {
+		this.carteGrise = carteGrise;
+	}
+
+	public MultipartFile getPhotoVoiture() {
 		return photoVoiture;
 	}
 
-	public void setPhotoVoiture(String photoVoiture) {
+	public void setPhotoVoiture(MultipartFile photoVoiture) {
 		this.photoVoiture = photoVoiture;
 	}
-	
-	
 
+	public String getCarteGriseFileName() {
+		return carteGriseFileName;
+	}
 
+	public void setCarteGriseFileName(String carteGriseFileName) {
+		this.carteGriseFileName = carteGriseFileName;
+	}
+
+	public String getPhotoVoitureFileName() {
+		return photoVoitureFileName;
+	}
+
+	public void setPhotoVoitureFileName(String photoVoitureFileName) {
+		this.photoVoitureFileName = photoVoitureFileName;
+	}
+
+	public String getImmatriculation() {
+		return immatriculation;
+	}
+
+	public void setImmatriculation(String immatriculation) {
+		this.immatriculation = immatriculation;
+	}
+
+	public String getModele() {
+		return modele;
+	}
+
+	public void setModele(String modele) {
+		this.modele = modele;
+	}
+
+	public String getMarque() {
+		return marque;
+	}
+
+	public void setMarque(String marque) {
+		this.marque = marque;
+	}
 }
