@@ -1,6 +1,5 @@
 package com.example.android.mumenproject;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,12 +8,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 import java.io.IOException;
 
@@ -28,8 +29,11 @@ import okhttp3.Response;
 
 public class ConnexionActivity extends AppCompatActivity {
 
+    private static final  String TAG = "ConnexionActivity";
+
     LinearLayout suivant;
     Button creation;
+    String URL = "http://192.168.0.18:8000";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,37 +47,82 @@ public class ConnexionActivity extends AppCompatActivity {
         suivant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Connexion(view);
+                EditText editText = (EditText) findViewById(R.id.email);
+                String email = editText.getText().toString();
+
+                EditText editText1 =(EditText) findViewById(R.id.password);
+                String password = editText1.getText().toString();
+
+
+                if(email.length() > 0 & password.length() > 0) {
+
+                    Test(email, password);
+
+                    /*Intent pro = new Intent(view.getContext(), ProfileActivity.class);
+
+                    pro.putExtra("email", email);
+
+                    startActivity(pro);*/
+
+                }
             }
         });
         creation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Creation(view);
+                Intent creation = new Intent(view.getContext(), CommandeActivity.class);
+                startActivity(creation);
             }
         });
     }
 
-    private void Connexion(View view){
+    private void Test (String email, String password){
 
-        EditText editText = (EditText) findViewById(R.id.email);
-        String email = editText.getText().toString();
+        MediaType MEDIA_TYPE = MediaType.parse("application/json");
+        final TextView text = findViewById(R.id.text);
 
-        EditText editText1 =(EditText) findViewById(R.id.password);
-        String password = editText1.getText().toString();
+        JSONArray role = new JSONArray();
+        role.put("user");
 
-        if(email.length() > 0 & password.length() > 0) {
 
-            Intent pro = new Intent(view.getContext(), ProfileActivity.class);
-
-            pro.putExtra("email", email);
-
-            startActivity(pro);
+        JSONObject user = new JSONObject();
+        try {
+            user.put("username", "komomi");
+            user.put("email", email);
+            user.put("password", password);
+            user.put("role", role);
+        }catch (JSONException e) {
+            e.printStackTrace();
         }
-    }
 
-    private void Creation(View view){
-        Intent creation = new Intent(view.getContext(), CommandeActivity.class);
-        startActivity(creation);
+        RequestBody body = RequestBody.create(MEDIA_TYPE, user.toString());
+
+       OkHttpClient client = new OkHttpClient.Builder()
+               .build();
+       Request request = new Request.Builder()
+               .url(URL +"/api/auth/signup")
+               .post(body)
+               .build();
+       try {
+           client.newCall(request).enqueue(new Callback() {
+               @Override
+               public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                   Log.i("Failure request search", e.getMessage());
+                   text.setText(" la raiponse n'est pas");
+               }
+
+               @Override
+               public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                   text.setText(" oui");
+               }
+           });
+
+
+       }
+       catch (Exception e) {
+           text.setText(" nop");
+           Log.v(TAG,"Erreur reseau"+e);
+
+       }
     }
 }
