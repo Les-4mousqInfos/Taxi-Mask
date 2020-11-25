@@ -4,7 +4,7 @@ import java.util.Date;
 
 import javax.persistence.*;
 
-import jdk.jfr.Timestamp;
+
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.web.multipart.MultipartFile;
