@@ -18,6 +18,7 @@ import fr.et.intechinfo.mousqinfos.taximask.models.Marque;
 import fr.et.intechinfo.mousqinfos.taximask.services.MarqueService;
 
 @RestController
+@RequestMapping("/api/test")
 public class MarqueController {
 	
 	@Autowired
