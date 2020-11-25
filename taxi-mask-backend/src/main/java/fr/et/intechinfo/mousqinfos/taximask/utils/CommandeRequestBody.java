@@ -7,27 +7,36 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
-@Data
 @NoArgsConstructor
 public class CommandeRequestBody {
 
-    private Commande commande;
-    private Voiture voiture;
+    private List<Commande> listCommande;
+    private Double price;
+    private Integer quantity;
 
-    public Commande getCommande() {
-        return commande;
+    public List<Commande> getListCommande() {
+        return listCommande;
     }
 
-    public void setCommande(Commande commande) {
-        this.commande = commande;
+    public void setListCommande(List<Commande> listCommande) {
+        this.listCommande = listCommande;
     }
 
-    public Voiture getVoiture() {
-        return voiture;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setVoiture(Voiture voiture) {
-        this.voiture = voiture;
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 }

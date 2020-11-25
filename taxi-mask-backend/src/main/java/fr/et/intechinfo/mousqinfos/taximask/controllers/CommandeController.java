@@ -1,5 +1,6 @@
 package fr.et.intechinfo.mousqinfos.taximask.controllers;
 
+import com.stripe.exception.StripeException;
 import fr.et.intechinfo.mousqinfos.taximask.models.Commande;
 import fr.et.intechinfo.mousqinfos.taximask.payload.response.MessageResponse;
 import fr.et.intechinfo.mousqinfos.taximask.services.CommandeService;
@@ -15,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/commandes")
@@ -56,6 +58,20 @@ public class CommandeController {
                     .badRequest()
                     .body(new MessageResponse(ex.getMessage()));
         }
+
+    }
+
+    @GetMapping("/checkoutsession")
+    public ResponseEntity <?> getCommandeEnAttente() throws StripeException {
+       // try {
+            Map result = commandeService.getCommandeEnAttente();
+            return ResponseEntity.ok().body(null);
+       /* }catch (Exception ex){checkout
+            logger.error(ex.getMessage());
+            return  ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse(ex.getMessage()));
+        }*/
 
     }
 

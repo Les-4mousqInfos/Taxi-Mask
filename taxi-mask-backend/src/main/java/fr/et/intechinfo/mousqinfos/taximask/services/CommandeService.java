@@ -1,5 +1,8 @@
 package fr.et.intechinfo.mousqinfos.taximask.services;
 
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.checkout.Session;
 import fr.et.intechinfo.mousqinfos.taximask.models.Commande;
 import fr.et.intechinfo.mousqinfos.taximask.models.Utilisateur;
 import fr.et.intechinfo.mousqinfos.taximask.models.Voiture;
@@ -14,12 +17,14 @@ import org.slf4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CommandeService {
@@ -112,6 +117,61 @@ public class CommandeService {
         }
         //return  null; 
         return  commandeRepository.findAll();
+    }
+
+    public Map <String, Object> getCommandeEnAttente() throws StripeException {
+        Utilisateur user = new Utilisateur(); //(Utilisateur) userDetailsService.getCurrentUser();
+        user.setId(1L);
+        Map result= new HashMap();
+        if(user!=null){
+          List commandes=commandeRepository.findAll();// commandeRepository.findByUtilisateurAndComplete(user,false);
+          result.put("commandes", commandes);
+          List price = commandeRepository.getCommandesPrice( false);
+          Double prixTotal = price!=null? Double.parseDouble(price.get(0).toString()):0D;
+          result.put("price", price.get(0));
+          result.put("sessionCheckout", stripeCheckoutSessionConfigure(10000D, commandes.size()));
+          logger.info(price.get(0).toString());
+          return  result;
+        }
+        return null;
+    }
+
+    /**
+     * Creation du session checkout de stripe
+     * @param price
+     * @param quantity
+     * @return
+     * @throws StripeException
+     */
+    public Session stripeCheckoutSessionConfigure(Double price, Integer quantity) throws StripeException {
+        Stripe.apiKey = "sk_test_VTjPMwrlHiQYu5AS6ChnzMwv000INB4NLC";
+
+        List<Object> paymentMethodTypes =
+                new ArrayList<>();
+        paymentMethodTypes.add("card");
+        List<Object> lineItems = new ArrayList<>();
+        Map<String, Object> lineItem1 = new HashMap<>();
+        lineItem1.put("price", price);
+        lineItem1.put("currency", "euro");
+        lineItem1.put("quantity", quantity);
+        lineItems.add(lineItem1);
+        Map<String, Object> params = new HashMap<>();
+        params.put(
+                "success_url",
+                "https://example.com/success"
+        );
+        params.put(
+                "cancel_url",
+                "https://example.com/cancel"
+        );
+        params.put(
+                "payment_method_types",
+                paymentMethodTypes
+        );
+        params.put("line_items", lineItems);
+        params.put("mode", "payment");
+
+        return Session.create(params);
     }
 
 }

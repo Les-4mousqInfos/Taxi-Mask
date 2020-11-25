@@ -19,3 +19,7 @@ export async function getOrders(){
     const result = await axios.get(`${SERVER_URL}/${ORDER_URL}`, config)
     return result
 }
+export async function getStripeSession() {
+    const result = await axios.get(`${SERVER_URL}/${ORDER_URL}/checkoutsession`, config)
+    return result
+}

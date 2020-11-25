@@ -1,10 +1,9 @@
 <template>
   <div>
-    <v-container>
-
-      <p class="display-1 font-weight-light	text-center pa-1">Mes commandes</p>
+    <v-container >
+      <p class="display-1 font-weight-light	text-center pa-2">Mes commandes</p>
       <v-row>
-        <v-col :cols="12" md="9" sm="12" >
+        <v-col :cols="12" md="12" sm="12"  >
             <v-data-table
               :headers="headers"
               class="elevation-1"
@@ -19,8 +18,8 @@
               <td>
                 <v-list-item >
                   <v-list-item-avatar>
-                   <v-img :src="require('../assets/img/cars/car.jpg')"></v-img>
-                   <!--  <v-img :src="'http://localhost:8000/'+item.photoVoitureFileName"></v-img> -->
+                  <!--  <v-img :src="require('../assets/img/cars/car.jpg')"></v-img> -->
+                    <v-img :src="'http://localhost:8000/'+item.photoVoitureFileName"></v-img>
                   </v-list-item-avatar>
 
                   <v-list-item-content>
@@ -48,53 +47,21 @@
             </v-data-table>
  
         </v-col>
-        <v-col :cols="12" md="3" sm="12" style="background-color: lightgray">
-          <p class="headline">Récapitulatif</p>
-          <p class="overline">
-          </p>
-          <v-simple-table>
-            <template v-slot:default>
-              <tbody>
-              <tr>
-                <td>Prix de protection</td>
-                <td class="text-right" style="width: 50px;">€160.00</td>
-              </tr>
-              <tr>
-                <td>Prix des étiquettes</td>
-                <td class="text-right" style="width: 50px;">€10.00</td>
-              </tr>
-               
-              <tr>
-                <td>Total</td>
-                <td class="text-right" style="width: 50px;"><b>€170.00</b></td>
-              </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
-          <br>
-          <div class="text-center">
-            <StripePay amount="17000"></StripePay>
-<!--              <v-btn class="primary white--text mt-5" @click="payerStripe">Payer €170.00</v-btn>  -->
-          </div>
-          <div>
-            
-          </div>
-        </v-col>
+         
       </v-row>
     </v-container>
-   
-  </div>
-</template>  
-
-<script>  
-  
-    import StripePay from './StripePay';
-
  
+  </div>
+</template>
+<style scoped>
+ 
+  tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, .05);
+  }
+</style>
+ 
+<script>
     export default {
-        components:{  
-          StripePay
-        },
         data: () => ({
             rating: 4.5,
             orderList: [],
@@ -122,7 +89,7 @@
           },
           
         }, 
-        created(){
+        mounted(){
           if (this.loggedIn) {
             this.$router.push('/login');
             return
@@ -135,19 +102,10 @@
               setTimeout(() => {
                 this.orderList = [...res.data]
               }, 1500);
+            
             }
           })
-        },
-        methods:{
-          payerStripe(){
-            this.$store.dispatch('order/stripeCheckoutSession').then( async res =>{ 
-            console.log(res)
-            strip.redirectToCheckout({sessionId: res.data.session.id})
-          }).catch(err =>{
-            console.log(err)
-          })  
-          }
-        },
+        }
     }
 </script>
 

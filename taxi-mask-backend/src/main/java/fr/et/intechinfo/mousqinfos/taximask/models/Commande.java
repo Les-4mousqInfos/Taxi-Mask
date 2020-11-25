@@ -60,6 +60,10 @@ public class Commande {
 	private String modele;
 	@Transient
 	private String marque;
+	private Boolean complete;
+	@Temporal(TemporalType.TIMESTAMP)
+	@JoinColumn(nullable = true)
+	private Date dateComplete;
 
 	public long getId() {
 		return id;
@@ -234,5 +238,21 @@ public class Commande {
 
 	public void setDateImmatriculation(Date dateImmatriculation) {
 		this.dateImmatriculation = dateImmatriculation;
+	}
+
+	public Boolean getComplete() {
+		return complete;
+	}
+
+	public void setComplete(Boolean complete) {
+		this.complete = complete;
+	}
+
+	public Date getDateComplete() {
+		return dateComplete;
+	}
+
+	public void setDateComplete(Date dateComplete) {
+		this.dateComplete = dateComplete;
 	}
 }
