@@ -32,8 +32,10 @@ build/
 ### VS Code ###
 .vscode/
 
+### build android ###
 taxi-mask-android/build/
-taxi-mask-android/.gradle/
+taxi-mask-android/.gradle
+taxi-mask-android/local.properties
 
 .DS_Store
 taxi-mask-frontend/node_modules

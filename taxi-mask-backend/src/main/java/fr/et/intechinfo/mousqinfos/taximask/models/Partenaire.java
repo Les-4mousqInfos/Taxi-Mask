@@ -7,9 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "partenaires")
@@ -26,10 +29,11 @@ public class Partenaire {
 	@Column(name = "nom")
 	private String nom;
 	
+	@Transient
+	private MultipartFile logo;
+	@JoinColumn(nullable = true)
+	private String logoFileName;
 	
-	@Column(name = "logo")
-	private String logo;
-
 	
 	@CreationTimestamp
 	private Date createdAt;
@@ -57,14 +61,37 @@ public class Partenaire {
 	}
 
 
-	public String getLogo() {
+	public MultipartFile getLogo() {
 		return logo;
 	}
 
 
-	public void setLogo(String logo) {
+	public void setLogo(MultipartFile logo) {
 		this.logo = logo;
 	}
+
+
+	public String getLogoFileName() {
+		return logoFileName;
+	}
+
+
+	public void setLogoFileName(String logoFileName) {
+		this.logoFileName = logoFileName;
+	}
+
+
+	public long getId() {
+		return id;
+	}
+
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+
+	
 	
 	
 
