@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config ./build/webpack.dev.conf.js",
+    "dev": "webpack serve --entry ./src/main.js -c ./build/webpack.dev.conf.js",
+    "prod": "webpack serve --entry ./src/main.js -c ./build/webpack.prod.conf.js",
     "start": "webpack serve --open --config ./build/webpack.base.conf.js",
     "build": "node build/build.js"
   },
