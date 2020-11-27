@@ -4,19 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 import java.io.IOException;
 
@@ -28,50 +28,55 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class ConnexionActivity extends AppCompatActivity {
+public class CreatProActivity extends AppCompatActivity {
 
-    private static final  String TAG = "ConnexionActivity";
+    private static final  String TAG = "CreatProActivity";
 
     LinearLayout suivant;
-    Button creation;
     String URL = "http://192.168.0.18:8000";
 
-    EditText editText1, editText2;
-    String password, name, res;
+    EditText editText1, editText2, editText3, editText4;
+    String  name, email, password, checkPassword, res;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_connexion);
+        setContentView(R.layout.activity_creatpro);
 
 
         suivant = findViewById(R.id.connexion);
-        creation = findViewById(R.id.compt);
 
         suivant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
 
-                editText1 =(EditText) findViewById(R.id.password);
-                password = editText1.getText().toString();
-                String hiddenPass = "";
-                for(int i = 0; i < password.length(); i++){
-                    hiddenPass += "*";
-                }
-                editText1.setText(hiddenPass);
+                editText1 =(EditText) findViewById(R.id.name);
+                name = editText1.getText().toString();
 
-                editText2 =(EditText) findViewById(R.id.name);
-                name = editText2.getText().toString();
+                editText2 = (EditText) findViewById(R.id.email);
+                email = editText2.getText().toString();
+
+                editText3 =(EditText) findViewById(R.id.password);
+                password = editText3.getText().toString();
+
+                editText4 =(EditText) findViewById(R.id.checkPassword);
+                checkPassword = editText4.getText().toString();
 
 
-                if(name.length() > 0 & password.length() > 0) {
+                if(name.length() > 0 & password.length() > 0 & password.equals(checkPassword)) {
 
                     MediaType MEDIA_TYPE = MediaType.parse("application/json");
+
+                    JSONArray role = new JSONArray();
+                    role.put("user");
+
 
                     JSONObject user = new JSONObject();
                     try {
                         user.put("username", name);
+                        user.put("email", email);
                         user.put("password", password);
+                        user.put("role", role);
                     }catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -81,7 +86,7 @@ public class ConnexionActivity extends AppCompatActivity {
                     OkHttpClient client = new OkHttpClient.Builder()
                             .build();
                     Request request = new Request.Builder()
-                            .url(URL +"/api/auth/signin")
+                            .url(URL +"/api/auth/signup")
                             .post(requestBody)
                             .build();
                     try {
@@ -96,7 +101,6 @@ public class ConnexionActivity extends AppCompatActivity {
 
                                 res = response.body().string();
                                 int code = response.code();
-
 
                                 Log.i(TAG, res);
                                 Log.i(TAG, String.valueOf(code));
@@ -122,15 +126,20 @@ public class ConnexionActivity extends AppCompatActivity {
 
                     }
                 }
+                else if (name.length() < 1){
+                    Snackbar mySnackbar = Snackbar.make(findViewById(R.id.myCoordinatorLayout), "le nom doit comporter plusieurs caractères", Snackbar.LENGTH_LONG);
+                    mySnackbar.show();
+                }
+                else if (password.length() < 1){
+                    Snackbar mySnackbar = Snackbar.make(findViewById(R.id.myCoordinatorLayout), "le mot de passe doit comporter plusieurs caractères", Snackbar.LENGTH_LONG);
+                    mySnackbar.show();
+                }
+                else {
+                    Snackbar mySnackbar = Snackbar.make(findViewById(R.id.myCoordinatorLayout), "la vérification de mot de passe n'est bonne", Snackbar.LENGTH_LONG);
+                    mySnackbar.show();
+                }
             }
 
-        });
-        creation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent creation = new Intent(view.getContext(), CreatProActivity.class);
-                startActivity(creation);
-            }
         });
     }
 }

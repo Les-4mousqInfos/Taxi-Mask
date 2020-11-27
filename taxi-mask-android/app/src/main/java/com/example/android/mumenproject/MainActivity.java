@@ -1,7 +1,6 @@
 package com.example.android.mumenproject;
 
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.android.mumenproject.ProfileActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +10,7 @@ import android.widget.LinearLayout;
 public class MainActivity extends AppCompatActivity {
     LinearLayout btn;
     LinearLayout connexion;
-    String email;
+    String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void Commande (View view){
-        Email();
-        if(email == null){
+        Name();
+        if(name == null){
             Intent co = new Intent(view.getContext(), ConnexionActivity.class);
             startActivity(co);
         }
@@ -50,21 +49,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void Email(){
+    private void Name(){
         Intent connex = getIntent();
         if(connex != null){
-            email = connex.getStringExtra("Connect");
+            name = connex.getStringExtra("name");
         }
         else {
-            email = null;
+            name = null;
         }
     }
 
     private void Profile (View view){
-        Email();
-        if (email != null){
+        Name();
+        if (name != null){
             Intent pro = new Intent(view.getContext(), ProfileActivity.class);
-            pro.putExtra("email", email);
+            pro.putExtra("name", name);
             startActivity(pro);
         }
         else {

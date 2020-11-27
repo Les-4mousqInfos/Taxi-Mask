@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/img">
-    tools:context=".ConnexionActivity">
+    tools:context=".CreatProActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,7 +52,25 @@
                 android:layout_marginRight="40dp"
                 android:layout_height="1dp"
                 android:background="#ADCCE2" />
-
+            <EditText
+            android:textSize="16dp"
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:textColorHint="#ADCCE2"
+            android:textColor="#ADCCE2"
+            android:layout_marginLeft="22dp"
+            android:inputType="text"
+            android:background="#0000"
+            android:padding="16dp"
+            android:layout_marginRight="35dp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_height="1dp"
+                android:background="#ADCCE2" />
 
             <EditText
                 android:textSize="16dp"
@@ -60,6 +78,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Mot de passe"
+                android:textColorHint="#ADCCE2"
+                android:textColor="#ADCCE2"
+                android:layout_marginLeft="22dp"
+                android:inputType="text"
+                android:background="#0000"
+                android:padding="16dp"
+                android:layout_marginRight="35dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_height="1dp"
+                android:background="#ADCCE2" />
+
+            <EditText
+                android:textSize="16dp"
+                android:id="@+id/checkPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Vérification de mot de passe"
                 android:textColorHint="#ADCCE2"
                 android:textColor="#ADCCE2"
                 android:layout_marginLeft="22dp"
@@ -103,20 +142,6 @@
                 android:padding="16dp"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="500dp" />
-        <Button
-            android:id="@+id/compt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Se créer un compt"
-            android:background="@drawable/angle"
-            android:textSize="16dp"
-            android:textColor="#fff"
-            android:gravity="center"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:padding="16dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="600dp"/>
 
 
 

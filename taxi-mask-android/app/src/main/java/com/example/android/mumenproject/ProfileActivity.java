@@ -7,7 +7,7 @@ import android.widget.Button;
 
 public class ProfileActivity extends MainActivity {
 
-    private String name, email;
+    private String name;
     Button menu;
     Button deco;
 
@@ -20,15 +20,19 @@ public class ProfileActivity extends MainActivity {
 
         Intent connexion = getIntent();
         if(connexion != null){
-            if(connexion.hasExtra("email")){
-                email = connexion.getStringExtra("email");
+            if(connexion.hasExtra("name")){
+                name = connexion.getStringExtra("name");
             }
         }
 
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                transferDonnées(view);
+
+                Intent intent = new Intent(view.getContext(), MainActivity.class);
+                intent.putExtra("name", name);
+
+                startActivity(intent);
             }
         });
         deco.setOnClickListener(new View.OnClickListener() {
@@ -40,17 +44,5 @@ public class ProfileActivity extends MainActivity {
         });
 
     }
-
-    public void transferDonnées(View view){
-        String connecte = email;
-
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("Connect", connecte);
-
-        startActivity(intent);
-    }
-
-
-
 }
 
