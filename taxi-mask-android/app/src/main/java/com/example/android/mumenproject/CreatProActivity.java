@@ -63,7 +63,7 @@ public class CreatProActivity extends AppCompatActivity {
                 checkPassword = editText4.getText().toString();
 
 
-                if(name.length() > 0 & password.length() > 0 & password.equals(checkPassword)) {
+                if(name.length() > 5 & password.length() > 5 & password.equals(checkPassword)) {
 
                     MediaType MEDIA_TYPE = MediaType.parse("application/json");
 
@@ -126,12 +126,12 @@ public class CreatProActivity extends AppCompatActivity {
 
                     }
                 }
-                else if (name.length() < 1){
-                    Snackbar mySnackbar = Snackbar.make(findViewById(R.id.myCoordinatorLayout), "le nom doit comporter plusieurs caractères", Snackbar.LENGTH_LONG);
+                else if (name.length() < 6){
+                    Snackbar mySnackbar = Snackbar.make(findViewById(R.id.myCoordinatorLayout), "le nom doit comporter plus de 6 caractères", Snackbar.LENGTH_LONG);
                     mySnackbar.show();
                 }
-                else if (password.length() < 1){
-                    Snackbar mySnackbar = Snackbar.make(findViewById(R.id.myCoordinatorLayout), "le mot de passe doit comporter plusieurs caractères", Snackbar.LENGTH_LONG);
+                else if (password.length() < 6){
+                    Snackbar mySnackbar = Snackbar.make(findViewById(R.id.myCoordinatorLayout), "le mot de passe doit comporter plus de 6 caractères", Snackbar.LENGTH_LONG);
                     mySnackbar.show();
                 }
                 else {

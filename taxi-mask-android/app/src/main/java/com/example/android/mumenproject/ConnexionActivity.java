@@ -122,6 +122,10 @@ public class ConnexionActivity extends AppCompatActivity {
 
                     }
                 }
+                else {
+                    Snackbar mySnackbar = Snackbar.make(findViewById(R.id.myCoordinatorLayout), "il n'y a rien écrit dans nom ou mot de passe", Snackbar.LENGTH_LONG);
+                    mySnackbar.show();
+                }
             }
 
         });
