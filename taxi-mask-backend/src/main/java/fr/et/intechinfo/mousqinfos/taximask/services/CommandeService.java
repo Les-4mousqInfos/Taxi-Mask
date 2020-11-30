@@ -92,6 +92,7 @@ public class CommandeService {
             v.setImmatriculation(commande.getImmatriculation());
             v.setMarque(commande.getMarque());
             v.setModele(commande.getModele());
+            v.setDatePreimma(commande.getDateImmatriculation());
             voitureService.save(v);
         }
         //enregistrement commande

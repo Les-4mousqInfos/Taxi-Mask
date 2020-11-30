@@ -26,6 +26,10 @@ public class Avis {
 	@Column(name = "text")
 	private String text;
 	
+	
+	@Column(columnDefinition = "boolean default false")
+	private Boolean etat;
+	
 	@CreationTimestamp
 	private Date createdAt;
 
@@ -50,6 +54,22 @@ public class Avis {
 
 	public void setUtilisateur(Utilisateur utilisateur) {
 		this.utilisateur = utilisateur;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public Boolean getEtat() {
+		return etat;
+	}
+
+	public void setEtat(Boolean etat) {
+		this.etat = etat;
 	}
 	
 	

@@ -19,7 +19,7 @@
                 <v-list-item >
                   <v-list-item-avatar>
                   <!--  <v-img :src="require('../assets/img/cars/car.jpg')"></v-img> -->
-                    <v-img :src="'http://localhost:8000/'+item.photoVoitureFileName"></v-img>
+                    <v-img :src="'http://localhost:8080/'+item.photoVoitureFileName"></v-img>
                   </v-list-item-avatar>
 
                   <v-list-item-content>
@@ -90,7 +90,7 @@
           
         }, 
         mounted(){
-          if (this.loggedIn) {
+          if (!this.loggedIn) {
             this.$router.push('/login');
             return
           }

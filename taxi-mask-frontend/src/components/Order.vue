@@ -28,8 +28,8 @@
             <p class="title">Marque</p>
             <v-select   v-model="formu.voiture.marque"
                 :items="marques" 
-                item-text="label"
-                item-value="label"
+                item-text="nom"
+                item-value="nom"
                 :rules="[v=>!!v || 'Veuillez choisir un modèle']"
                 label="Choisissez la marque"
                 solo
@@ -135,6 +135,7 @@
 </template>
 <script> 
 import {CARD_LIST,CARD_CONTENT} from '../services/config-server';
+import {getMarques} from '../services/marque';
     export default {
       components:{ 
       },
@@ -200,16 +201,7 @@ import {CARD_LIST,CARD_CONTENT} from '../services/config-server';
                 },
                  
             ],
-            marques:[
-              {
-                id:1,
-                label:'Toyota',
-              },
-              {
-                id:2,
-                label:'Honda',
-              }
-            ], 
+            marques:[], 
             menu: false,
             date: null,
             picker: new Date().toISOString().substr(0, 10),
@@ -221,8 +213,17 @@ import {CARD_LIST,CARD_CONTENT} from '../services/config-server';
           val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
         },
       }, 
+      async created(){
+        const result = await getMarques();
+        if(result.status ===200){
+          this.marques = [... result.data]
+        }else{
+          this.$toasted.error(result.message).goAway(2000)
+        }
+        
+      },
       methods: { 
-        async submit () { 
+        async submit () {   
           this.loading = true
           this.formu.voiture.datePreimma = this.date
           if(!this.$refs.form.validate()){
@@ -241,8 +242,8 @@ import {CARD_LIST,CARD_CONTENT} from '../services/config-server';
           form.append('carteGrise', this.formu.file)
           form.append('photoVoiture', this.formu.file2)
           form.append('toit', this.formu.toit)
-         // form.append('datePassage', this.formu.datePassage)
-         // form.append('timePassage', this.formu.timePassage)
+          form.append('dateImmatriculation', new Date(this.date))
+          form.append('datePassage', new Date(this.formu.datePassage+' '+this.formu.timePassage))
           form.append('modele', voiture.modele)
           form.append('marque',voiture.marque)
           form.append('immatriculation',voiture.immatriculation)
@@ -284,7 +285,7 @@ import {CARD_LIST,CARD_CONTENT} from '../services/config-server';
           }).catch(err=>{
             console.log(err+'eeeeeeeee')
           // this.message = err.data.message 
-            this.$toasted.error(err.message).goAway(1200)
+            this.$toasted.error(err.message).goAway(2000)
             setTimeout(() => {
               this.loading =false
             }, 1000); 

@@ -4,7 +4,7 @@ import java.util.Date;
 
 import javax.persistence.*;
 
-import jdk.jfr.Timestamp;
+
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,9 +40,11 @@ public class Commande {
 	@ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
 	private Utilisateur utilisateur;
-	@Timestamp
+	@Temporal(TemporalType.TIMESTAMP)
 	@JoinColumn(nullable = true)
 	private Date datePassage;
+	@Transient
+	private Date dateImmatriculation;
 	@Transient
 	private MultipartFile carteGrise;
 	@JoinColumn(nullable = true)
@@ -224,5 +226,13 @@ public class Commande {
 
 	public void setMarque(String marque) {
 		this.marque = marque;
+	}
+
+	public Date getDateImmatriculation() {
+		return dateImmatriculation;
+	}
+
+	public void setDateImmatriculation(Date dateImmatriculation) {
+		this.dateImmatriculation = dateImmatriculation;
 	}
 }
