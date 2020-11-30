@@ -34,7 +34,7 @@ public class ConnexionActivity extends AppCompatActivity {
 
     LinearLayout suivant;
     Button creation;
-    String URL = "http://192.168.0.18:8000";
+    String URL = "http://192.168.43.194:8080";
 
     EditText editText1, editText2;
     String password, name, res;
