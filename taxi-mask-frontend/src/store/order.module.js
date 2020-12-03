@@ -10,10 +10,10 @@ export const order = {
     namespaced: true,
     state: {...initialState},
     actions: {
-        async save({commit},order) { 
+        async save(order) { 
             return await saveOrder(order)
         },
-        async saveFile({commit},file) { 
+        async saveFile(file) { 
             return await saveFile(file)
         },
         async list() {
