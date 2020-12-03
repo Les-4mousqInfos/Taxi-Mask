@@ -100,8 +100,8 @@
 
             <v-list-item  
               href="#"
-            >
-              <v-list-item-titlef><img :src="require('../assets/img/fr.png')"/></v-list-item-titlef>
+            > 
+              <v-list-item-title><img :src="require('../assets/img/fr.png')"/></v-list-item-title>
             </v-list-item>
             <v-list-item  
               href="#"
