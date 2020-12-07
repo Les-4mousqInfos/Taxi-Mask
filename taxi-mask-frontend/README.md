@@ -1,4 +1,4 @@
-# basicapp
+# taxi-mask
 
 ## Project setup
 ```

@@ -16,7 +16,7 @@ import VueAxios from 'vue-axios'
 //import { LoaderPlugin } from 'vue-google-login'; 
 import store from './store';
 import 'bootstrap';
-//import VeeValidate from 'vee-validate';
+import * as VeeValidate from 'vee-validate';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import {
@@ -41,7 +41,7 @@ axios.defaults.withCredentials = true
 Vue.use(VueAxios, axios)
 //Vue.use(LoaderPlugin, { client_id: 'CLIENT_ID' });
 Vue.config.productionTip = false 
-//Vue.use(VeeValidate);
+Vue.use(VeeValidate);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.use(Toasted)
 Vue.filter('formatDate', function(value) {
