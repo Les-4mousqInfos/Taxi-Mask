@@ -103,7 +103,7 @@ import GoogleLogin from 'vue-google-login';
             console.log(googleUser.getBasicProfile());
           },
           onFailure(error){
-
+            console.log(error);
           }
         }
     }
