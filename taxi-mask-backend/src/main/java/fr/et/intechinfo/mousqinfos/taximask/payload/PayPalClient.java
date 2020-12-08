@@ -14,11 +14,10 @@ import java.util.Map;
 @Service
 public class PayPalClient {
 
-    String clientId = "AR9nRf5xMQzvLms2At7uo_PxekuGuQAEkf72tJDxBOfCaxHx7bSMWrl5lI2m0YoV0N0Vqw7VBpy2FLrp";
-    String clientSecret = "EICv2WSMfhX1-mS55G0j3jpHjvtw9fjv4Vo6vQARmZvX9BwcXTDJFYyyTHv434xjKBINkKFzXc5NWhtA";
+    String clientId = "";
+    String clientSecret = "";
 
     public Map<String, Object> createPayment(String sum){
-
 
         Map<String, Object> response = new HashMap<>();
         Amount amount = new Amount();
@@ -28,6 +27,7 @@ public class PayPalClient {
         transaction.setAmount(amount);
         List<Transaction> transactions = new ArrayList<>();
         transactions.add(transaction);
+        String frontendUrl = "http://localhost:8081/";
 
         Payer payer = new Payer();
         payer.setPaymentMethod("paypal");
@@ -38,8 +38,8 @@ public class PayPalClient {
         payment.setTransactions(transactions);
 
         RedirectUrls redirectUrls = new RedirectUrls();
-        redirectUrls.setCancelUrl("http://localhost:4200/cancel");
-        redirectUrls.setReturnUrl("http://localhost:4200/");
+        redirectUrls.setCancelUrl(frontendUrl+"cancel");
+        redirectUrls.setReturnUrl(frontendUrl);
         payment.setRedirectUrls(redirectUrls);
         Payment createdPayment;
         try {
