@@ -1,14 +1,16 @@
 <template>
     <div class="text-center">  
-        <button class="btn btn-gold bold outline" @click="createpayment">Pay with paypal
+        <button class="btn btn-gold bold outline" @click="createpayment" style="background-color: #FFC20E;">Pay with PayPal
         </button>
     </div>
 </template>
 <script>
 
     import axios from 'axios'
-    const FRONTEND_URL = "http://localhost:8080";
+    import {SERVER_URL} from '../services/config-server';
     const sum = 10;
+    //const BearerToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzb21lVXNlciIsImlhdCI6MTYwNzc4Mjc2MiwiZXhwIjoxNjA3ODY5MTYyfQ.d6SiK95TzZfua1x43lgdk1ZFxo5IihkYeeFJKO38Yk4jr52X8ND7L_4PoTD_8kbxKIucXObjDCbrzCSy4HStLQ"
+    const BearerToken = "asf";
 
     export default {
         data() {
@@ -18,9 +20,11 @@
         },
          methods: {
            createpayment(){
-                axios.post(FRONTEND_URL+"/paypal/make/payment?sum="+sum, {
+               console.log(SERVER_URL);
+               console.log(BearerToken);
+                axios.post(SERVER_URL+"/paypal/make/payment?sum="+sum, {
                     headers: {
-                        'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzb21lVXNlciIsImlhdCI6MTYwNzc4Mjc2MiwiZXhwIjoxNjA3ODY5MTYyfQ.d6SiK95TzZfua1x43lgdk1ZFxo5IihkYeeFJKO38Yk4jr52X8ND7L_4PoTD_8kbxKIucXObjDCbrzCSy4HStLQ',
+                        'Authorization': 'Bearer '+BearerToken,
                         "Content-Type": "application/json",
                     }
                 })
