@@ -96,7 +96,7 @@
               </tr>
               <tr>
                 <td>Tax</td>
-                <td class="text-right" style="width: 50px;">$5.00</td>
+                <td class="text-right" style="width: 50px;">$20.00</td>
               </tr>
               <tr>
                 <td>Total</td>
@@ -108,6 +108,8 @@
           <div class="text-center">
             <v-btn class="primary white--text mt-5" outlined>PROCEED TO PAY</v-btn>
           </div>
+          <br/>
+          <paypal-send/>
         </v-col>
       </v-row>
     </v-container>
@@ -153,7 +155,11 @@
   </div>
 </template>
 <script>
+import PaypalSend from './PaypalSend.vue'
     export default {
+        components:{
+          PaypalSend
+        },
         data: () => ({
             rating: 4.5,
             breadcrums: [

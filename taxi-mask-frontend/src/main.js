@@ -13,6 +13,7 @@ import App from './App'
 import router from './router'  
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import LoadScript from 'vue-plugin-load-script';
 //import { LoaderPlugin } from 'vue-google-login'; 
 import store from './store';
 import 'bootstrap';
@@ -42,6 +43,7 @@ axios.defaults.withCredentials = true
 Vue.use(VueAxios, axios)
 //Vue.use(LoaderPlugin, { client_id: 'CLIENT_ID' });
 Vue.config.productionTip = false 
+Vue.use(LoadScript);
 Vue.use(VeeValidate);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.use(Toasted)
