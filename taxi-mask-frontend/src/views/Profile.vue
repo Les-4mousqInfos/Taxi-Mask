@@ -35,14 +35,20 @@ export default {
       return this.$store.state.auth.user;
     }
   },
-  mounted() {
+   created(){
+    
+  },
+  async mounted() {
     if (!this.currentUser) {
       this.$router.push('/login');
     }
+    await this.$store.dispatch('order/updateCommande')
+    await this.$store.dispatch('order/cards')
   },
    methods: {
     logOut() {
       this.$store.dispatch('auth/logout');
+      this.$store.commit('order/updateCard',0)
       this.$router.push('/login');
     }
   }

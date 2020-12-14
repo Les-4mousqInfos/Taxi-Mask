@@ -1,12 +1,17 @@
 <template>
   <div>
-    <form action='http://localhost:8000/payment/charge-card' method='POST' id='checkout-form' >
+    <form :action='urlAction' method='POST' id='checkout-form'>
     <input type='hidden' :value='putAmount' name='amount' /> 
+    <input type='hidden' :value='getCommandeId' name='metadataId' /> 
+    <input type='hidden' :value='sessionToken' name='customer_session' /> 
+    <input type='hidden' :value='succesURL' name='success_url' /> 
+    <input type='hidden' :value='cancelURL' name='cancel_url' /> 
     <script type="application/javascript"
             src='https://checkout.stripe.com/checkout.js'
             class='stripe-button'
             :data-key='publicKey'
-            :data-amount='amount'
+            :data-amount='amount'  
+            success_url='/'
             data-currency='eur'
             :data-label='btnLabel'
             data-name='Taxi Mask - Commande'
@@ -16,7 +21,7 @@
             data-zip-code='false'>
             
     </script>
-</form>
+    </form>
   </div>
 </template>
 <style  >
@@ -30,31 +35,55 @@
  }
 </style>
 <script>  
+import {SERVER_URL, PAYMENT} from '../services/config-server';
+
 export default {
   props:{
-    amount: String
+    amount: Number,
+    commandeId: String
   },
    data() {
         return { 
           publicKey:'',
-          btnLabel:'Payer avec une carte'
+          btnLabel:'Payer avec une carte', 
+          urlAction:'',
+          sessionToken:''
         }
     },
     computed: {
       putAmount(){ 
         return parseFloat(this.amount)/100
       },
+      getCommandeId(){
+        return this.commandeId
+      },
+      actionUrl(){
+        console.log("ccc="+this.commandeId)
+       return `${SERVER_URL}/${PAYMENT}/charge-card?commandeIdd=${this.commandeId}`
+      },
+      succesURL(){
+        return location.protocol.concat("//").concat(window.location.host).concat('/check-pay-success')
+      },
+      cancelURL(){
+        return location.protocol.concat("//").concat(window.location.host).concat('/check-pay-cancel')
+      },
+
        
     },
     created(){
-      this.$store.dispatch('payment/getStripePublicKey').then( async res =>{ 
+      this.urlAction = `${SERVER_URL}/${PAYMENT}/charge-card?commandeId=${this.commandeId}`
+      console.log(this.urlAction)
+      const user = this.$store.state.auth.user
+      this.sessionToken = user&& user.accessToken
+      console.log(this.sessionToken)
+       this.$store.dispatch('payment/getStripePublicKey').then( async res =>{ 
         this.publicKey =  res.data
       }).catch(err=>{
         alert(err)
       })
+      console.log('jjjj'+this.commandeId)
     },
-    methods: {
-        
+    methods: {  
     },
     
 }

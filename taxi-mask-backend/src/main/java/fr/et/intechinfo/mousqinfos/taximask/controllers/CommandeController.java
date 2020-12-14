@@ -30,17 +30,12 @@ public class CommandeController {
 
     @PostMapping
     public ResponseEntity <?> createCommande(@ModelAttribute Commande commande) throws IOException {
-        try {
-            logger.info(commande.toString());
-            logger.info(commande.getCarteGrise().toString());
+       // try {
+           //logger.info(commande.toString());
+          //  logger.info(commande.getCarteGrise().toString());
           Commande c = commandeService.traitementCommande(commande);
-          return ResponseEntity.ok().body(c);
-       }catch (Exception ex){
-          logger.error(ex.getMessage());
-          return  ResponseEntity
-                  .badRequest()
-                  .body(new MessageResponse(ex.getMessage()));
-      }
+          return ResponseEntity.ok().body(c.getId());
+
     }
 
     /**
@@ -50,7 +45,7 @@ public class CommandeController {
     @GetMapping
     public ResponseEntity <?> getCommandesByUser(){
         try {
-            List commandes = commandeService.getCommandesByUser();
+            List commandes = commandeService.getCommandesByUserNoPaye();
             return ResponseEntity.ok().body(commandes);
         }catch (Exception ex){
             logger.error(ex.getMessage());
@@ -61,19 +56,27 @@ public class CommandeController {
 
     }
 
-    @GetMapping("/checkoutsession")
-    public ResponseEntity <?> getCommandeEnAttente() throws StripeException {
-       // try {
-            Map result = commandeService.getCommandeEnAttente();
-            return ResponseEntity.ok().body(null);
-       /* }catch (Exception ex){checkout
-            logger.error(ex.getMessage());
-            return  ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse(ex.getMessage()));
-        }*/
+    @GetMapping("/update-commande/{cards}")
+    public ResponseEntity <?> updateCommandeWithUserId(@PathVariable String cards){
+     //   try {
+            List commandes = commandeService.updateCommandeWithUserId(cards);
+            return ResponseEntity.ok().body(commandes);
+     //   }catch (Exception ex){
+     //       logger.error(ex.getMessage());
+     //       return  ResponseEntity
+     //               .badRequest()
+      //              .body(new MessageResponse(ex.getMessage()));
+     //   }
 
     }
+
+    @GetMapping("/del/{id}")
+    public ResponseEntity<?> deleteCommande(@PathVariable Long id){
+       Commande commande = commandeService.deleteCommande(id);
+       return ResponseEntity.ok().body(commande);
+    }
+
+
 
     @GetMapping("/all")
     public String getCommandesAllByUser(@RequestBody String userId){

@@ -15,22 +15,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SpringBootApplication
 @EnableJpaAuditing //  Enabling JPA Auditing
 public class App {
-	@Value("${cors.allowed_origins}")
-	String corsAllowedOrigins;
-	private static Logger logger = LoggerFactory.getLogger(App.class);
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);
 	}
 
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				logger.info(corsAllowedOrigins);
-				registry.addMapping("/**").allowedOrigins(corsAllowedOrigins).allowCredentials(true);
-			}
-		};
-	}
+
 
 }

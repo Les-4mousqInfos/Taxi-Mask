@@ -22,7 +22,7 @@
         class="hidden-sm-and-down pl-10 ml-4"
       /> --> 
       <v-spacer />
-      <v-btn v-if="!$store.state.auth.status.loggedIn" icon href="/register">
+      <v-btn v-if="!$store.state.auth.status.loggedIn" icon href="/login">
         <v-icon>mdi-account-circle</v-icon>
       </v-btn>
 
@@ -32,40 +32,72 @@
              <v-icon>mdi-account-circle</v-icon>
             </v-btn>
           </template>
-          <v-card
-            class="mx-auto"
-            max-width="344"
-            outlined
-          >
 
-            <v-list-item>
-              <v-list-item-title> {{$store.state.auth.user.username}}</v-list-item-title>
-            </v-list-item>
-            <v-divider inset></v-divider>
-            <v-list-item>
-              <v-list-item-title>
-                <v-btn style="width:100%" href="/profile" @click="activeBtnOn(0)"  class="v-btn" >
-                  <span>Profil</span>
-                </v-btn> 
-              </v-list-item-title>
-            </v-list-item> 
-            <v-list-item style="margin-bottom: 5%;">
-               <v-list-item-title>
-                <v-btn href="/mes-commandes" @click="activeBtnOn(0)"  class="v-btn" >
-                  <span>Mes commandes</span>
-                </v-btn> 
-              </v-list-item-title> 
-            </v-list-item>
+            
+            <v-card
+              elevation="12"
+              width="256"
+            >
+              <v-list
+                dense
+                rounded
+              >
+                <v-list-item 
+                  link
+                >
+                  <v-list-item-icon>
+                    <v-icon> {{$store.state.auth.user.username}}  </v-icon>
+                  </v-list-item-icon>
 
-          </v-card>
+                  <v-list-item-content>
+                    <v-list-item-title> {{$store.state.auth.user.email}}</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-divider inset style="margin-bottom:0px;margin-top:0px"></v-divider>
+                <v-list-item 
+                  link
+                >
+                  <v-list-item-icon> 
+                    <a href="/mes-commandes" @click="activeBtnOn(0)"  class="v-btn" >
+                      <span>Mes commandes</span>
+                    </a> 
+                  </v-list-item-icon>
+
+                  
+                </v-list-item>
+                 <v-divider inset style="margin-bottom:0px;margin-top:0px"></v-divider>
+                <v-list-item 
+                  link
+                >
+                  <v-list-item-icon>
+                    <a href="/profile" @click="activeBtnOn(1)" style="text-transform:none; text-decoration:none" >
+                      <span>Profil</span>
+                    </a> 
+                  </v-list-item-icon> 
+                </v-list-item>
+                <v-divider inset style="margin-bottom:0px;margin-top:0px"></v-divider>
+                <div style="text-align:center">  <v-list-item style="margin-top:20px;margin-bottom:20px"
+                  link
+                >
+                
+                    <v-list-item-icon >
+                    <a href="/profile" @click="activeBtnOn(1)"   class="v-btn" >
+                      <span >Se deconnecter</span>
+                    </a> 
+                  </v-list-item-icon> 
+                 
+                  
+                </v-list-item> </div>
+              </v-list> 
+            </v-card>  
         </v-menu> 
-      <v-btn  href="/cart" v-if="!$store.state.auth.status.loggedIn" icon>
+      <v-btn  href="/mes-commandes" icon>
         <v-badge
-          :content="cardContent"
-          :value="cardContent"
+          :content="$store.state.order.cardContent"
+          :value="$store.state.order.cardContent"
           color="green"
           overlap
-        >
+        > 
           <v-icon>mdi-cart</v-icon>
         </v-badge>
       </v-btn>
@@ -101,7 +133,7 @@
             <v-list-item  
               href="#"
             >
-              <v-list-item-titlef><img :src="require('../assets/img/fr.png')"/></v-list-item-titlef>
+              <v-list-item-title><img :src="require('../assets/img/fr.png')"/></v-list-item-title>
             </v-list-item>
             <v-list-item  
               href="#"
@@ -175,25 +207,19 @@ import {CARD_CONTENT} from '../services/config-server';
     export default {
         data () {
             return { 
-                activeBtn: 0,
-                cardContent:0
+                activeBtn: 0, 
             }
         }, 
-        created(){
-          this.cardContent =this.$store.state.order.cardContent 
+        async created(){ 
           this.activeBtnOn(this.$route.path)
         },
-        updated(){
-           this.cardContent = localStorage.getItem(CARD_CONTENT)
-           console.log('update'+this.cardContent)
-           console.log('update'+this.$store.state.order.cardContent) 
+        updated(){ 
            this.activeBtnOn(this.$route.path)
-          
         },
         computed:{
           selectedBtn(){
             return ''
-          }
+          } 
         },
         methods:{
           on(){

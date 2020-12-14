@@ -11,7 +11,8 @@ import Register from '@/views/Register'
 import BoardAdmin from '@/views/BoardAdmin'
 import BoardUser from '@/views/BoardUser'
 import File from '@/components/File'
-import StripePay from '@/components/StripePay';
+import StripeCheckoutSuccess from '@/components/StripeCheckoutSuccess';
+import StripeCheckoutCancel from '@/components/StripeCheckoutCancel';
 
 Vue.use(Router)
 
@@ -42,9 +43,14 @@ export default new Router({
           name:'File'
         },
         {
-          path:'/check-pay',
-          component:StripePay,
-          name:'StripePay'
+          path:'/check-pay-success',
+          component:StripeCheckoutSuccess,
+          name:'StripeCheckoutSuccess'
+        },
+        {
+          path:'/check-pay-cancel',
+          component:StripeCheckoutCancel,
+          name:'StripeCheckoutCancel'
         },
         {
           path:'/cart',

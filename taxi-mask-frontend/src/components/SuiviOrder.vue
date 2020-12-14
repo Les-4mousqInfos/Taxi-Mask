@@ -19,9 +19,7 @@
             text
           >
            <div class="text-center">
-            <StripePay v-if="commandeIds" :amount="amountStripe" :commandeId="commandeIds"></StripePay>
-<!--              <v-btn class="primary white--text mt-5" @click="payerStripe">Payer €170.00</v-btn>  -->
-          </div>
+           </div>
           </v-btn>
         </template>
       </v-banner>
@@ -131,8 +129,6 @@
               <div class="col-md-6 col-sm-4 col-xs-12" > 
                 <v-chip class="ma-2" label ><b>TOIT {{item.toit|upperCase}}</b></v-chip><br>
                 <v-chip class="ma-2" label color="pink" text-color="white"><b>Date de passage: {{item.datePassage|formatDate}}</b></v-chip>
-                
-                
               
               </div> 
             </div>
@@ -161,11 +157,7 @@
             </template>
           </v-simple-table>
           <br>
-          <v-btn color="red" text @click="exporter">Exporter</v-btn>
-          <div class="text-center">
-            <StripePay :amount="amountStripe" v-if="commandeIds" :commandeId="commandeIds"></StripePay>
-<!--              <v-btn class="primary white--text mt-5" @click="payerStripe">Payer €170.00</v-btn>  -->
-          </div> 
+          
         </v-col>
       </v-row>
     </v-container>
@@ -184,12 +176,9 @@
   </div>
 </template>   
 <script>  
-  
-    import StripePay from './StripePay';  
-    import {addScript} from '../services/utils';
+     
     export default {
-        components:{  
-          StripePay
+        components:{   
         },
         data: () => ({
             rating: 4.5,
@@ -283,44 +272,7 @@
           editPicture(item){
 
           },
-          exporter(){
-            addScript()
-            const logoPath = require('../assets/img/logo.png')
-            const el = `<div style="margin-left: auto;margin-right: auto;margin-top:30px">
-                        <div class="row">
-                          <div class="col-1"></div>
-                          <div class="col-10 text-center" style="border:1px solid">
-                            <p><img src="${logoPath}"></p>
-                            <h2 class="center"> Facture n°</h2>
-                            <br/> 
-                            <table class="table table-striped">
-                              <thead>
-                                <tr>
-                                  <th scope="col">N° immatriculation</th>
-                                  <th scope="col">Date</th>
-                                  <th scope="col">Protection</th>
-                                  <th scope="col">Prix</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr> 
-                                  <td>123-ER-33</td>
-                                  <td>11/12/2020</td>
-                                  <td>Ouvrant</td>
-                                  <td>€230</td>
-                                </tr>
-                                <tr> 
-                                  <td colspan="3">Total</td>
-                                  <td>€230</td>
-                                </tr>
-                              </tbody>
-                            </table>  
-                          </div>
-                        </div>
-                       
-                        </div>`
-            html2pdf(el)
-          }
+        
         },
     }
 </script>

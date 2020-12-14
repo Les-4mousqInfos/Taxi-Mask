@@ -31,13 +31,13 @@ public class Commande {
 	private Date createdAt;
 	@CreationTimestamp
 	private Date updatedAt;
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne( fetch = FetchType.EAGER)
 	@JoinColumn(name = "voiture_id")
 	private Voiture voiture;
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "facture_id", referencedColumnName = "id", nullable = true)
 	private Facture facture;
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "user_id")
 	private Utilisateur utilisateur;
 	@Temporal(TemporalType.TIMESTAMP)
@@ -60,7 +60,7 @@ public class Commande {
 	private String modele;
 	@Transient
 	private String marque;
-	private Boolean complete;
+	private Boolean complete=Boolean.FALSE;
 	@Temporal(TemporalType.TIMESTAMP)
 	@JoinColumn(nullable = true)
 	private Date dateComplete;

@@ -21,10 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CommandeService {
@@ -50,7 +47,8 @@ public class CommandeService {
      * @return
      */
     public Commande traitementCommande(Commande commande) throws IOException {
-        Utilisateur user = (Utilisateur) userDetailsService.getCurrentUser();
+        Utilisateur user =  userDetailsService.getCurrentUser();
+        System.out.println("uuu==="+user);
         commande.setUtilisateur(user);
         String filename = storageFile(commande.getCarteGrise());
         commande.setCarteGriseFileName(filename);
@@ -72,14 +70,12 @@ public class CommandeService {
             System.out.println("create");
             // Créer le dossier avec tous ses parents
             new File(FILE_DIRECTORY).mkdirs();
-
         }
-        StringBuilder fileNames = new StringBuilder();
-        Path fileNameAndPath = Paths.get(FILE_DIRECTORY, file.getOriginalFilename());
-        fileNames.append(file.getOriginalFilename()+" ");
-
+        String codeUID= UUID.randomUUID().toString();
+        String filename= codeUID+"."+ com.google.common.io.Files.getFileExtension(file.getOriginalFilename());
+        Path fileNameAndPath = Paths.get(FILE_DIRECTORY, filename);
         Files.write(fileNameAndPath, file.getBytes());
-        return FILE_DIRECTORY+"\\"+file.getOriginalFilename();
+        return filename;
     }
 
     /**
@@ -110,68 +106,58 @@ public class CommandeService {
      * Liste des commandes par utilisateur
      * @return
      */
-    public List<Commande> getCommandesByUser() throws Exception{
-        Utilisateur user = (Utilisateur) userDetailsService.getCurrentUser();
+    public List<Commande> getCommandesByUserNoPaye() throws Exception{
+        Utilisateur user =  userDetailsService.getCurrentUser();
         if(user!=null){
-          return   commandeRepository.findByUtilisateur(user.getId());
+          List commandes=   commandeRepository.findByUtilisateurAndComplete(user,Boolean.FALSE);
+            return commandes;
         }
-        //return  null; 
-        return  commandeRepository.findAll();
+        return  null;
     }
 
-    public Map <String, Object> getCommandeEnAttente() throws StripeException {
-        Utilisateur user = new Utilisateur(); //(Utilisateur) userDetailsService.getCurrentUser();
-        user.setId(1L);
-        Map result= new HashMap();
+
+    /**
+     * Suppression d'une commande
+     * @param idCommande
+     * @return
+     */
+    public Commande deleteCommande(Long idCommande){
+        Utilisateur user =  userDetailsService.getCurrentUser();
         if(user!=null){
-          List commandes=commandeRepository.findAll();// commandeRepository.findByUtilisateurAndComplete(user,false);
-          result.put("commandes", commandes);
-          List price = commandeRepository.getCommandesPrice( false);
-          Double prixTotal = price!=null? Double.parseDouble(price.get(0).toString()):0D;
-          result.put("price", price.get(0));
-          result.put("sessionCheckout", stripeCheckoutSessionConfigure(10000D, commandes.size()));
-          logger.info(price.get(0).toString());
-          return  result;
+            Commande commande =  commandeRepository.findById(idCommande).get();
+            if(commande!=null && commande.getUtilisateur().getId()==user.getId()){
+                commandeRepository.delete(commande);
+                return commande;
+            }
         }
         return null;
     }
 
     /**
-     * Creation du session checkout de stripe
-     * @param price
-     * @param quantity
+     * Mise à jour de la commande by user
+     * @param commandeId
      * @return
-     * @throws StripeException
+     * @throws Exception
      */
-    public Session stripeCheckoutSessionConfigure(Double price, Integer quantity) throws StripeException {
-        Stripe.apiKey = "sk_test_VTjPMwrlHiQYu5AS6ChnzMwv000INB4NLC";
-
-        List<Object> paymentMethodTypes =
-                new ArrayList<>();
-        paymentMethodTypes.add("card");
-        List<Object> lineItems = new ArrayList<>();
-        Map<String, Object> lineItem1 = new HashMap<>();
-        lineItem1.put("price", price);
-        lineItem1.put("currency", "euro");
-        lineItem1.put("quantity", quantity);
-        lineItems.add(lineItem1);
-        Map<String, Object> params = new HashMap<>();
-        params.put(
-                "success_url",
-                "https://example.com/success"
-        );
-        params.put(
-                "cancel_url",
-                "https://example.com/cancel"
-        );
-        params.put(
-                "payment_method_types",
-                paymentMethodTypes
-        );
-        params.put("line_items", lineItems);
-        params.put("mode", "payment");
-
-        return Session.create(params);
+    public List<Commande> updateCommandeWithUserId(String commandeId) {
+        Utilisateur user =  userDetailsService.getCurrentUser();
+        List commandes = new ArrayList();
+        if(user!=null){
+            String [] temp = commandeId.split(" ");
+            for(String courant: temp){
+                if(!courant.trim().isEmpty()){
+                    Long id = Long.parseLong(courant.trim());
+                    logger.info(id.toString());
+                    Commande c = commandeRepository.getOne(id);
+                    if(c instanceof Commande && c.getUtilisateur()==null){
+                        c.setUtilisateur(user);
+                        commandeRepository.save(c);
+                        commandes.add(c);
+                    }
+                }
+            }
+            return commandes;
+        }
+        return  null;
     }
-
 }

@@ -75,14 +75,14 @@
             </v-menu>
             <br>
             <p class="title">Toit</p>
-            <v-radio-group  required v-model="formu.toit"  row>
+            <v-radio-group :rules="[v => !!v || 'Choisissez le type de toit']"  required v-model="formu.toit"  row>
               <span v-for="(item,id) in toits" :key="id">
                 <v-radio :label="item.label" :value="item.id"></v-radio> 
               </span>
             </v-radio-group> 
             <br>
             <p class="title">Etiquette</p>
-            <v-radio-group  required v-model="formu.etiquette" row>
+            <v-radio-group :rules="[v => !!v || 'Choisissez une étiquette']"  required v-model="formu.etiquette" row>
               <span v-for="(item,id) in etiquettes" :key="id">
                 <v-radio :label="item.label" :value="item"></v-radio>
               </span> 
@@ -117,7 +117,6 @@
                     ampm-in-title
                   ></v-time-picker>
                 </div>
-              
               </v-row>
             </div>
 
@@ -213,7 +212,7 @@ import {getMarques} from '../services/marque';
           val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
         },
       }, 
-      async created(){
+      async created(){ 
         const result = await getMarques();
         if(result.status ===200){
           this.marques = [... result.data]
@@ -252,40 +251,36 @@ import {getMarques} from '../services/marque';
             
              console.log(res)
             if(res.status===200){ 
-              let ids = res.data.id
-              console.log(this.$store.state.order)
-              const cards = this.$store.state.order.cards
-              let cardContent =0
-              if(cards!==null && cards!=='undefined'){
-                ids = ids+','+cards
-                cardContent = ids.split(',')
-                cardContent = cardContent.length 
-                await this.$store.commit('order/updateCard', cardContent)
-                //console.log(this.$store.state.order.cards)
-              }
-              console.log(ids)
-              await localStorage.setItem(CARD_LIST,ids);
-              await localStorage.setItem(CARD_CONTENT,cardContent);
               this.$toasted.success('Commande enregistrée avec succès!').goAway(1200)
               setTimeout(() => {
                  this.loading=false
               }, 1000);
-              setTimeout(() => {
-                if(this.$store.state.auth.status.loggedIn){
-                  this.$router.push('/mesCommandes')
+              if(!this.$store.state.auth.status.loggedIn){
+                let ids = res.data
+                console.log(res)
+                let cards = localStorage.getItem(CARD_LIST)
+                if(cards!==null && cards!=='undefined'){
+                  ids = ids+' '+cards
+                  await localStorage.setItem(CARD_LIST,ids);
                 }else{
-                  this.$router.push('/register')
+                  await localStorage.setItem(CARD_LIST,ids);
                 }
-              }, 1500);
-              
+                setTimeout(() => {
+                    this.$router.push('/login') 
+                }, 1500);
+              }else{
+                setTimeout(() => { 
+                    this.$router.push('/mes-commandes')
+                }, 1500);
+              } 
             }else{
-              this.$toasted.error(res.data.message).goAway(1200)
+              this.$toasted.error(res.data.message).goAway(3000)
             }
             
           }).catch(err=>{
             console.log(err+'eeeeeeeee')
           // this.message = err.data.message 
-            this.$toasted.error(err.message).goAway(2000)
+            this.$toasted.error(err.message).goAway(5000)
             setTimeout(() => {
               this.loading =false
             }, 1000); 
@@ -300,4 +295,4 @@ import {getMarques} from '../services/marque';
 
       },
     }
-</script>
+</script> 

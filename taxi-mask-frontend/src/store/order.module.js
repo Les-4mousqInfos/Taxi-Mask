@@ -1,17 +1,18 @@
 
-import {saveOrder, getOrders, saveFile, getStripeSession} from '../services/order';
-import {CARD_LIST,CARD_CONTENT} from '../services/config-server';
-const cards = localStorage.getItem(CARD_LIST);
-const cardContent = localStorage.getItem(CARD_CONTENT)
-  
-const initialState = {cards,cardContent}
+import {saveOrder, getOrders, saveFile, 
+    getStripeSession, deleteOrder,updateOrder} from '../services/order';
+import {UPLOAD_URI,SERVER_URL} from '../services/config-server';
 
+const initialState = {cardContent:0} 
 export const order = {
     namespaced: true,
-    state: {...initialState},
+    state: initialState,
     actions: {
         async save({commit},order) { 
             return await saveOrder(order)
+        },
+        async uploadDir({commit}) { 
+            return `${SERVER_URL}/${UPLOAD_URI}/`
         },
         async stripeCheckoutSession({commit},file) { 
             return await getStripeSession()
@@ -19,17 +20,30 @@ export const order = {
         async saveFile({commit},file) { 
             return await saveFile(file)
         },
-        async list() {
+        async delete({commit},order) {
+           return await deleteOrder(order)
+        },
+        async listNoPaye() {
            return await getOrders()
         },
+        async cards({commit}){
+            const res= await getOrders() 
+            console.log('resss=='+res.data)
+                if(res.status ===200){
+                    console.log('cccccc')
+                    const result = res.data
+                    console.log(result.length)
+                    commit('updateCard', result.length)
+                }
+             
+        },
+        async updateCommande(){
+            return await updateOrder()
+        }
     },
     mutations: {
-        updateCard(state, payload){
-            console.log('mut=='+payload)
-            state = {...state}
-            state.cardContent = payload
-            console.log('xx'+state.cards)
-            console.log('xx'+state.cardContent)
+        updateCard(state, payload){ 
+            state.cardContent = payload 
         }
     }
 };

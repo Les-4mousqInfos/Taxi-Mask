@@ -52,6 +52,13 @@ Vue.filter('formatDate', function(value) {
     return moment(String(value)).format('MM/DD/YYYY hh:mm')
   }
 })
+Vue.filter('upperCase', function(value){
+  return value.toUpperCase()
+})
+Vue.filter('formatPrice', function(value){
+  let val = (value/1).toFixed(2)
+  return val.toString()
+})
 /* eslint-disable no-new */
 new Vue({
     el: '#app',
