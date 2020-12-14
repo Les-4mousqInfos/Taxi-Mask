@@ -4,7 +4,7 @@ import fr.et.intechinfo.mousqinfos.taximask.models.Commande;
 import fr.et.intechinfo.mousqinfos.taximask.models.Utilisateur;
 import fr.et.intechinfo.mousqinfos.taximask.models.Voiture;
 import fr.et.intechinfo.mousqinfos.taximask.repository.CommandeRepository;
-import fr.et.intechinfo.mousqinfos.taximask.security.jwt.JwtUtils;
+
 import fr.et.intechinfo.mousqinfos.taximask.security.services.UserDetailsServiceImpl;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileOutputStream;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,10 +29,7 @@ public class CommandeService {
     private CommandeRepository commandeRepository;
     @Autowired
     private VoitureService voitureService;
-    @Autowired
-    private JwtUtils jwtUtils;
-    @Autowired
-    private UtilisateurService utilisateurService;
+   
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
     @Value("${upload-dir}")

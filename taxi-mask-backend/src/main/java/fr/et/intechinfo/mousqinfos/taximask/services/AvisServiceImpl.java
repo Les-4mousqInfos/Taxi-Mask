@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.et.intechinfo.mousqinfos.taximask.exceptions.ResourceNotFoundException;
 import fr.et.intechinfo.mousqinfos.taximask.models.Avis;
+import fr.et.intechinfo.mousqinfos.taximask.models.Utilisateur;
 import fr.et.intechinfo.mousqinfos.taximask.repository.AvisRepository;
+import fr.et.intechinfo.mousqinfos.taximask.security.services.UserDetailsServiceImpl;
 
 
 @Service
@@ -20,10 +22,14 @@ public class AvisServiceImpl implements AvisService {
 	
 	@Autowired
 	AvisRepository avisRepository;
+	@Autowired
+	private UserDetailsServiceImpl userDetailsService;
 
 	@Override
 	public Avis createAvis(Avis avis) {
 		// TODO Auto-generated method stub
+		 Utilisateur user = (Utilisateur) userDetailsService.getCurrentUser();
+		 avis.setUtilisateur(user);
 		return avisRepository.save(avis);
 	}
 

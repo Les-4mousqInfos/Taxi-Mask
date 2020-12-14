@@ -35,6 +35,7 @@ public class PartenaireServiceImpl implements PartenaireService {
 		 String filename = storageFile(partenaire.getLogo());
 		 partenaire.setLogoFileName(filename);
 		return partenaireRepository.save(partenaire);
+		
 	}
 
 	@Override
