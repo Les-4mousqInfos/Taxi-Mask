@@ -10,6 +10,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -77,49 +78,88 @@ public class AuthController {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 			return ResponseEntity
 					.badRequest()
-					.body(new MessageResponse("Error: Username is already taken!"));
+					.body(new MessageResponse("Error: Le nom d'utilisateur est déjà pris!"));
 		}
 
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
 			return ResponseEntity
 					.badRequest()
-					.body(new MessageResponse("Error: Email is already in use!"));
+					.body(new MessageResponse("Error: Email est déjà utilisé!"));
 		}
 
 		// Creation nouveau utilisateur
-		Utilisateur user = new Utilisateur(signUpRequest.getUsername(), 
+		Utilisateur user = new Utilisateur(
+							 signUpRequest.getPrenom(),
+							 signUpRequest.getNom(),
+							 signUpRequest.getUsername(), 
 							 signUpRequest.getEmail(),
-							 encoder.encode(signUpRequest.getPassword()));
-
-		Set<String> strRoles = signUpRequest.getRole();
+							 encoder.encode(signUpRequest.getPassword()),
+							 signUpRequest.getNomEntreprise(),
+							 signUpRequest.getPays(),
+							 signUpRequest.getAdresse(),
+							 signUpRequest.getCodePostale(), 
+							 signUpRequest.getVille(),
+							 signUpRequest.getMobile()
+							 
+							 );
+		
 		Set<Role> roles = new HashSet<>();
 
-		if (strRoles == null) {
+		
 			Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+					.orElseThrow(() -> new RuntimeException("Error: Le rôle n'est pas trouvé."));
 			roles.add(userRole);
-		} else {
-			strRoles.forEach(role -> {
-				switch (role) {
-				case "admin":
-					Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(adminRole);
-
-					break;
-				
-				default:
-					Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(userRole);
-				}
-			});
-		}
 
 		user.setRoles(roles);
 		userRepository.save(user);
 
-		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+		return ResponseEntity.ok(new MessageResponse("Client enregistré avec succès!"));
+	}
+	
+	@PostMapping("/addadmin")
+	@PreAuthorize("hasRole('SUPERADMIN')")
+	public ResponseEntity<?> registerAdmin(@Valid @RequestBody SignupRequest signUpRequest) {
+		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: Le nom d'utilisateur est déjà pris!"));
+		}
+
+		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: Email est déjà utilisé!"));
+		}
+
+		// Creation nouveau utilisateur
+		Utilisateur user = new Utilisateur(
+							 signUpRequest.getPrenom(),
+							 signUpRequest.getNom(),
+							 signUpRequest.getUsername(), 
+							 signUpRequest.getEmail(),
+							 encoder.encode(signUpRequest.getPassword()),
+							 signUpRequest.getNomEntreprise(),
+							 signUpRequest.getPays(),
+							 signUpRequest.getAdresse(),
+							 signUpRequest.getCodePostale(), 
+							 signUpRequest.getVille(),
+							 signUpRequest.getMobile()
+							 
+							 );
+
+	
+		Set<Role> roles = new HashSet<>();
+
+		
+			Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+					.orElseThrow(() -> new RuntimeException("Error: Le rôle n'est pas trouvé."));
+			roles.add(adminRole);
+		
+
+		user.setRoles(roles);
+		userRepository.save(user);
+
+		return ResponseEntity.ok(new MessageResponse("Admin enregistré avec succès!"));
 	}
 	
 	

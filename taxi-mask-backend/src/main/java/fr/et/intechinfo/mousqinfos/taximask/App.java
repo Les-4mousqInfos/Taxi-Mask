@@ -21,7 +21,6 @@ public class App {
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);
 	}
-	// ceci est un test git
 
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {

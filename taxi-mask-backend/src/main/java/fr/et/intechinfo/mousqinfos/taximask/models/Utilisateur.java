@@ -22,6 +22,7 @@ import javax.validation.constraints.NotBlank;
 import javax.persistence.*;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.lang.Nullable;
 
 
 
@@ -57,6 +58,7 @@ public class Utilisateur   {
 	private String password;
 	
 	@Column(name = "nomEntreprise")
+	@Nullable
 	private String nomEntreprise;
 	
 	@Column(name = "pays")
@@ -99,11 +101,28 @@ public class Utilisateur   {
 	public Utilisateur() {
 		
 	}
-	public Utilisateur(String username, String email, String password) {
+	
+	
+
+	public Utilisateur(String prenom, String nom, @NotBlank String username, @NotBlank String email,
+			@NotBlank String password, String nomEntreprise, String pays, String adresse, int codePostale, String ville,
+			int mobile) {
+		super();
+		this.prenom = prenom;
+		this.nom = nom;
 		this.username = username;
 		this.email = email;
 		this.password = password;
+		this.nomEntreprise = nomEntreprise;
+		this.pays = pays;
+		this.adresse = adresse;
+		this.codePostale = codePostale;
+		this.ville = ville;
+		this.mobile = mobile;
 	}
+
+
+
 	public List<Commande> getCommandes() {
 		return commandes;
 	}

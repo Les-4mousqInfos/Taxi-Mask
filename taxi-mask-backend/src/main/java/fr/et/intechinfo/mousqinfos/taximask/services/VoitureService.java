@@ -2,7 +2,7 @@ package fr.et.intechinfo.mousqinfos.taximask.services;
 
 import fr.et.intechinfo.mousqinfos.taximask.models.Voiture;
 import fr.et.intechinfo.mousqinfos.taximask.repository.VoitureRepository;
-import lombok.NoArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
