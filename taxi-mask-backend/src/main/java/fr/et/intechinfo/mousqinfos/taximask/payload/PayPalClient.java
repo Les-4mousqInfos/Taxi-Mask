@@ -3,6 +3,8 @@ package fr.et.intechinfo.mousqinfos.taximask.payload;
 import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,20 +16,25 @@ import java.util.Map;
 @Service
 public class PayPalClient {
 
-    String clientId = "";
-    String clientSecret = "";
+    @Value("${client_id}")
+    String clientId;
+    @Value("${client_secret}")
+    String clientSecret;
+    @Value("${frontend_url}")
+    String frontendUrl;
+    @Value("${backend_url}")
+    String backendUrl;
 
     public Map<String, Object> createPayment(String sum){
 
         Map<String, Object> response = new HashMap<>();
         Amount amount = new Amount();
-        amount.setCurrency("USD");
+        amount.setCurrency("EUR");
         amount.setTotal(sum);
         Transaction transaction = new Transaction();
         transaction.setAmount(amount);
         List<Transaction> transactions = new ArrayList<>();
         transactions.add(transaction);
-        String frontendUrl = "http://localhost:8081/";
 
         Payer payer = new Payer();
         payer.setPaymentMethod("paypal");
@@ -38,8 +45,8 @@ public class PayPalClient {
         payment.setTransactions(transactions);
 
         RedirectUrls redirectUrls = new RedirectUrls();
-        redirectUrls.setCancelUrl(frontendUrl+"cancel");
-        redirectUrls.setReturnUrl(frontendUrl+"/api/complete/payment/");
+        redirectUrls.setCancelUrl(frontendUrl); //apparently not useful
+        redirectUrls.setReturnUrl(frontendUrl);
         payment.setRedirectUrls(redirectUrls);
         Payment createdPayment;
         try {
