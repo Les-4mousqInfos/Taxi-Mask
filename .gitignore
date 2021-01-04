@@ -3,6 +3,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/taxi-mask-backend/src/main/**/target/
 !**/taxi-mask-backend/src/test/**/target/
+!**/taxi-mask-backend/src/main/resources/application-dev.properties
+!**/taxi-mask-backend/src/main/resources/application-prod.properties
 
 ### STS ###
 .apt_generated
