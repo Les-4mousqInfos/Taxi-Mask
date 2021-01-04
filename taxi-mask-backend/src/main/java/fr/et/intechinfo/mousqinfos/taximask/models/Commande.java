@@ -64,6 +64,9 @@ public class Commande {
 	@Temporal(TemporalType.TIMESTAMP)
 	@JoinColumn(nullable = true)
 	private Date dateComplete;
+	@Column(name = "num_transaction", nullable = true)
+	private String numTransaction;
+	private Boolean statut =Boolean.FALSE;
 
 	public long getId() {
 		return id;
@@ -254,5 +257,21 @@ public class Commande {
 
 	public void setDateComplete(Date dateComplete) {
 		this.dateComplete = dateComplete;
+	}
+
+	public String getNumTransaction() {
+		return numTransaction;
+	}
+
+	public void setNumTransaction(String numTransaction) {
+		this.numTransaction = numTransaction;
+	}
+
+	public Boolean getStatut() {
+		return statut;
+	}
+
+	public void setStatut(Boolean statut) {
+		this.statut = statut;
 	}
 }

@@ -148,7 +148,7 @@ public class CommandeService {
                 if(!courant.trim().isEmpty()){
                     Long id = Long.parseLong(courant.trim());
                     logger.info(id.toString());
-                    Commande c = commandeRepository.getOne(id);
+                    Commande c = commandeRepository.findById(id).get();
                     if(c instanceof Commande && c.getUtilisateur()==null){
                         c.setUtilisateur(user);
                         commandeRepository.save(c);
@@ -159,5 +159,18 @@ public class CommandeService {
             return commandes;
         }
         return  null;
+    }
+
+    /**
+     * List des commandes payes
+     * @return
+     */
+    public List<Commande> getCommandesByUserComplete(){
+        Utilisateur user =  userDetailsService.getCurrentUser();
+        if(user!=null){
+            List commandes=   commandeRepository.findByUtilisateurAndComplete(user,Boolean.TRUE);
+            return commandes;
+        }
+        return null;
     }
 }

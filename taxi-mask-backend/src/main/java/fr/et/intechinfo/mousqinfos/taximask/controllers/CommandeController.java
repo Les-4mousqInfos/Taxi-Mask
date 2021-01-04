@@ -29,13 +29,16 @@ public class CommandeController {
 
 
     @PostMapping
-    public ResponseEntity <?> createCommande(@ModelAttribute Commande commande) throws IOException {
-       // try {
-           //logger.info(commande.toString());
-          //  logger.info(commande.getCarteGrise().toString());
+    public ResponseEntity <?> createCommande(@ModelAttribute Commande commande) {
+        try {
           Commande c = commandeService.traitementCommande(commande);
           return ResponseEntity.ok().body(c.getId());
-
+        }catch (Exception ex){
+            logger.error(ex.getMessage());
+            return  ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse(ex.getMessage()));
+        }
     }
 
     /**
@@ -58,15 +61,15 @@ public class CommandeController {
 
     @GetMapping("/update-commande/{cards}")
     public ResponseEntity <?> updateCommandeWithUserId(@PathVariable String cards){
-     //   try {
-            List commandes = commandeService.updateCommandeWithUserId(cards);
-            return ResponseEntity.ok().body(commandes);
-     //   }catch (Exception ex){
-     //       logger.error(ex.getMessage());
-     //       return  ResponseEntity
-     //               .badRequest()
-      //              .body(new MessageResponse(ex.getMessage()));
-     //   }
+      try {
+        List commandes = commandeService.updateCommandeWithUserId(cards);
+        return ResponseEntity.ok().body(commandes);
+      }catch (Exception ex){
+           logger.error(ex.getMessage());
+            return  ResponseEntity
+                   .badRequest()
+                    .body(new MessageResponse(ex.getMessage()));
+      }
 
     }
 
@@ -76,6 +79,11 @@ public class CommandeController {
        return ResponseEntity.ok().body(commande);
     }
 
+    @GetMapping("/order-complete")
+    public ResponseEntity<?> getCommandeComplete(){
+        List commandes = commandeService.getCommandesByUserComplete();
+        return ResponseEntity.ok().body(commandes);
+    }
 
 
     @GetMapping("/all")

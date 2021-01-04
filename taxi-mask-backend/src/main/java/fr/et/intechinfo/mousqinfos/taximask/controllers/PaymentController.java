@@ -47,9 +47,9 @@ public class PaymentController {
 
     @PostMapping("/charge-card")
     public ResponseEntity<?> chargeCard(HttpServletRequest request) throws Exception {
-      //  HttpHeaders headers = new HttpHeaders();
-       // headers.setLocation(URI.create("http://localhost:8080/mes-commandes"));
-      //  try {
+        String canceUrl = request.getParameter("cancel_url");
+        String successUrl = request.getParameter("success_url");
+        try {
             logger.info(request.getParameter("customer"));
             logger.info(request.getParameter("metadataId"));
             logger.info(request.getParameter("customer_session"));
@@ -57,8 +57,6 @@ public class PaymentController {
             String tempComIds = request.getParameter("metadataId");
             String sessionToken = request.getParameter("customer_session");
             Double amount = Double.parseDouble(request.getParameter("amount"));
-            String canceUrl = request.getParameter("cancel_url");
-            String successUrl = request.getParameter("success_url");
 
             logger.info(canceUrl);
             logger.info(successUrl);
@@ -75,32 +73,32 @@ public class PaymentController {
             Charge charge= stripeService.chargeNewCard(token, amount);
             System.out.println(request);
             logger.info(charge.getReceiptUrl());
-            logger.info(charge.getCustomer());
-            StripeResponse res = new StripeResponse();
-            res.setId(charge.getId());
-            res.setChargeId(charge.getId());
-            res.setStatus(charge.getStatus());
-            res.setBalanceTransaction(charge.getBalanceTransaction());
-            mailSenderService.sendEmail(user.getEmail(), "REGLEMENT COMMANDE", mailSenderService.templateEmail().toString() );
-            return ResponseEntity.ok().body("<script  type=\"application/javascript\">\n" +
-                " window.location.href=\""+successUrl+"\"\n" +
-                "</script>");
-       //}catch (Exception ex){
-       //     logger.error(ex.getMessage());
-       //        return ResponseEntity.ok().body("<script  type=\"application/javascript\">\n" +
-        //                        " window.location.href=\""+canceUrl+"\"\n" +
-        //                        "</script>");
-      //  }
+            logger.info(charge.getStatus());
+            if(charge.getStatus().equals("succeeded")){
+                stripeService.updateCommande(user, charge.getBalanceTransaction(), amount);
+
+                StripeResponse res = new StripeResponse();
+                res.setId(charge.getId());
+                res.setChargeId(charge.getId());
+                res.setStatus(charge.getStatus());
+                res.setBalanceTransaction(charge.getBalanceTransaction());
+                mailSenderService.sendEmail(user.getEmail(), "REGLEMENT COMMANDE", "Payement effectué avec succès, n° transaction"+charge.getBalanceTransaction());
+                return ResponseEntity.ok().body("<script  type=\"application/javascript\">\n" +
+                        " window.location.href=\""+successUrl+"\"\n" +
+                        "</script>");
+            }else{
+                return ResponseEntity.ok().body("<script  type=\"application/javascript\">\n" +
+                                               " window.location.href=\""+canceUrl+"\"\n" +
+                        "</script>");
+            }
+
+        }catch (Exception ex){
+            logger.error(ex.getMessage());
+                return ResponseEntity.ok().body("<script  type=\"application/javascript\">\n" +
+                                 " window.location.href=\""+canceUrl+"\"\n" +
+                                "</script>");
+         }
     }
-
-
-   /* @PostMapping("/charge-card")
-    public ResponseEntity<?> chargeCard(HttpServletRequest request) throws Exception {
-        return ResponseEntity.ok().body("<script  type=\"application/javascript\">\n" +
-                " window.location.href=\"http://localhost:8080/mes-commandes\"\n" +
-                "</script>");
-
-    }*/
 
 
 

@@ -19,4 +19,6 @@ public interface NoUtilisateurCommande {
      String getPhotoVoitureFileName() ;
      Boolean getComplete() ;
      Date getDateComplete() ;
+     String getNumTransaction();
+     Boolean getStatut();
 }

@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class StripeService {
@@ -75,13 +72,26 @@ public class StripeService {
         }
         logger.info(totalAmount.toString());
         if(amount.equals(totalAmount)){
-            logger.info("interrr");
-            for (Commande c: commandes){
-                c.setComplete(true);
-                commandeRepository.save(c);
-            }
+
             return user;
         }
         return null;
+    }
+
+    /**
+     * Update commande apres payement
+     * @param user
+     * @param numTransaction
+     * @param amount
+     * @throws Exception
+     */
+    public void updateCommande(Utilisateur user, String numTransaction, Double amount) throws Exception {
+        List<Commande> commandes = commandeRepository.getCommandeByUtilisateurAndComplete(user, Boolean.FALSE);
+        for (Commande c: commandes){
+            c.setComplete(true);
+            c.setDateComplete(new Date());
+            c.setNumTransaction(numTransaction);
+            commandeRepository.save(c);
+        }
     }
 }

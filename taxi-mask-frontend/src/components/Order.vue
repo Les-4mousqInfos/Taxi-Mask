@@ -109,12 +109,16 @@
               <p class="title">Date de passage</p>
               <v-row>
                 <div class="col-6">
-                  <v-date-picker v-model="formu.datePassage"></v-date-picker>
+                  <v-date-picker v-model="formu.datePassage"  
+                    
+                    :min="new Date().toISOString().substr(0, 10)">
+                    </v-date-picker>
                 </div>
                 <div class="col-6">
                   <v-time-picker
                     format="ampm" v-model="formu.timePassage"
                     ampm-in-title
+                    
                   ></v-time-picker>
                 </div>
               </v-row>

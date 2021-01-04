@@ -34,6 +34,13 @@ export async function getOrders(){
     const result = await axios.get(`${SERVER_URL}/${ORDER_URL}`, config)
     return result
 }
+export async function getOrdersComplete(){ 
+    const config = {
+        headers: authHeader()
+    }
+    const result = await axios.get(`${SERVER_URL}/${ORDER_URL}/order-complete`, config)
+    return result
+}
  
 export async function getStripeSession() {
     const config = {
@@ -49,7 +56,10 @@ export async function updateOrder() {
     let cards = localStorage.getItem(CARD_LIST)
     if(cards!==null && cards!=='undefined' && cards!==''){ 
         const result= await axios.get(`${SERVER_URL}/${ORDER_URL}/update-commande/${cards}`, config)
-        localStorage.setItem(CARD_LIST,"")
+        if(result.status ===200){
+            localStorage.setItem(CARD_LIST,"")
+        }
+        console.log(result)
         return result
     }
     return null

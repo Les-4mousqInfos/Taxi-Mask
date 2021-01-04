@@ -28,119 +28,10 @@
       <br><br>
       <v-row>
         <v-col :cols="12" md="9" sm="12" >
-          <v-data-table
-            :headers="headers"
-            :items="orderList"
-            :loading="loading"
-            loading-text="Loading..." 
-            show-expand
-            striped
-          >
-          <template #item.voiture="{item}"> 
-            <v-list-item >
-              <v-list-item-avatar>
-                <v-img :src="uploadURL+item.photoVoitureFileName"></v-img>
-              </v-list-item-avatar>  
-              <v-list-item-content>
-                <v-list-item-title >{{item.voiture.immatriculation}}</v-list-item-title>
-                <v-list-item-subtitle>{{item.voiture.marque}}</v-list-item-subtitle>
-                <v-list-item-subtitle>{{item.voiture.modele}}</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </template>
-          <template #item.createdAt="{value}">
-            {{value|formatDate}}
-          </template>
-          <template #item.etiquette="{value}">
-            {{value}}
-          </template>
-          <template #item.typeProtection="{value}">
-            {{value}}
-          </template>
-          <template #item.prixProtection="{value}">
-            {{value|formatPrice}}
-          </template>
-          <template #item.action="{item}">
-            <v-btn class="ma-2" small outlined fab color="red"><v-icon small  @click="deleteItem(item)">mdi-delete</v-icon></v-btn>
-          </template>
-          <template #expanded-item="{headers, item}">
-            <td :colspan="headers.length">
-              <div class="row">
-              <div class="col-md-3 col-sm-4 col-xs-12 text-center">
-                <v-hover
-                  v-slot:default="{ hover }"
-                  open-delay="200"
-                >
-                  <v-card
-                    :elevation="hover ? 16 : 2"
-                  >
-                    <v-img
-                      class="white--text align-end"
-                      height="200px"
-                      :src="uploadURL+item.photoVoitureFileName"
-                    > 
-                    </v-img>
-
-                    <v-card-text class="text--primary text-center">
-                      <div>Voiture</div>
-                    </v-card-text>
-
-                    <div class="text-center">
-                      <v-btn
-                        class="ma-2"
-                        outlined
-                        color="teal"
-                      >
-                        <v-icon small  @click="editPicture(item)">mdi-pencil</v-icon>
-                      </v-btn>
-                    </div>
-                  </v-card>
-                </v-hover>
-              </div>
-              <div class="col-md-3 col-sm-4 col-xs-12 text-center" >
-                <v-hover
-                  v-slot:default="{ hover }"
-                  open-delay="200"
-                >
-                  <v-card
-                    :elevation="hover ? 16 : 2"
-                  >
-                    <v-img
-                      class="white--text align-end"
-                      height="200px"
-                      :src="uploadURL+item.carteGriseFileName"
-                    > 
-                    </v-img>
-
-                    <v-card-text class="text--primary text-center">
-                      <div>Carte grise</div> 
-                    </v-card-text>
-
-                    <div class="text-center">
-                      <v-btn
-                        class="ma-2"
-                        outlined
-                        color="teal"
-                      >
-                        <v-icon small  @click="editPicture(item)">mdi-pencil</v-icon>
-                      </v-btn>
-                    </div>
-                  </v-card>
-                </v-hover>
-              </div>
-              <div class="col-md-6 col-sm-4 col-xs-12" > 
-                <v-chip class="ma-2" label ><b>TOIT {{item.toit|upperCase}}</b></v-chip><br>
-                <v-chip class="ma-2" label color="pink" text-color="white"><b>Date de passage: {{item.datePassage|formatDate}}</b></v-chip>
-                
-                
-              
-              </div> 
-            </div>
-            </td>
-          </template>
-
-        </v-data-table>
-        
+        <order-details 
+        :uploadURL="uploadURL" :loading="loading" 
+        :headers="headers" :orderList="orderList" 
+        v-on:deleteItem="deleteItem" v-on:editPicture="editPicture" :showBtn="true"/>
         </v-col>
         <v-col :cols="12" md="3" sm="12" style="background-color: lightgray">
           <p class="headline">Récapitulatif</p>
@@ -149,7 +40,7 @@
           <v-simple-table>
             <template v-slot:default>
               <tbody>
-              <tr>
+                <tr>
                 <td>Prix de protection</td>
                 <td class="text-right" style="width: 50px;">{{totalPrix|formatPrice}}</td>
               </tr> 
@@ -161,7 +52,7 @@
             </template>
           </v-simple-table>
           <br>
-          <v-btn color="red" text @click="exporter">Exporter</v-btn>
+          
           <div class="text-center">
             <StripePay :amount="amountStripe" v-if="commandeIds" :commandeId="commandeIds"></StripePay>
 <!--              <v-btn class="primary white--text mt-5" @click="payerStripe">Payer €170.00</v-btn>  -->
@@ -171,25 +62,27 @@
     </v-container>
    
     <v-dialog v-model="dialogDelete" max-width="500px">
-        <v-card>
-          <v-card-title class="headline">Voulez vous supprimer cette commande?</v-card-title>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="closeDelete">Annuler</v-btn>
-            <v-btn color="red" text @click="deleteItemConfirm">Ok</v-btn>
-            <v-spacer></v-spacer>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <v-card>
+        <v-card-title class="headline">Voulez vous supprimer cette commande?</v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="closeDelete">Annuler</v-btn>
+          <v-btn color="red" text @click="deleteItemConfirm">Ok</v-btn>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>   
 <script>  
   
-    import StripePay from './StripePay';  
+    import StripePay from './StripePay';
+    import OrderDetails from './OrderDetails';  
     import {addScript} from '../services/utils';
     export default {
         components:{  
-          StripePay
+          StripePay,
+          OrderDetails
         },
         data: () => ({
             rating: 4.5,
@@ -200,7 +93,7 @@
             dialogDelete: false,
             itemDelete:{},
             amountStripe:0,
-            loading:true,
+            loading:true, 
             uploadURL:'',
             commandeIds:'',
             headers: [
@@ -224,7 +117,6 @@
           loggedIn() {
             return this.$store.state.auth.status.loggedIn;
           }, 
-          
         }, 
         watch:{
          
@@ -234,7 +126,7 @@
             this.$router.push('/login');
             return
           }
-          this.$store.dispatch('order/uploadDir').then(res=>{
+           this.$store.dispatch('order/uploadDir').then(res=>{
             this.uploadURL= res
           })
 
@@ -250,6 +142,7 @@
                 this.commandeIds =e['id']+'-'
               })
               this.$store.commit('order/updateCard', this.orderList.length)
+              localStorage.setItem('listCard',JSON.stringify(this.orderList)) 
               console.log(this.commandeIds)
               this.amountStripe=this.totalPrix*100
               console.log(this.amountStripe)
@@ -258,7 +151,6 @@
 
         },
         methods:{
-           
           deleteItem(commande){
               this.dialogDelete = true;
               this.itemDelete = {...commande}
@@ -273,8 +165,12 @@
               console.log(res)
               this.$toasted.success('Commande supprimée avec succès!').goAway(2000)
               this.orderList = this.orderList.filter(e=>e['id']!== this.itemDelete.id)
+               
               this.itemDelete ={}
               this.dialogDelete = false 
+              setTimeout(() => {
+                window.location.reload()
+              }, 1000);
             }).catch(err=>{
               console.log(err)
             })
@@ -283,44 +179,7 @@
           editPicture(item){
 
           },
-          exporter(){
-            addScript()
-            const logoPath = require('../assets/img/logo.png')
-            const el = `<div style="margin-left: auto;margin-right: auto;margin-top:30px">
-                        <div class="row">
-                          <div class="col-1"></div>
-                          <div class="col-10 text-center" style="border:1px solid">
-                            <p><img src="${logoPath}"></p>
-                            <h2 class="center"> Facture n°</h2>
-                            <br/> 
-                            <table class="table table-striped">
-                              <thead>
-                                <tr>
-                                  <th scope="col">N° immatriculation</th>
-                                  <th scope="col">Date</th>
-                                  <th scope="col">Protection</th>
-                                  <th scope="col">Prix</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr> 
-                                  <td>123-ER-33</td>
-                                  <td>11/12/2020</td>
-                                  <td>Ouvrant</td>
-                                  <td>€230</td>
-                                </tr>
-                                <tr> 
-                                  <td colspan="3">Total</td>
-                                  <td>€230</td>
-                                </tr>
-                              </tbody>
-                            </table>  
-                          </div>
-                        </div>
-                       
-                        </div>`
-            html2pdf(el)
-          }
+        
         },
     }
 </script>

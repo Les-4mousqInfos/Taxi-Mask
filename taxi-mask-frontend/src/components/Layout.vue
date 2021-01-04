@@ -58,7 +58,7 @@
                   link
                 >
                   <v-list-item-icon> 
-                    <a href="/mes-commandes" @click="activeBtnOn(0)"  class="v-btn" >
+                    <a href="/mes-commandes" @click="activeBtnOn(0)" class="ph-low"  >
                       <span>Mes commandes</span>
                     </a> 
                   </v-list-item-icon>
@@ -70,7 +70,7 @@
                   link
                 >
                   <v-list-item-icon>
-                    <a href="/profile" @click="activeBtnOn(1)" style="text-transform:none; text-decoration:none" >
+                    <a href="/profile" @click="activeBtnOn(1)" class="ph-low" >
                       <span>Profil</span>
                     </a> 
                   </v-list-item-icon> 
@@ -81,7 +81,7 @@
                 >
                 
                     <v-list-item-icon >
-                    <a href="/profile" @click="activeBtnOn(1)"   class="v-btn" >
+                    <a href="/profile" @click="logOut"   >
                       <span >Se deconnecter</span>
                     </a> 
                   </v-list-item-icon> 
@@ -97,7 +97,7 @@
           :value="$store.state.order.cardContent"
           color="green"
           overlap
-        > 
+        >  
           <v-icon>mdi-cart</v-icon>
         </v-badge>
       </v-btn>
@@ -201,6 +201,10 @@
   .v-divider--inset:not(.v-divider--vertical) {
     max-width: calc(100% - 0px);
   }
+  .ph-low{
+    text-transform:none; 
+    text-decoration:none;
+  }
 </style>
 <script>
 import {CARD_CONTENT} from '../services/config-server';
@@ -225,19 +229,24 @@ import {CARD_CONTENT} from '../services/config-server';
           on(){
             
           },
-        activeBtnOn(path){
-           switch(path){
-            case '/':
-              this.activeBtn=0
-              break
-            case '/order':
-              this.activeBtn=1  
-              break
-            default:
-              this.activeBtn=1
-              break  
+          activeBtnOn(path){
+            switch(path){
+              case '/':
+                this.activeBtn=0
+                break
+              case '/order':
+                this.activeBtn=1  
+                break
+              default:
+                this.activeBtn=1
+                break  
+            }
+          },
+         async logOut(){ 
+           await this.$store.dispatch('auth/logout');
+           await this.$store.commit('order/updateCard',0)
+            this.$router.push('/login'); 
           }
-        }
 
         }
     }

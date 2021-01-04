@@ -90,6 +90,8 @@ export default {
         if (this.user.username && this.user.password) {
           this.$store.dispatch('auth/login', this.user).then(
           async  () => {
+              await this.$store.dispatch('order/updateCommande')
+              await this.$store.dispatch('order/cards')
               this.$router.push('/profile');
             },
             error => {

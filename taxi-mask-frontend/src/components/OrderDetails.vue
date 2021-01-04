@@ -1,181 +1,145 @@
-<template>
-  <div>
-    <v-container>
+<template> 
+  
+    <v-data-table
+      :headers="headers"
+      :items="orderList"
+      :loading="loading"
+      loading-text="Loading..." 
+      show-expand
+      striped
+    >
+    
+    <template #item.voiture="{item}"> 
+      <v-list-item >
+        <v-list-item-avatar>
+          <v-img :src="uploadURL+item.photoVoitureFileName"></v-img>
+        </v-list-item-avatar>  
+        <v-list-item-content>
+          <v-list-item-title >{{item.voiture.immatriculation}}</v-list-item-title>
+          <v-list-item-subtitle>{{item.voiture.marque}}</v-list-item-subtitle>
+          <v-list-item-subtitle>{{item.voiture.modele}}</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+    </template>
+    
+    <template #item.createdAt="{value}">
+      {{value|formatDate}}
+    </template>
+    <template #item.etiquette="{value}">
+      {{value}}
+    </template>
+    <template #item.typeProtection="{value}">
+      {{value}}
+    </template>
+    <template #item.prixProtection="{value}">
+      {{value|formatPrice}}
+    </template>
+    <template #item.action="{item}">
+      <v-btn v-if="showBtn" class="ma-2" small outlined fab color="red"><v-icon small  @click="deleteItem(item)">mdi-delete</v-icon></v-btn>
+      <v-btn class="ma-2" title="Commande livrée" v-if="!showBtn && item.status" small outlined fab color="teal"><v-icon small  >mdi-check</v-icon></v-btn>
+      <v-btn class="ma-2" title="Commande en cours" v-if="!showBtn && item.complete" small outlined fab color="red"><v-icon small  >mdi-gavel</v-icon></v-btn>
+    </template>
+    <template #expanded-item="{headers, item}">
+      <td :colspan="headers.length">
+        <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-12 text-center">
+          <v-hover
+            v-slot:default="{ hover }"
+            open-delay="200"
+          >
+            <v-card
+              :elevation="hover ? 16 : 2"
+            >
+              <v-img
+                class="white--text align-end"
+                height="100px" width="300px"
+                :src="uploadURL+item.photoVoitureFileName"
+              > 
+              </v-img>
 
-      <p class="display-3 font-weight-light	text-center pa-4">SHOPPING CART</p>
-      <v-row>
-        <v-col :cols="12" md="9" sm="12" >
-          <v-simple-table>
-            <template v-slot:default>
-              <thead>
-              <tr>
-                <th class="text-center">ITEM</th>
-                <th class="text-center">PRICE</th>
-                <th class="text-center">QUANTITY</th>
-                <th class="text-center">TOTAL</th>
-                <th class="text-center"></th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <td>
-                  <v-list-item
-                  key="1"
-                  @click=""
+              <v-card-text class="text--primary text-center">
+                <div>Voiture</div>
+              </v-card-text>
+
+              <div class="text-center"  v-if="showBtn">
+                <v-btn
+                  class="ma-2"
+                  outlined
+                  color="teal"
                 >
-                  <v-list-item-avatar>
-                    <v-img :src="require('../assets/img/shop/1.jpg')"></v-img>
-                  </v-list-item-avatar>
+                  <v-icon small  @click="editPicture(item)">mdi-pencil</v-icon>
+                </v-btn>
+              </div>
+            </v-card>
+          </v-hover>
+        </div>
+        <div class="col-md-3 col-sm-4 col-xs-12 text-center" >
+          <v-hover
+            v-slot:default="{ hover }"
+            open-delay="200"
+          >
+            <v-card
+              :elevation="hover ? 16 : 2"
+            >
+              <v-img
+                class="white--text align-end"
+                height="100px" width="300px"
+                :src="uploadURL+item.carteGriseFileName"
+              > 
+              </v-img>
 
-                  <v-list-item-content>
-                    <v-list-item-title >Item 1</v-list-item-title>
-                    <v-list-item-subtitle>Lorem Ipsum</v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item></td>
-                <td>$40.00</td>
-                <td>
-                  <v-text-field
-                    class="pt-10"
-                    label="Outlined"
-                    style="width: 80px;"
-                    single-line
-                    outlined
-                    value="2"
-                    type="number"
-                  ></v-text-field>
-                </td>
-                <td>$80.00</td>
-                <td><a>X</a></td>
-              </tr>
-              <tr>
-                <td>
-                  <v-list-item
-                  key="1"
-                  @click=""
+              <v-card-text class="text--primary text-center">
+                <div>Carte grise</div> 
+              </v-card-text>
+
+              <div class="text-center"  v-if="showBtn">
+                <v-btn
+                  class="ma-2"
+                  outlined
+                  color="teal"
                 >
-                  <v-list-item-avatar>
-                    <v-img :src="require('../assets/img/shop/2.jpg')"></v-img>
-                  </v-list-item-avatar>
+                  <v-icon small  @click="editPicture(item)">mdi-pencil</v-icon>
+                </v-btn>
+              </div>
+            </v-card>
+          </v-hover>
+        </div>
+        <div class="col-md-6 col-sm-4 col-xs-12" > 
+          <v-chip class="ma-2" label color="teal" v-if="!showBtn" ><b>N° Transaction: {{item.numTransaction}}</b></v-chip><br>
+          <v-chip class="ma-2" label ><b>TOIT {{item.toit|upperCase}}</b></v-chip><br>
+          <v-chip class="ma-2" label color="pink" text-color="white"><b>Date de passage: {{item.datePassage|formatDate}}</b></v-chip>
+          
+          
+        
+        </div> 
+      </div>
+      </td>
+    </template>
 
-                  <v-list-item-content>
-                    <v-list-item-title >Item 2</v-list-item-title>
-                    <v-list-item-subtitle>Lorem Ipsum</v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item></td>
-                <td>$40.00</td>
-                <td>
-                  <v-text-field
-                    class="pt-10"
-                    label="Outlined"
-                    style="width: 80px;"
-                    single-line
-                    outlined
-                    value="2"
-                    type="number"
-                  ></v-text-field>
-                </td>
-                <td>$80.00</td>
-                <td><a>X</a></td>
-              </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
-        </v-col>
-        <v-col :cols="12" md="3" sm="12" style="background-color: lightgray">
-          <p class="headline">Order Summary</p>
-          <p class="overline">Shipping and additional costs are calculated based on values you have entered.
-          </p>
-          <v-simple-table>
-            <template v-slot:default>
-              <tbody>
-              <tr>
-                <td>Order Subtotal</td>
-                <td class="text-right" style="width: 50px;">$160.00</td>
-              </tr>
-              <tr>
-                <td>Shipping Charges</td>
-                <td class="text-right" style="width: 50px;">$10.00</td>
-              </tr>
-              <tr>
-                <td>Tax</td>
-                <td class="text-right" style="width: 50px;">$5.00</td>
-              </tr>
-              <tr>
-                <td>Total</td>
-                <td class="text-right" style="width: 50px;"><b>$175.00</b></td>
-              </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
-          <div class="text-center">
-            <v-btn class="primary white--text mt-5" outlined>PROCEED TO PAY</v-btn>
-          </div>
-        </v-col>
-      </v-row>
-    </v-container>
-    <v-card  class="accent" >
-      <v-container>
-        <v-row no-gutters>
-          <v-col class="col-12 col-md-4 col-sm-12">
-            <v-row >
-              <v-col class="col-12 col-sm-3 pr-4 hidden-sm-only" align="right">
-                <v-icon class="display-2">mdi-truck</v-icon>
-              </v-col>
-              <v-col class="col-12 col-sm-9 pr-4">
-                <h3 class="font-weight-light">FREE SHIPPING & RETURN</h3>
-                <p class="font-weight-thin">Free Shipping over $300</p>
-              </v-col>
-            </v-row>
-          </v-col>
-          <v-col class="col-12 col-md-4 col-sm-12">
-            <v-row >
-              <v-col class="col-12 col-sm-3 pr-4" align="right">
-                <v-icon class="display-2">mdi-cash-usd</v-icon>
-              </v-col>
-              <v-col  class="col-12 col-sm-9 pr-4">
-                <h3 class="font-weight-light">MONEY BACK GUARANTEE</h3>
-                <p class="font-weight-thin">30 Days Money Back Guarantee</p>
-              </v-col>
-            </v-row>
-          </v-col>
-          <v-col class="col-12 col-md-4 col-sm-12">
-            <v-row>
-              <v-col class="col-12 col-sm-3 pr-4" align="right">
-                <v-icon class="display-2">mdi-headset</v-icon>
-              </v-col>
-              <v-col  class="col-12 col-sm-9 pr-4">
-                <h3 class="font-weight-light">020-800-456-747</h3>
-                <p class="font-weight-thin">24/7 Available Support</p>
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-card>
-  </div>
+  </v-data-table> 
 </template>
 <script>
     export default {
-        data: () => ({
-            rating: 4.5,
-            breadcrums: [
-                {
-                    text: 'Home',
-                    disabled: false,
-                    href: 'breadcrumbs_home',
-                },
-                {
-                    text: 'Clothing',
-                    disabled: false,
-                    href: 'breadcrumbs_clothing',
-                },
-                {
-                    text: 'T-Shirts',
-                    disabled: true,
-                    href: 'breadcrumbs_shirts',
-                },
-            ],
-        })
+      props:{
+        headers: Array,
+        orderList: Array,
+        loading:Boolean,
+        uploadURL:String,
+        showBtn:Boolean
+      },
+      data: () => ({
+      }),
+      created(){
+        
+      },
+      methods:{
+        deleteItem(item){
+          this.$emit("deleteItem", item)
+        },
+        editPicture(item){
+          this.$emit("editPicture", item)
+        }
+      }
     }
 </script>
 

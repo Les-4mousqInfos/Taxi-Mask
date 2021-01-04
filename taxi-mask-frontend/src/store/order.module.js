@@ -1,9 +1,9 @@
 
-import {saveOrder, getOrders, saveFile, 
+import {saveOrder, getOrders, saveFile, getOrdersComplete ,
     getStripeSession, deleteOrder,updateOrder} from '../services/order';
 import {UPLOAD_URI,SERVER_URL} from '../services/config-server';
 
-const initialState = {cardContent:0} 
+const initialState = {cardContent:0, listCard:[]} 
 export const order = {
     namespaced: true,
     state: initialState,
@@ -26,6 +26,9 @@ export const order = {
         async listNoPaye() {
            return await getOrders()
         },
+        async listSuivi() {
+           return await getOrdersComplete()
+        },
         async cards({commit}){
             const res= await getOrders() 
             console.log('resss=='+res.data)
@@ -44,6 +47,9 @@ export const order = {
     mutations: {
         updateCard(state, payload){ 
             state.cardContent = payload 
+        },
+        updateListCard(state, payload){ 
+            state.listCard = payload 
         }
     }
 };
