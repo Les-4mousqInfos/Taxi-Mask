@@ -5,6 +5,7 @@ target/
 !**/taxi-mask-backend/src/test/**/target/
 !**/taxi-mask-backend/src/main/resources/application-dev.properties
 !**/taxi-mask-backend/src/main/resources/application-prod.properties
+!**/taxi-mask-backend/src/main/resources/application-test.properties
 
 ### STS ###
 .apt_generated
