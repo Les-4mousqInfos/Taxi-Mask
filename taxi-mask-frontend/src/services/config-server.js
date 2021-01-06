@@ -1,5 +1,5 @@
 
-export const SERVER_URL = 'http://localhost:8000'
+export const SERVER_URL = 'http://localhost:8080'
 export const ORDER_URL = 'commandes'
 export const MARQUE = 'marques'
 export const PAYMENT = 'payment'
