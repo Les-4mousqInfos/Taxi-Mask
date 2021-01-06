@@ -55,6 +55,10 @@
           </div>
         </div>
       </v-form>
+      <br>
+      <div>
+        <a style="float:right;text-decoration:underline" href="/login">J'ai déjà un compte</a>
+      </div>
 
       <div
         v-if="message"

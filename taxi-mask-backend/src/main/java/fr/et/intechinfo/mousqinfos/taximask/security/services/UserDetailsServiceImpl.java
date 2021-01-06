@@ -32,11 +32,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	 * Retourne l'utilisateur courant
 	 * @return
 	 */
-	public UserDetails getCurrentUser(){
+	public Utilisateur getCurrentUser(){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		System.out.println("auth==="+authentication.getName());
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
 			String currentUserName = authentication.getName();
-			return  loadUserByUsername(currentUserName);
+			return  utilisateurRepository.findByUsername(currentUserName)
+					.orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + currentUserName));
+
 		}
 		return null;
 	}

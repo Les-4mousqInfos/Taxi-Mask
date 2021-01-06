@@ -12,8 +12,6 @@ class UserService {
     return await axios.get(API_URL + 'user', { headers: authHeader() });
   }
 
-  
-
   async getAdminBoard() {
     return await axios.get(API_URL + 'admin', { headers: authHeader() });
   }

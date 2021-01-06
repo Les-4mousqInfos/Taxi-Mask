@@ -1,71 +1,101 @@
 <template>
   <div>
-    <v-container >
-      <p class="display-1 font-weight-light	text-center pa-2">Mes commandes</p>
-      <v-row>
-        <v-col :cols="12" md="12" sm="12"  >
-            <v-data-table
-              :headers="headers"
-              class="elevation-1"
-              :loading="loading" 
-              :items="orderList"
-              loading-text="Loading..."
-              striped
-            >
-            
-            <template  v-slot:item="{ item }">
-              <tr>
-              <td>
-                <v-list-item >
-                  <v-list-item-avatar>
-                  <!--  <v-img :src="require('../assets/img/cars/car.jpg')"></v-img> -->
-                    <v-img :src="'http://localhost:8080/'+item.photoVoitureFileName"></v-img>
-                  </v-list-item-avatar>
+    <v-container>
 
-                  <v-list-item-content>
-                    <v-list-item-title >{{item.voiture.immatriculation}}</v-list-item-title>
-                    <v-list-item-subtitle>{{item.voiture.marque}}</v-list-item-subtitle>
-                    <v-list-item-subtitle>{{item.voiture.modele}}</v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
-              </td>
-              <td class="text-xs-right">{{item.createdAt|formatDate}}</td>
-              <td class="text-xs-right">{{item.etiquette}}</td>
-              <td class="text-xs-right">{{item.typeProtection}}</td>
-              <td class="text-xs-right">{{item.prixProtection}}</td>
-              <td class="text-xs-right">
-                  <v-btn class="ma-2" small outlined fab color="teal"><v-icon>mdi-format-list-bulleted-square</v-icon></v-btn>
-              </td> 
-              </tr>
-            </template>
-             <template v-slot:no-data>
-                <v-alert :value="true" color="error" icon="warning">
-                  Aucune donnée :(
-                </v-alert>
-              </template>
-          
-            </v-data-table>
- 
+      <v-banner
+        single-line 
+      >
+        <v-icon
+          slot="icon"
+          color="warning"
+          size="36"
+        >
+          mdi-format-list-bulleted-square
+        </v-icon>
+          <h2>Mes commandes</h2>
+        <template v-slot:actions>
+          <v-btn
+            color="primary"
+            text
+          >
+           <div class="text-center">
+            <StripePay v-if="commandeIds" :amount="amountStripe" :commandeId="commandeIds"></StripePay>
+<!--              <v-btn class="primary white--text mt-5" @click="payerStripe">Payer €170.00</v-btn>  -->
+          </div>
+          </v-btn>
+        </template>
+      </v-banner>
+      <br><br>
+      <v-row>
+        <v-col :cols="12" md="9" sm="12" >
+        <order-details 
+        :uploadURL="uploadURL" :loading="loading" 
+        :headers="headers" :orderList="orderList" 
+        v-on:deleteItem="deleteItem" v-on:editPicture="editPicture" :showBtn="true"/>
         </v-col>
-         
+        <v-col :cols="12" md="3" sm="12" style="background-color: lightgray">
+          <p class="headline">Récapitulatif</p>
+          <p class="overline">
+          </p>
+          <v-simple-table>
+            <template v-slot:default>
+              <tbody>
+                <tr>
+                <td>Prix de protection</td>
+                <td class="text-right" style="width: 50px;">{{totalPrix|formatPrice}}</td>
+              </tr> 
+              <tr>
+                <td>Total</td> 
+                <td class="text-right" style="width: 50px;"><b><v-chip color="green">{{totalPrix|formatPrice}}€</v-chip></b></td>
+              </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+          <br>
+          
+          <div class="text-center">
+            <StripePay :amount="amountStripe" v-if="commandeIds" :commandeId="commandeIds"></StripePay>
+<!--              <v-btn class="primary white--text mt-5" @click="payerStripe">Payer €170.00</v-btn>  -->
+          </div> 
+        </v-col>
       </v-row>
     </v-container>
- 
+   
+    <v-dialog v-model="dialogDelete" max-width="500px">
+      <v-card>
+        <v-card-title class="headline">Voulez vous supprimer cette commande?</v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="closeDelete">Annuler</v-btn>
+          <v-btn color="red" text @click="deleteItemConfirm">Ok</v-btn>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
-</template>
-<style scoped>
- 
-  tbody tr:nth-of-type(odd) {
-    background-color: rgba(0, 0, 0, .05);
-  }
-</style>
- 
-<script>
+</template>   
+<script>  
+  
+    import StripePay from './StripePay';
+    import OrderDetails from './OrderDetails';  
+    import {addScript} from '../services/utils';
     export default {
+        components:{  
+          StripePay,
+          OrderDetails
+        },
         data: () => ({
             rating: 4.5,
             orderList: [],
-            loading:true,
+            expanded: [],
+            showExpand: false,
+            totalPrix:0,
+            dialogDelete: false,
+            itemDelete:{},
+            amountStripe:0,
+            loading:true, 
+            uploadURL:'',
+            commandeIds:'',
             headers: [
               {
                 text: 'Voiture',
@@ -78,7 +108,7 @@
               { text: 'Etiquette', align: 'start', value: 'etiquette' },
               { text: 'Protection', align: 'start', value: 'typeProtection' },
               { text: 'Prix(€)', align: 'start', value: 'prixProtection' },
-              { text: '#',  align: 'start', sortable: false,},
+              { text: '#',  align: 'start', value:'action', sortable: false,},
             ],
             
 
@@ -86,26 +116,71 @@
         computed: {
           loggedIn() {
             return this.$store.state.auth.status.loggedIn;
-          },
-          
+          }, 
         }, 
-        mounted(){
+        watch:{
+         
+        },
+        created(){
           if (!this.loggedIn) {
             this.$router.push('/login');
             return
           }
-          this.$store.dispatch('order/list').then( async res =>{ 
+           this.$store.dispatch('order/uploadDir').then(res=>{
+            this.uploadURL= res
+          })
+
+          this.$store.dispatch('order/listNoPaye').then( async res =>{ 
+            console.log(res.data)
             setTimeout(() => {
               this.loading = false 
             }, 2000); 
-            if(res.status===200){ 
-              setTimeout(() => {
-                this.orderList = [...res.data]
-              }, 1500);
-            
+            if(res.status===200){  
+              this.orderList = [...res.data]
+              this.totalPrix = this.orderList.reduce((sm,el)=>sm+el['prixProtection'],0)
+              this.orderList.forEach(e =>{
+                this.commandeIds =e['id']+'-'
+              })
+              this.$store.commit('order/updateCard', this.orderList.length)
+              localStorage.setItem('listCard',JSON.stringify(this.orderList)) 
+              console.log(this.commandeIds)
+              this.amountStripe=this.totalPrix*100
+              console.log(this.amountStripe)
             }
           })
-        }
+
+        },
+        methods:{
+          deleteItem(commande){
+              this.dialogDelete = true;
+              this.itemDelete = {...commande}
+          },
+          closeDelete(){
+            this.dialogDelete=false
+            this.itemDelete={}
+          },
+          deleteItemConfirm(){
+            console.log(this.itemDelete)
+            this.$store.dispatch('order/delete', this.itemDelete).then(res=>{
+              console.log(res)
+              this.$toasted.success('Commande supprimée avec succès!').goAway(2000)
+              this.orderList = this.orderList.filter(e=>e['id']!== this.itemDelete.id)
+               
+              this.itemDelete ={}
+              this.dialogDelete = false 
+              setTimeout(() => {
+                window.location.reload()
+              }, 1000);
+            }).catch(err=>{
+              console.log(err)
+            })
+
+          },
+          editPicture(item){
+
+          },
+        
+        },
     }
 </script>
 

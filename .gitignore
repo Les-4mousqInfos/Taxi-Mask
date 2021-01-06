@@ -4,6 +4,11 @@ target/
 !**/taxi-mask-backend/src/main/**/target/
 !**/taxi-mask-backend/src/test/**/target/
 
+### Properties ###
+taxi-mask-backend/src/main/resources/application-dev.properties
+taxi-mask-backend/src/main/resources/application-prod.properties
+taxi-mask-backend/src/main/resources/application-test.properties
+taxi-mask-backend/upload/*
 ### STS ###
 .apt_generated
 .classpath

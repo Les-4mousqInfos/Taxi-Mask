@@ -28,7 +28,7 @@ import {
   faSignOutAlt
 } from '@fortawesome/free-solid-svg-icons';
 import Toasted from 'vue-toasted';
-import moment from 'moment' 
+import moment from 'moment'  
 
 //import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
@@ -40,6 +40,8 @@ library.add(faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt);
 Vue.config.productionTip = false  
 axios.defaults.withCredentials = true
 Vue.use(VueAxios, axios)
+ 
+
 //Vue.use(LoaderPlugin, { client_id: 'CLIENT_ID' });
 Vue.config.productionTip = false 
 Vue.use(VeeValidate);
@@ -50,6 +52,13 @@ Vue.filter('formatDate', function(value) {
     return moment(String(value)).format('MM/DD/YYYY hh:mm')
   }
 })
+Vue.filter('upperCase', function(value){
+  return value.toUpperCase()
+})
+Vue.filter('formatPrice', function(value){
+  let val = (value/1).toFixed(2)
+  return val.toString()
+})
 /* eslint-disable no-new */
 new Vue({
     el: '#app',
@@ -57,9 +66,11 @@ new Vue({
     vuetify,
     store,
     components: {
-        App
+        App, 
     },
     template: '<App/>',
     render: h => h(App),
 })
+
+ 
 
