@@ -13,8 +13,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import fr.et.intechinfo.mousqinfos.taximask.models.ERole;
+import fr.et.intechinfo.mousqinfos.taximask.models.Prix;
 import fr.et.intechinfo.mousqinfos.taximask.models.Role;
 import fr.et.intechinfo.mousqinfos.taximask.models.Utilisateur;
+import fr.et.intechinfo.mousqinfos.taximask.repository.PrixRepository;
 import fr.et.intechinfo.mousqinfos.taximask.repository.RoleRepository;
 import fr.et.intechinfo.mousqinfos.taximask.repository.UtilisateurRepository;
 
@@ -28,15 +30,17 @@ public class DatabaseSeeder {
     private Logger logger = Logger.getLogger(DatabaseSeeder.class.getName());
 	private UtilisateurRepository utilisateurRepository;
 	private RoleRepository roleRepository;
+	private PrixRepository prixRepository;
 	private JdbcTemplate jdbcTemplate;
 	
 	@Autowired
-	public DatabaseSeeder(UtilisateurRepository utilisateurRepository, RoleRepository roleRepository,
+	public DatabaseSeeder(UtilisateurRepository utilisateurRepository, RoleRepository roleRepository,PrixRepository prixRepository,
 			JdbcTemplate jdbcTemplate) {
 		
 		this.utilisateurRepository = utilisateurRepository;
 		this.roleRepository = roleRepository;
 		this.jdbcTemplate = jdbcTemplate;
+		this.prixRepository = prixRepository;
 	}
 
 	
@@ -45,6 +49,22 @@ public class DatabaseSeeder {
     public void seed(ContextRefreshedEvent event) {
         seedRoleTable();
         seedUsersTable();
+        seedPrixTable();
+	}
+	private void seedPrixTable() {
+	    String sql = "SELECT * FROM prix P ";
+	    List<Prix> u = jdbcTemplate.query(sql, (resultSet, rowNum) -> null);
+	    if(u == null || u.size() <= 0) {
+	         Prix prix = new Prix();
+	        prix.setPrixEtiquetteM(12);
+	        prix.setPrixEtiquetteXL(12);
+	        prix.setPrixProtectionPartielle(180);
+	        prix.setPrixProtectionTotale(360);
+	         prixRepository.save(prix);
+	         logger.info("Prix Seeded");
+	    } else {
+	        logger.info("Prix Seeding Not Required");
+	    }
 	}
 	private void seedRoleTable() {
 	    String sql = "SELECT * FROM roles R ";
