@@ -24,12 +24,12 @@ jobs:
     - stage: deploy
       image: docker 
       script:
-        - cd taxi-mask-backend && docker build -t testgit-java .
-        - docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD
-        - docker tag testgit-java:latest 092837465/testgit-java:latest
-        - docker push 092837465/testgit-java:latest
+        - cd taxi-mask-backend && docker build -t taximask-java .
+        - docker login --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
+        - docker tag taximask-java:latest 092837465/taximask-java:latest
+        - docker push 092837465/taximask-java:latest
 
   
 notifications:
-  email: ekpkomi@gmail.com
+#  email: ekpkomi@gmail.com
   
