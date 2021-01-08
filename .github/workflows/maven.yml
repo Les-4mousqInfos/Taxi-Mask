@@ -3,11 +3,7 @@
 
 name: Java CI with Maven
 
-on:
-  push:
-    branches: [ main, dev ]
-  pull_request:
-    branches: [ main, dev ]
+travis ci build java project
 
 stages:
   - build 
@@ -17,18 +13,6 @@ stages:
  
 services:
   - docker:19.03.12-dind  
-
-build:
-  stage: package
-  image: maven
-  script: 
-    - mvn test
-  artifacts:
-    paths:
-      - target/surefire-reports/TEST-org.komi.mymmo.UserServiceTest.xml
-    reports:
-      junit:
-        - target/surefire-reports/TEST-org.komi.mymmo.UserServiceTest.xml
 
 build:
   stage: package
