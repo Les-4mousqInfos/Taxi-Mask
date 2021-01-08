@@ -9,17 +9,18 @@ on:
 jdk:
   -openjdk11
   
+services:
+  - docker  
+  
 jobs:
   include:
     - stage: build 
-      image: maven
       script:
         - cd taxi-mask-backend
         - mvn package -Dmaven.test.skip=true  
        
 
     - stage: deploy
-      image: docker 
       script:
         - cd taxi-mask-backend && docker build -t taximask-java .
         - docker login --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
