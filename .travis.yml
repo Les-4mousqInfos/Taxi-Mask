@@ -8,7 +8,9 @@ on:
 
 jdk:
   -openjdk8
-script: mvn clean install
+script: 
+  - cd taxi-mask-backend
+  - mvn clean install
 notifications:
   email: ekpkomi@gmail.com
   
