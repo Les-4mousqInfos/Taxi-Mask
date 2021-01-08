@@ -12,16 +12,23 @@ jdk:
 jobs:
   include:
     - stage: build 
+      image: maven
       script:
         - cd taxi-mask-backend
         - mvn package -Dmaven.test.skip=true  
-      uses: actions/upload-artifact@v2
-      with:
-        name: my-artifact
-        path: my_file.txt
-        retention-days: 5
-      
-  
+      artifacts:
+        paths:
+          - taxi-mask-backend/target/taxi-mask-backend-1.0-SNAPSHOT.jar
+        expire_in: 1 week
+
+    - stage: deploy
+      image: docker 
+      script:
+        - cd taxi-mask-backend && docker build -t testgit-java .
+        - docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD
+        - docker tag testgit-java:latest 092837465/testgit-java:latest
+        - docker push 092837465/testgit-java:latest
+
   
 notifications:
   email: ekpkomi@gmail.com
