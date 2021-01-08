@@ -1,9 +1,14 @@
 language: java
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
+
 jdk:
   -openjdk8
-
-script: ./mvnw clean install
-
+script: mvn clean install
 notifications:
   email: ekpkomi@gmail.com
   
