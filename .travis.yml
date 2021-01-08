@@ -15,10 +15,12 @@ jobs:
       script:
         - cd taxi-mask-backend
         - mvn package -Dmaven.test.skip=true  
-      artifacts:
-        paths:
-          - taxi-mask-backend/target/taxi-mask-backend-1.0-SNAPSHOT.jar
-        expire_in: 1 week
+      uses: actions/upload-artifact@v2
+      with:
+        name: my-artifact
+        path: my_file.txt
+        retention-days: 5
+      
   
   
 notifications:
