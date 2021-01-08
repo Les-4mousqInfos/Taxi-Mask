@@ -16,10 +16,7 @@ jobs:
       script:
         - cd taxi-mask-backend
         - mvn package -Dmaven.test.skip=true  
-      artifacts:
-        paths:
-          - taxi-mask-backend/target/taxi-mask-backend-1.0-SNAPSHOT.jar
-        expire_in: 1 week
+       
 
     - stage: deploy
       image: docker 
