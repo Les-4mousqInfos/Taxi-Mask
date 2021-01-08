@@ -3,7 +3,11 @@
 
 name: Java CI with Maven
 
-travis ci build java project
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
 
 stages:
   - build 
