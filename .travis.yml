@@ -18,11 +18,14 @@ jobs:
       script:
         - cd taxi-mask-backend
         - mvn package -Dmaven.test.skip=true  
-       
+      addons:
+        artifacts: 
+           target_paths: 
+              - taxi-mask-backend/target/taxi-mask-backend-1.0-SNAPSHOT.jar
 
     - stage: deploy
       script:
-        - cd taxi-mask-backend && docker build -t taximask-java .
+        - cd taxi-mask-backend && docker build -t taximask-java
         - docker login --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
         - docker tag taximask-java:latest 092837465/taximask-java:latest
         - docker push 092837465/taximask-java:latest
