@@ -33,6 +33,6 @@ jobs:
     
 
   
-notifications:
-#   email: ekpkomi@gmail.com 
+notifications: 
+#   email: 
   
