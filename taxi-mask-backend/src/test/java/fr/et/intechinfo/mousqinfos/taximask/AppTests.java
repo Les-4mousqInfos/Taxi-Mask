@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class AppTests {
 
 	@Test
-	void contextLoads() {
+	void addTest() {
 		assertEquals(1, 1);
 	}
 }
