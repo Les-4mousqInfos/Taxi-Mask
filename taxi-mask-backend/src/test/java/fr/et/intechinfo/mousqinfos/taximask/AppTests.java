@@ -9,8 +9,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 class AppTests {
 
-	@Test
+	/*@Test
 	void addTest() {
 		assertEquals(1, 1);
-	}
+	}*/
 }
