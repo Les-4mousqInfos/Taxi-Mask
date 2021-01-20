@@ -47,7 +47,12 @@
           <div v-if="message" class="alert alert-danger" role="alert">{{message}}</div>
         </div>
       </form>
+      <br>
+      <div>
+        <a style="float:right;text-decoration:underline" href="/register">Creer un compte</a>
+      </div>
     </div>
+
   </div>
 </template>
 
@@ -84,7 +89,9 @@ export default {
 
         if (this.user.username && this.user.password) {
           this.$store.dispatch('auth/login', this.user).then(
-            () => {
+          async  () => {
+              await this.$store.dispatch('order/updateCommande')
+              await this.$store.dispatch('order/cards')
               this.$router.push('/profile');
             },
             error => {

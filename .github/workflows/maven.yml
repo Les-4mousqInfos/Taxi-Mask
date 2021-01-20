@@ -9,22 +9,34 @@ on:
   pull_request:
     branches: [ main, dev ]
 
-jobs:
-  build:
-    container: maven:3.6-jdk-11
-    runs-on: ubuntu-latest
+stages:
+  - build 
+  - deploy
 
-    steps:
-    - uses: actions/checkout@v2
 
-    - name: Build with Maven
-      run: mvn -f taxi-mask-backend/pom.xml test
+ 
+services:
+  - docker:19.03.12-dind  
 
-    - run: apt-get update && apt-get install tree
-    - run: tree taxi-mask-backend/target/
+build:
+  stage: package
+  image: maven
+  script:
+    - cd taxi-mask-backend
+    - mvn package -Dmaven.test.skip=true
+  artifacts:
+    paths:
+      - taxi-mask-backend/target/taxi-mask-backend-1.0-SNAPSHOT.jar
+    expire_in: 1 week
 
-    - uses: actions/upload-artifact@v2
-      with:
-        name: test-report
-        path: taxi-mask-backend/target/surefire-reports/
-        if-no-files-found: error
+deploy:
+  stage: deploy
+  image: docker 
+  script:
+    - cd taxi-mask-backend && docker build -t testgit-java .
+    - docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD
+    - docker tag testgit-java:latest 092837465/testgit-java:latest
+    - docker push 092837465/testgit-java:latest
+   
+
+

@@ -69,8 +69,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/","/swagger-ui**","/swagger-ui/**", "/v2/api-docs","/v3/api-docs","/v3/api-docs/*","/csrf",  "/webjars/**", "/swagger-resources/**", "/actuator/**", "/actuator").permitAll()
 			// configuration pour public
 			.antMatchers("/commandes/**").permitAll()
+			.antMatchers("/stripe_checkout_response/**").permitAll()
 			.antMatchers(HttpMethod.GET,"/marques").permitAll()
 			.antMatchers("/upload/**").permitAll()
+			.antMatchers("/payment/charge-card/**").permitAll()
 			.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 			.anyRequest().authenticated();
 

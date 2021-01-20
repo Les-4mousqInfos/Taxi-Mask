@@ -31,13 +31,13 @@ public class Commande {
 	private Date createdAt;
 	@CreationTimestamp
 	private Date updatedAt;
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne( fetch = FetchType.EAGER)
 	@JoinColumn(name = "voiture_id")
 	private Voiture voiture;
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "facture_id", referencedColumnName = "id", nullable = true)
 	private Facture facture;
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "user_id")
 	private Utilisateur utilisateur;
 	@Temporal(TemporalType.TIMESTAMP)
@@ -60,6 +60,13 @@ public class Commande {
 	private String modele;
 	@Transient
 	private String marque;
+	private Boolean complete=Boolean.FALSE;
+	@Temporal(TemporalType.TIMESTAMP)
+	@JoinColumn(nullable = true)
+	private Date dateComplete;
+	@Column(name = "num_transaction", nullable = true)
+	private String numTransaction;
+	private Boolean statut =Boolean.FALSE;
 
 	public long getId() {
 		return id;
@@ -234,5 +241,37 @@ public class Commande {
 
 	public void setDateImmatriculation(Date dateImmatriculation) {
 		this.dateImmatriculation = dateImmatriculation;
+	}
+
+	public Boolean getComplete() {
+		return complete;
+	}
+
+	public void setComplete(Boolean complete) {
+		this.complete = complete;
+	}
+
+	public Date getDateComplete() {
+		return dateComplete;
+	}
+
+	public void setDateComplete(Date dateComplete) {
+		this.dateComplete = dateComplete;
+	}
+
+	public String getNumTransaction() {
+		return numTransaction;
+	}
+
+	public void setNumTransaction(String numTransaction) {
+		this.numTransaction = numTransaction;
+	}
+
+	public Boolean getStatut() {
+		return statut;
+	}
+
+	public void setStatut(Boolean statut) {
+		this.statut = statut;
 	}
 }

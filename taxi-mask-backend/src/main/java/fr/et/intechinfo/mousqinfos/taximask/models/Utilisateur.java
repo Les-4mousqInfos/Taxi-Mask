@@ -81,11 +81,7 @@ public class Utilisateur   {
 				joinColumns = @JoinColumn(name = "user_id"), 
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
-	
-	@OneToMany(mappedBy = "utilisateur", cascade = {
-	        CascadeType.ALL
-	    })
-	private List < Commande > commandes;
+
 	
 	@OneToMany(mappedBy = "utilisateur", cascade = {
 	        CascadeType.ALL
@@ -121,15 +117,6 @@ public class Utilisateur   {
 		this.mobile = mobile;
 	}
 
-
-
-	public List<Commande> getCommandes() {
-		return commandes;
-	}
-
-	public void setCommandes(List<Commande> commandes) {
-		this.commandes = commandes;
-	}
 
 	public long getId() {
 		return id;

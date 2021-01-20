@@ -52,12 +52,16 @@ public class UserDetailsImpl implements UserDetails {
 
 	
 
-	public UserDetailsImpl(Long id, String username, String email, String prenom, String nom, String nomEntreprise,
+	public UserDetailsImpl(Long id, String username, String email, String prenom, String nom,
+						   String nomEntreprise,
 			String pays, String adresse, int codePostale, String ville, int mobile, String password,
 			Collection<? extends GrantedAuthority> authorities) {
 		super();
 		this.id = id;
 		this.username = username;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.adresse = adresse;
 		this.email = email;
 		this.prenom = prenom;
 		this.nom = nom;
@@ -80,10 +84,10 @@ public class UserDetailsImpl implements UserDetails {
 
 		return new UserDetailsImpl(
 				user.getId(), 
-				user.getUsername(), 
+				user.getUsername(),
 				user.getEmail(),
-				user.getPrenom(),
 				user.getNom(),
+				user.getPrenom(),
 				user.getNomEntreprise(),
 				user.getPays(),
 				user.getAdresse(),
@@ -102,6 +106,18 @@ public class UserDetailsImpl implements UserDetails {
 	
 	public Long getId() {
 		return id;
+	}
+
+	public String getNom() {
+		return nom;
+	}
+
+	public String getPrenom() {
+		return prenom;
+	}
+
+	public String getAdresse() {
+		return adresse;
 	}
 
 	public String getEmail() {
