@@ -11,6 +11,6 @@ class AppTests {
 
 	/*@Test
 	void addTest() {
-		assertEquals(1, 1);
+		assertEquals(1, 1);  
 	}*/
 }
