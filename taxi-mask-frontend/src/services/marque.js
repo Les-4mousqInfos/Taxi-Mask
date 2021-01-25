@@ -4,7 +4,7 @@ import {SERVER_URL,MARQUE} from './config-server'
  
 
 export async function getMarques() { 
-   const result = axios.get(`${SERVER_URL}/${MARQUE}`) 
+   const result = axios.get(`${SERVER_URL}/api/test/${MARQUE}`) 
     return result
 }
  
