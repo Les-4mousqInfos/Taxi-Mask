@@ -57,6 +57,8 @@
             <StripePay :amount="amountStripe" v-if="commandeIds" :commandeId="commandeIds"></StripePay>
 <!--              <v-btn class="primary white--text mt-5" @click="payerStripe">Payer €170.00</v-btn>  -->
           </div> 
+
+          <button v-on:click="paypalpay">Pay with Paypal</button>
         </v-col>
       </v-row>
     </v-container>
@@ -77,8 +79,9 @@
 <script>  
   
     import StripePay from './StripePay';
-    import OrderDetails from './OrderDetails';  
-    import {addScript} from '../services/utils';
+    import OrderDetails from './OrderDetails';
+    import axios from 'axios';
+    //import {SERVER_URL} from '../services/config-server';
     export default {
         components:{  
           StripePay,
@@ -151,6 +154,11 @@
 
         },
         methods:{
+          async paypalpay(){
+            alert('paying with paypal')
+            const result = await axios.post("http://localhost:8080/api/test/pay")
+            window.location = result.data.url;
+          },
           deleteItem(commande){
               this.dialogDelete = true;
               this.itemDelete = {...commande}
@@ -176,7 +184,7 @@
             })
 
           },
-          editPicture(item){
+          editPicture(){
 
           },
         
