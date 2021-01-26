@@ -1,7 +1,7 @@
 
 export const SERVER_URL = 'http://localhost:8080'
 export const ORDER_URL = 'commandes'
-export const MARQUE = 'marques'
+export const MARQUE = 'api/test/marques'
 export const PAYMENT = 'payment'
 
 export const AUTH_TOKEN = "AUTH_TOKEN"

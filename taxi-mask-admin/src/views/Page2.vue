@@ -23,7 +23,7 @@
     </ul>
     <a class="nav-link" href @click.prevent="logOut">
               <font-awesome-icon icon="sign-out-alt" />LogOut
-            </a>
+     </a>
   </div>
 </template>
 
@@ -52,7 +52,7 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch('auth/logout');
-      this.$router.push('pages/login');
+      this.$router.push('/login');
     },
   }
 }

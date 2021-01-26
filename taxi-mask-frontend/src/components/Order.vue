@@ -215,6 +215,7 @@ import {getMarques} from '../services/marque';
         menu (val) {
           val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
         },
+        
       }, 
       async created(){ 
         const result = await getMarques();

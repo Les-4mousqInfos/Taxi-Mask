@@ -1,12 +1,4 @@
-<!-- =========================================================================================
-  File Name: TheNavbar.vue
-  Description: Navbar component
-  Component Name: TheNavbar
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-========================================================================================== -->
+
 
 
 <template>
@@ -21,7 +13,7 @@
         <span class="vx-logo-text text-primary">Taxi Mask</span>
       </router-link>
 
-      <search-bar />
+     
 
       <notification-drop-down />
 

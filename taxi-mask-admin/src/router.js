@@ -25,69 +25,86 @@ const router = new Router({
     // =============================================================================
     // MAIN LAYOUT ROUTES
     // =============================================================================
-            path: '',
+            path: '/',
             component: () => import('./layouts/main/Main.vue'),
             children: [
         // =============================================================================
         // Theme Routes
         // =============================================================================
               {
-                path: '/',
+                path: '/admin',
                 name: 'home',
                 component: () => import('./views/Home.vue')
               },
               {
-                path: '/page2',
+                path: '/admin/profil',
                 name: 'page-2',
                 component: () => import('./views/Page2.vue')
               },
               {
-                path: '/GMarques',
-                name: 'data-list-list-view',
-                component: () => import('@/views/pages/GMarques/list-view/DataListListView.vue'),
+                path: '/admin/GMarques',
+                name: 'Gestion de Marques',
+                component: () => import('@/views/pages/GMarques/table-marques/DataListListView.vue'),
                 meta: {
                     breadcrumb: [
-                        { title: 'Home', url: '/' },
-                        { title: 'Data List'},
-                        { title: 'List View', active: true },
+                        { title: 'Accueil', url: '/' },
+                        { title: 'Gestion de Marques',  active: true },
                     ],
-                    pageTitle: 'List View',
+                    pageTitle: 'Gestion de Marques',
                     rule: 'editor'
                 },
-            },
-            {
-                path: '/GMarques2',
-                name: 'data-list-thumb-view',
-                component: () => import('@/views/pages/GMarques/thumb-view/DataListThumbView.vue'),
-                meta: {
-                    breadcrumb: [
-                        { title: 'Home', url: '/' },
-                        { title: 'Data List'},
-                        { title: 'Thumb View', active: true },
-                    ],
-                    pageTitle: 'Thumb View',
-                    rule: 'editor'
-                },
-            },
+              },
+              {
+                path: '/admin/GAvis',
+                name: 'Gestion de Avis',
+                component: () => import('./views/pages/GAvis.vue')
+              },
+              {
+                path: '/admin/GCommandes',
+                name: 'Gestion de Commandes',
+                component: () => import('./views/pages/GCommandes.vue')
+              },
+              {
+                path: '/admin/GImages',
+                name: 'Gestion de Images',
+                component: () => import('./views/pages/GImages.vue')
+              },
+              {
+                path: '/admin/GNewsletter',
+                name: 'Gestion de Newsletter',
+                component: () => import('./views/pages/GNewsletter.vue')
+              },
+              {
+                path: '/admin/GPartenaires',
+                name: 'Gestion de Partenaires',
+                component: () => import('./views/pages/GPartenaires.vue')
+              },
+              {
+                path: '/admin/GUtilisateurs',
+                name: 'Gestion de Utilisateurs',
+                component: () => import('./views/pages/GUtilisateurs.vue')
+              },
+
+
             ],
         },
     // =============================================================================
     // FULL PAGE LAYOUTS
     // =============================================================================
         {
-            path: '',
+            path: '/',
             component: () => import('@/layouts/full-page/FullPage.vue'),
             children: [
         // =============================================================================
         // PAGES
         // =============================================================================
               {
-                path: '/pages/login',
+                path: '/login',
                 name: 'page-login',
                 component: () => import('@/views/auth/Login.vue')
               },
               {
-                    path: '/pages/register',
+                    path: '/register',
                     name: 'page-register',
                     component: () => import('@/views/auth/Register.vue'),
                     meta: {
@@ -95,7 +112,7 @@ const router = new Router({
                     }
               },
               {
-                path: '/pages/error-404',
+                path: '/error-404',
                 name: 'page-error-404',
                 component: () => import('@/views/pages/Error404.vue')
               },
@@ -106,7 +123,7 @@ const router = new Router({
         // Redirect to 404 page, if no match found
         {
             path: '*',
-            redirect: '/pages/error-404'
+            redirect: '/login'
         }
     ],
 })
