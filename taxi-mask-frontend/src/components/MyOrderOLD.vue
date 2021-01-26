@@ -186,7 +186,6 @@
 <script>  
   
     import StripePay from './StripePay';  
-    import {addScript} from '../services/utils';
     export default {
         components:{  
           StripePay
@@ -279,7 +278,7 @@
             })
 
           },
-          editPicture(item){
+          editPicture(){
 
           },
           exporter(){

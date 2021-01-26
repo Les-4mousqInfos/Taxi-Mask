@@ -1,30 +1,56 @@
-/*=========================================================================================
-  File Name: sidebarItems.js
-  Description: Sidebar Items list. Add / Remove menu items from here.
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-==========================================================================================*/
-
-
 export default [
   {
-    url: "/",
-    name: "Home",
+    url: "/admin",
+    name: "Dashborad",
     slug: "home",
     icon: "HomeIcon",
   },
   {
-    url: "/page2",
-    name: "Page 2",
-    slug: "page2",
-    icon: "FileIcon",
-  },
-  {
-    url: "/GMarques",
+    url: "/admin/GMarques",
     name: "Gestion de Marques ",
-    slug: "page2",
-    icon: "FileIcon",
+    slug: "GMarques",
+    icon: "ListIcon",
+  }
+  ,
+  {
+    url: "/admin/GCommandes",
+    name: "Gestion de Commandes ",
+    slug: "GCommandes",
+    icon: "ShoppingCartIcon",
+  }
+  ,
+  {
+    url: "/admin/GUtilisateurs",
+    name: "Gestion de Utilisateurs ",
+    slug: "GUtilisateurs",
+    icon: "UsersIcon",
+  }
+  ,
+  {
+    url: "/admin/GImages",
+    name: "Gestion de Images ",
+    slug: "GImages",
+    icon: "ImageIcon",
+  }
+  ,
+  {
+    url: "/admin/GPartenaires",
+    name: "Gestion de Partenaires ",
+    slug: "GPartenaires",
+    icon: "SlackIcon",
+  }
+  ,
+  {
+    url: "/admin/GAvis",
+    name: "Gestion de Avis ",
+    slug: "GAvis",
+    icon: "SmileIcon",
+  }
+  ,
+  {
+    url: "/admin/GNewsletter",
+    name: "Gestion de Newsletter ",
+    slug: "GNewsletter",
+    icon: "MailIcon",
   }
 ]

@@ -17,10 +17,10 @@ export const order = {
         async stripeCheckoutSession({commit},) { 
             return await getStripeSession()
         },
-        async saveFile({commit},file) { 
+        async saveFile(file) { 
             return await saveFile(file)
         },
-        async delete({commit},order) {
+        async delete(order) {
            return await deleteOrder(order)
         },
         async listNoPaye() {

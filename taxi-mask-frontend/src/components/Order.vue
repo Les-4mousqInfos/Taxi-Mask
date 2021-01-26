@@ -351,6 +351,7 @@ import {getMarques} from '../services/marque';
         menu (val) {
           val && setTimeout(() => (this.$refs.picker.activePicker = 'YEAR'))
         },
+        
       }, 
       async created(){ 
         this.$store.commit('auth/showNavBar',false)

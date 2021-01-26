@@ -1,3 +1,3 @@
 <template>
-	<h4>You are in home.</h4>
+	<h4> Bienvenue à notre Dashborad Admin (20%) </h4>
 </template>

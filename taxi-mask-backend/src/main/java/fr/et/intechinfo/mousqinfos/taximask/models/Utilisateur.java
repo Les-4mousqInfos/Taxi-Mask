@@ -27,8 +27,7 @@ import org.springframework.lang.Nullable;
 
 
 @Entity
-@Table(	name = "users", 
-uniqueConstraints = { 
+@Table(	name = "users", uniqueConstraints = { 
 		@UniqueConstraint(columnNames = "username"),
 		@UniqueConstraint(columnNames = "email") 
 	})
