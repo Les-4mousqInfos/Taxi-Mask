@@ -3,11 +3,11 @@ import AuthService from '../services/auth.service';
 const user = JSON.parse(localStorage.getItem('user'));
 const initialState = user
 ? { status: { loggedIn: true }, user }
-  : { status: { loggedIn: false }, user: null };
+  : { status: { loggedIn: false }, user: null};
 
 export const auth = {
   namespaced: true,
-  state: initialState,
+  state: {...initialState,showBar:true },
   actions: {
     login({ commit }, user) {
       return AuthService.login(user).then(
@@ -57,6 +57,9 @@ export const auth = {
     },
     registerFailure(state) {
       state.status.loggedIn = false;
+    },
+    showNavBar(state,value){
+      state.showBar = value
     }
   }
 };

@@ -9,7 +9,13 @@
           align="center"
           justify="center"
         >
-          <div class="display-2 white--text pl-5 pr-5 hidden-sm-only"><strong></strong></div><br/>
+          <div class="display-2 white--text pl-5 pr-5 hidden-sm-only">
+            <br>
+            <br>
+            <strong>Faites vos commandes!</strong><br>
+            <strong>Paroi de protection</strong><br>
+            <p>#AntiCovid</p>
+            </div><br/>
         </v-row>
       </v-carousel-item>
       <v-carousel-item
