@@ -78,6 +78,7 @@ export default {
       console.log(this.sessionToken)
        this.$store.dispatch('payment/getStripePublicKey').then( async res =>{ 
         this.publicKey =  res.data
+        console.log(res.data)
       }).catch(err=>{
         alert(err)
       })

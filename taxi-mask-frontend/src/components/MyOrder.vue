@@ -72,7 +72,6 @@
                 </v-simple-table>
                 <br />
 
-<<<<<<< HEAD
                 <div class="text-center">
                   <StripePay
                     :amount="amountStripe"
@@ -80,71 +79,14 @@
                     :commandeId="commandeIds"
                   ></StripePay>
                   <!--              <v-btn class="primary white--text mt-5" @click="payerStripe">Payer €170.00</v-btn>  -->
+                <br>
+                <button class="btn btn-gold bold outline" style="background-color: #FFC20E;" v-on:click="paypalpay">Pay with Paypal</button>
+                
                 </div>
               </v-col>
             </v-row>
           </v-card-text>
         </v-card>
-=======
-      <v-banner
-        single-line 
-      >
-        <v-icon
-          slot="icon"
-          color="warning"
-          size="36"
-        >
-          mdi-format-list-bulleted-square
-        </v-icon>
-          <h2>Mes commandes</h2>
-        <template v-slot:actions>
-          <v-btn
-            color="primary"
-            text
-          >
-           <div class="text-center">
-            <StripePay v-if="commandeIds" :amount="amountStripe" :commandeId="commandeIds"></StripePay>
-<!--              <v-btn class="primary white--text mt-5" @click="payerStripe">Payer €170.00</v-btn>  -->
-          </div>
-          </v-btn>
-        </template>
-      </v-banner>
-      <br><br>
-      <v-row>
-        <v-col :cols="12" md="9" sm="12" >
-        <order-details 
-        :uploadURL="uploadURL" :loading="loading" 
-        :headers="headers" :orderList="orderList" 
-        v-on:deleteItem="deleteItem" v-on:editPicture="editPicture" :showBtn="true"/>
-        </v-col>
-        <v-col :cols="12" md="3" sm="12" style="background-color: lightgray">
-          <p class="headline">Récapitulatif</p>
-          <p class="overline">
-          </p>
-          <v-simple-table>
-            <template v-slot:default>
-              <tbody>
-                <tr>
-                <td>Prix de protection</td>
-                <td class="text-right" style="width: 50px;">{{totalPrix|formatPrice}}</td>
-              </tr> 
-              <tr>
-                <td>Total</td> 
-                <td class="text-right" style="width: 50px;"><b><v-chip color="green">{{totalPrix|formatPrice}}€</v-chip></b></td>
-              </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
-          <br>
-          
-          <div class="text-center">
-            <StripePay :amount="amountStripe" v-if="commandeIds" :commandeId="commandeIds"></StripePay>
-<!--              <v-btn class="primary white--text mt-5" @click="payerStripe">Payer €170.00</v-btn>  -->
-          </div> 
-
-          <button v-on:click="paypalpay">Pay with Paypal</button>
-        </v-col>
->>>>>>> fd75257e6735705d353a9cd42ac9b7efb21a2e88
       </v-row>
     </v-container>
 
@@ -163,10 +105,11 @@
     </v-dialog>
   </div>
 </template>   
-<<<<<<< HEAD
 <script>
 import StripePay from "./StripePay";
 import OrderDetails from "./OrderDetails";
+import axios from 'axios';
+import {SERVER_URL} from '../services/config-server';
 import { addScript } from "../services/utils";
 export default {
   components: {
@@ -239,6 +182,11 @@ export default {
     });
   },
   methods: {
+     async paypalpay(){
+            alert('paying with paypal')
+            const result = await axios.post("http://localhost:8080/api/test/pay")
+            window.location = result.data.url;
+          },
     deleteItem(commande) {
       this.dialogDelete = true;
       this.itemDelete = { ...commande };
@@ -257,117 +205,6 @@ export default {
           this.orderList = this.orderList.filter(
             (e) => e["id"] !== this.itemDelete.id
           );
-=======
-<script>  
-  
-    import StripePay from './StripePay';
-    import OrderDetails from './OrderDetails';
-    import axios from 'axios';
-    //import {SERVER_URL} from '../services/config-server';
-    export default {
-        components:{  
-          StripePay,
-          OrderDetails
-        },
-        data: () => ({
-            rating: 4.5,
-            orderList: [],
-            expanded: [],
-            showExpand: false,
-            totalPrix:0,
-            dialogDelete: false,
-            itemDelete:{},
-            amountStripe:0,
-            loading:true, 
-            uploadURL:'',
-            commandeIds:'',
-            headers: [
-              {
-                text: 'Voiture',
-                align: 'start',
-                sortable: false,
-                value: 'voiture',
-                 width: "20%"
-              },
-              { text: 'Date', align: 'start', value: 'createdAt' },
-              { text: 'Etiquette', align: 'start', value: 'etiquette' },
-              { text: 'Protection', align: 'start', value: 'typeProtection' },
-              { text: 'Prix(€)', align: 'start', value: 'prixProtection' },
-              { text: '#',  align: 'start', value:'action', sortable: false,},
-            ],
-            
-
-        }),
-        computed: {
-          loggedIn() {
-            return this.$store.state.auth.status.loggedIn;
-          }, 
-        }, 
-        watch:{
-         
-        },
-        created(){
-          if (!this.loggedIn) {
-            this.$router.push('/login');
-            return
-          }
-           this.$store.dispatch('order/uploadDir').then(res=>{
-            this.uploadURL= res
-          })
-
-          this.$store.dispatch('order/listNoPaye').then( async res =>{ 
-            console.log(res.data)
-            setTimeout(() => {
-              this.loading = false 
-            }, 2000); 
-            if(res.status===200){  
-              this.orderList = [...res.data]
-              this.totalPrix = this.orderList.reduce((sm,el)=>sm+el['prixProtection'],0)
-              this.orderList.forEach(e =>{
-                this.commandeIds =e['id']+'-'
-              })
-              this.$store.commit('order/updateCard', this.orderList.length)
-              localStorage.setItem('listCard',JSON.stringify(this.orderList)) 
-              console.log(this.commandeIds)
-              this.amountStripe=this.totalPrix*100
-              console.log(this.amountStripe)
-            }
-          })
-
-        },
-        methods:{
-          async paypalpay(){
-            alert('paying with paypal')
-            const result = await axios.post("http://localhost:8080/api/test/pay")
-            window.location = result.data.url;
-          },
-          deleteItem(commande){
-              this.dialogDelete = true;
-              this.itemDelete = {...commande}
-          },
-          closeDelete(){
-            this.dialogDelete=false
-            this.itemDelete={}
-          },
-          deleteItemConfirm(){
-            console.log(this.itemDelete)
-            this.$store.dispatch('order/delete', this.itemDelete).then(res=>{
-              console.log(res)
-              this.$toasted.success('Commande supprimée avec succès!').goAway(2000)
-              this.orderList = this.orderList.filter(e=>e['id']!== this.itemDelete.id)
-               
-              this.itemDelete ={}
-              this.dialogDelete = false 
-              setTimeout(() => {
-                window.location.reload()
-              }, 1000);
-            }).catch(err=>{
-              console.log(err)
-            })
-
-          },
-          editPicture(){
->>>>>>> fd75257e6735705d353a9cd42ac9b7efb21a2e88
 
           this.itemDelete = {};
           this.dialogDelete = false;

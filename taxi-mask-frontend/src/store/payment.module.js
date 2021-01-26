@@ -9,7 +9,7 @@ export const payment = {
         async getStripePublicKey() { 
             return await PaymentService.getStripePublicKey()
         },
-        async chargeCard(charge) { 
+        async chargeCard({commit},charge) { 
             return await PaymentService.chargeCard(charge)
         },
         
