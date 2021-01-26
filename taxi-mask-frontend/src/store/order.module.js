@@ -11,16 +11,16 @@ export const order = {
         async save(order) { 
             return await saveOrder(order)
         },
-        async uploadDir({commit}) { 
+        async uploadDir() { 
             return `${SERVER_URL}/${UPLOAD_URI}/`
         },
-        async stripeCheckoutSession({commit},file) { 
+        async stripeCheckoutSession() { 
             return await getStripeSession()
         },
-        async saveFile({commit},file) { 
+        async saveFile(file) { 
             return await saveFile(file)
         },
-        async delete({commit},order) {
+        async delete(order) {
            return await deleteOrder(order)
         },
         async listNoPaye() {
