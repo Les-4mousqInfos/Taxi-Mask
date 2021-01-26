@@ -13,7 +13,7 @@
           <v-card-title class="white--text mt-8">
            
             <h3 class="ml-3" style="margin-top:10%">
-              Taxi Mask
+              Faites votre commande
             </h3>
           </v-card-title>
         </v-img>
@@ -296,13 +296,13 @@ import {getMarques} from '../services/marque';
                 {
                   id: 'partielle',
                   prix:180,
-                  label: 'Partielle : <b>(€180,00)</b>', 
+                  label: 'Partielle : (€180,00)', 
                   title: 'Paroi de séparation partielle sur mesure , allant du niveau d\'accoudoir jusqu\'à plafond avec fixation sur les montant ( siège en mouvement libre) (€180,00)', 
                 },
                 {
                   id: 'totale',
                   prix:360,
-                  label: 'Totale : <b>(€360,00)</b>', 
+                  label: 'Totale : (€360,00)', 
                   title: 'Paroi de séparation hermétique sur mesure, en poli carbonate de 2 mm d\'épaisseur (€360,00)', 
                 },
                  
@@ -364,7 +364,8 @@ import {getMarques} from '../services/marque';
       },
       methods: { 
         async submit () {   
-          this.loading = true
+          console.log(this.formu)
+          this.loading = true 
           this.formu.voiture.datePreimma = this.date
           if(!this.$refs.form.validate()){
             this.loading = false
@@ -387,7 +388,6 @@ import {getMarques} from '../services/marque';
           form.append('modele', voiture.modele)
           form.append('marque',voiture.marque)
           form.append('immatriculation',voiture.immatriculation)
-
           this.$store.dispatch('order/save', form).then( async res =>{ 
             
              console.log(res)

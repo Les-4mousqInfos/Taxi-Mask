@@ -45,7 +45,7 @@ public class MarqueServiceImpl implements MarqueService {
 	@Override
 	public List<Marque> getAllMarque() {
 		// TODO Auto-generated method stub
-		return marqueRepositiory.findAll();
+		return marqueRepositiory.findAllByOrderByNomAsc();
 	}
 
 	@Override

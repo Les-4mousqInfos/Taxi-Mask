@@ -45,9 +45,9 @@
     "vuex": "^3.6.0"
   },
   "eslintConfig": {
-    "root": true,
+    "root": false,
     "env": {
-      "node": true
+      "node": false
     },
     "extends": [
       "plugin:vue/essential",

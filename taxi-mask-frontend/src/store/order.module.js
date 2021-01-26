@@ -8,19 +8,19 @@ export const order = {
     namespaced: true,
     state: initialState,
     actions: {
-        async save(order) { 
+        async save({commit},order) { 
             return await saveOrder(order)
         },
-        async uploadDir() { 
+        async uploadDir({commit},) { 
             return `${SERVER_URL}/${UPLOAD_URI}/`
         },
-        async stripeCheckoutSession() { 
+        async stripeCheckoutSession({commit},) { 
             return await getStripeSession()
         },
-        async saveFile(file) { 
+        async saveFile({commit},file) { 
             return await saveFile(file)
         },
-        async delete(order) {
+        async delete({commit},order) {
            return await deleteOrder(order)
         },
         async listNoPaye() {

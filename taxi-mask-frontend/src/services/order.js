@@ -8,7 +8,8 @@ export async function saveOrder(order) {
     const config = {
         headers: authHeader()
     }
-   const result = axios.post(`${SERVER_URL}/${ORDER_URL}`, order, config) 
+    console.log(order)
+    const result = axios.post(`${SERVER_URL}/${ORDER_URL}`, order, config) 
     return result
 }
 export async function deleteOrder(order) { 

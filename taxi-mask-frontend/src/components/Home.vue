@@ -2,7 +2,7 @@
   <div>
     <v-carousel hide-delimiters>
       <v-carousel-item
-        :src="require('../assets/img/home/slider1.jpg')"
+        :src="require('../assets/img/home/totale.jpg')"
       >
         <v-row
           class="fill-height"
@@ -19,7 +19,7 @@
         </v-row>
       </v-carousel-item>
       <v-carousel-item
-        :src="require('../assets/img/home/slider2.jpg')"
+        :src="require('../assets/img/home/slider1.jpg')"
       >
         <v-row
           class="fill-height"
